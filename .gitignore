@@ -15,3 +15,5 @@ web-report/
 
 # IntelliJ
 .idea
+*.iml
+*.xml
