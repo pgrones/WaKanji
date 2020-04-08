@@ -1,19 +1,29 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import {Navigation} from "./src/Navigation";
+import * as Font from 'expo-font';
+import {AppLoading} from 'expo';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Hello World!</Text>
-    </View>
-  );
-}
+const fetchFonts = () => {
+    return Font.loadAsync({
+        'notoSansJP': require('./assets/fonts/NotoSansJP-Regular.otf'),
+        'notoSansJP-bold': require('./assets/fonts/NotoSansJP-Bold.otf')
+    });
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+    const [fontLoaded, setFontLoaded] = useState(false);
+    if (!fontLoaded) {
+        return (
+            <AppLoading
+                startAsync={fetchFonts}
+                onFinish={() => setFontLoaded(true)}
+            />
+        );
+    }
+
+    return (
+        <Navigation/>
+    );
+};
+
+export default App;
