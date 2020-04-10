@@ -22,7 +22,10 @@
     "react-native-screens": "~2.2.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-web": "~0.11.7",
-    "expo-font": "~8.1.0"
+    "expo-font": "~8.1.0",
+    "expo-sqlite": "latest",
+    "expo-file-system": "latest",
+    "expo-asset": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
