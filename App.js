@@ -2,7 +2,11 @@ import React, {useState} from 'react';
 import {AppLoading} from 'expo';
 import * as Font from 'expo-font';
 import {downloadDB} from "./src/persistence/DbConnection";
-import {Navigation} from "./src/components/Navigation";
+import Navigation from "./src/components/Navigation";
+import {createStore} from "redux";
+import {Provider} from "react-redux";
+import Reducer from "./src/components/redux/reducers/Reducer";
+import themes from "./src/components/redux/reducers/ThemeReducer";
 
 const fetchFonts = (setFontLoaded) => {
     return (
@@ -16,6 +20,8 @@ const fetchFonts = (setFontLoaded) => {
     );
 };
 
+const store = createStore(themes);
+
 const App = () => {
     const [dbLoaded, setDbLoaded] = useState(false);
     const [fontLoaded, setFontLoaded] = useState(false);
@@ -24,12 +30,14 @@ const App = () => {
     //    return fetchFonts(setFontLoaded);
     // }
 
-    if(!dbLoaded){
+    if (!dbLoaded) {
         downloadDB().then((value) => setDbLoaded(value));
         return <></>
     } else {
         return (
-            <Navigation/>
+            <Provider store={store}>
+                <Navigation/>
+            </Provider>
         );
     }
 };
