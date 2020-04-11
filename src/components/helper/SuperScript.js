@@ -1,29 +1,37 @@
 import React from "react";
-import {Platform, StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
+import {useTheme} from "@react-navigation/native";
 
-export const SuperScript = (props) => {
-    let firstPart = props.text.slice(0, props.start);
-    let superScript = props.text.slice(props.start, props.end);
-    let lastPart = props.text.slice(props.end, props.text.length);
+export const SuperScript = ({start, end, text}) => {
+    const {colors, font} = useTheme();
+    const style = getStyle(colors, font);
+
+    const firstPart = text.slice(0, start);
+    const superScript = text.slice(start, end);
+    const lastPart = text.slice(end, text.length);
 
     return (
         <View style={{flexDirection: 'row'}}>
-            <Text style={style.item}>{firstPart}</Text>
-            <Text style={style.superScripItem}>{superScript}</Text>
-            <Text style={style.item}>{lastPart}</Text>
+            <Text style={style.regularText}>{firstPart}</Text>
+            <Text style={style.superScriptText}>{superScript}</Text>
+            <Text style={style.regularText}>{lastPart}</Text>
         </View>
     )
 };
 
-const style = StyleSheet.create({
-    item: {
-        fontFamily: Platform.OS === 'ios' ? 'PingFangSC-Regular' : '',
-        fontSize: 18,
-        lineHeight: 30
-    },
-    superScripItem:{
-        fontFamily: Platform.OS === 'ios' ? 'PingFangSC-Regular' : '',
-        fontSize: 14,
-        lineHeight: 18
-    }
-});
+const getStyle = (colors, font) => {
+    return StyleSheet.create({
+        regularText: {
+            fontSize: font.regular,
+            fontFamily: font.fontFamily,
+            lineHeight: 30,
+            color: colors.text
+        },
+        superScriptText: {
+            fontSize: 14,
+            fontFamily: font.fontFamily,
+            lineHeight: 18,
+            color: colors.text
+        }
+    })
+};

@@ -9,6 +9,7 @@ import {getSetting} from "../persistence/DbConnection";
 import {setTheme, setThemeLoaded} from "./redux/actions/Actions";
 import {LearnScreen} from "./screens/navigationScreens/LearnScreen";
 import {PracticeScreen} from "./screens/navigationScreens/PracticeScreen";
+import {StatusBar} from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,11 +17,12 @@ const Navigation = ({theme, setTheme, themeLoaded, setThemeLoaded}) => {
     if (!themeLoaded.themeLoaded) {
         getSetting('theme', setTheme);
         setThemeLoaded(true);
-    } else {
-        console.log(themeLoaded)
     }
     return (
         <NavigationContainer theme={theme === 'dark' ? darkTheme : lightTheme}>
+            <StatusBar backgroundColor={theme === 'dark' ? darkTheme.colors.card : lightTheme.colors.card}
+                       barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+            />
             <Tab.Navigator initialRouteName={'Learn'}>
                 <Tab.Screen
                     name="Learn"

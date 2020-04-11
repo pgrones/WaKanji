@@ -41,6 +41,13 @@ INSERT INTO "Grade" ("id", "grade") VALUES ('12', '12th Grade  高三');`,`
 INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('1', '一', 'ひと', 'イチ, イツ', 'One', '1');`,`
 INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('2', '二', 'ふた', 'ニ', 'Two', '1');`,`
 INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('3', '三', 'み', 'サン', 'Three', '1');`,`
+INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('4', '四', 'よ, よん', 'シ', 'Four', '1');`,`
+INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('5', '五', 'いつ', 'ゴ', 'Five', '1');`,`
+INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('6', '六', 'む, むい', 'ロク', 'Six', '1');`,`
+INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('7', '七', 'なな, なの', 'シチ', 'Seven', '1');`,`
+INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('8', '八', 'や, よう', 'ハチ', 'Eight', '1');`,`
+INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('9', '九', 'ここの', 'キュウ、ク', 'Nine', '1');`,`
+INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('10', '十', 'とお, と', 'ジュウ, ジュッ, ジッ', 'Ten', '1');`,`
 
 INSERT INTO "Settings" ("type", "value") VALUES ('theme', 'dark');
 `];

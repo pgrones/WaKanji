@@ -4,8 +4,11 @@ import {getGrades} from "../../../persistence/DbConnection";
 import {SuperScript} from "../../helper/SuperScript";
 import {connect} from "react-redux";
 import {setGrades} from "../../redux/actions/Actions";
+import {useTheme} from "@react-navigation/native";
 
 const GradesScreen = ({navigation, grades, setGrades}) => {
+    const {colors} = useTheme();
+
     if (grades.length === 0) {
         getGrades(setGrades);
     }
@@ -18,12 +21,14 @@ const GradesScreen = ({navigation, grades, setGrades}) => {
         <FlatList
             data={grades}
             renderItem={({item}) =>
-                <View style={style.wrapper}>
+                <View style={[style.wrapper, {borderBottomColor: colors.border}]}>
                     <TouchableOpacity activeOpacity={0.5} onPress={() => onGradePress(item)}>
                         <View style={style.container}>
-                            <SuperScript start={item.grade.length === 13 ? 1 : 2} end={item.grade.length === 13 ? 3 : 4}
-                                         text={item.grade}/>
-                            <Text>ᐳ</Text>
+                            <SuperScript start={item.grade.length === 13 ? 1 : 2}
+                                         end={item.grade.length === 13 ? 3 : 4}
+                                         text={item.grade}
+                            />
+                            <Text style={{color: colors.text}}>ᐳ</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -54,8 +59,7 @@ const style = StyleSheet.create({
     },
     wrapper: {
         marginLeft: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: 'grey'
+        borderBottomWidth: 1
     }
 });
 

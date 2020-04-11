@@ -61,7 +61,7 @@ export const getGrades = (callback) => {
         });
 };
 
-export const getKanjiById = (id, callback) => {
+export const getKanjiByGradeId = (id, callback) => {
     if (!db) {
         db = SQLite.openDatabase('WaKanji.db');
     }

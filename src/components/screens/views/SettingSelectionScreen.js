@@ -3,15 +3,25 @@ import {setTheme} from "../../redux/actions/Actions";
 import {connect} from "react-redux";
 import React from "react";
 import {setSetting} from "../../../persistence/DbConnection";
+import {useTheme} from "@react-navigation/native";
 
-const SettingSelectionScreen = (props) => {
+
+const SettingSelectionScreen = ({theme, setTheme}) => {
+    const {colors} = useTheme();
+
+    const toggleTheme = () => {
+        setSetting('theme', theme === 'dark' ? 'light' : 'dark', setTheme)
+    };
+
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             {/*<TouchableOpacity onPress={() => navigation.push('Details', {count: 1})}>*/}
             {/*    <Text>Details</Text>*/}
             {/*</TouchableOpacity>*/}
             <TouchableOpacity
-                onPress={() => setSetting('theme',  props.theme === 'dark' ? 'light' : 'dark', props.setTheme)}><Text style={{fontSize: 30}}>{props.theme}</Text></TouchableOpacity>
+                onPress={() => toggleTheme()}>
+                <Text style={{fontSize: 30, color: colors.text}}>{theme}</Text>
+            </TouchableOpacity>
         </View>
     );
 };
