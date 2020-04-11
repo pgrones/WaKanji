@@ -1,27 +1,43 @@
 import {Asset} from "expo-asset";
 import * as SQLite from "expo-sqlite";
 import * as FileSystem from "expo-file-system";
+import {Platform} from "react-native";
+import {createScript} from "./AndroidCreateScript";
 
 let db = null;
 
-export const downloadDB = async () => {
-    // await FileSystem.deleteAsync(`${FileSystem.documentDirectory}SQLite`, {idempotent: true});
-    // await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}SQLite`, {intermediates: true});
-    return await FileSystem.downloadAsync(
-        Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
-        `${FileSystem.documentDirectory}SQLite/WaKanji.db`
-    ).then(({status}) => {
-        if (status === 200) {
-            //FileSystem.readDirectoryAsync(`${FileSystem.documentDirectory}SQLite`).then(value => console.log(value));
-            return true
+export const downloadDB = (setDbLoaded) => {
+    if (Platform.OS === 'ios') {
+        FileSystem.downloadAsync(
+            Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
+            `${FileSystem.documentDirectory}SQLite/WaKanji.db`
+        ).then(({status}) => {
+            if (status === 200) {
+                //FileSystem.readDirectoryAsync(`${FileSystem.documentDirectory}SQLite`).then(value => console.log(value));
+                setDbLoaded(true)
+            }
+        }).catch(error => {
+            //TODO better error handling
+            console.log('Err\n' + error);
+        });
+    } else {
+        db = SQLite.openDatabase('WaKanji.db');
+        for (let i = 0; i < createScript.length; i++) {
+            db.transaction(tx => {
+                    tx.executeSql(
+                        createScript[i],
+                        [],
+                        (tx, rs) => {
+                            console.log(rs)
+                        }
+                    );
+                    //TODO better handling
+                }, err => console.log(err),
+                () => {
+                });
         }
-        return false
-    }).catch(error => {
-        //TODO better error handling
-        console.log('Err\n' + error);
-        return false;
-    });
-
+        setDbLoaded(true);
+    }
 };
 
 export const getGrades = (callback) => {

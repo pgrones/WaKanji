@@ -1,6 +1,6 @@
 export const setTheme = theme => ({
     type: 'SET_THEME',
-    theme: theme
+    theme
 });
 
 export const setGrades = grades => ({

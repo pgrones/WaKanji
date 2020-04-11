@@ -5,8 +5,8 @@ import {downloadDB} from "./src/persistence/DbConnection";
 import Navigation from "./src/components/Navigation";
 import {createStore} from "redux";
 import {Provider} from "react-redux";
-import Reducer from "./src/components/redux/reducers/Reducer";
-import themes from "./src/components/redux/reducers/ThemeReducer";
+import {Reducer} from "./src/components/redux/reducers/Reducer";
+import {Text, View} from "react-native";
 
 const fetchFonts = (setFontLoaded) => {
     return (
@@ -20,19 +20,19 @@ const fetchFonts = (setFontLoaded) => {
     );
 };
 
-const store = createStore(themes);
+const store = createStore(Reducer);
 
 const App = () => {
     const [dbLoaded, setDbLoaded] = useState(false);
-    const [fontLoaded, setFontLoaded] = useState(false);
+    //const [fontLoaded, setFontLoaded] = useState(false);
 
     // if (!fontLoaded) {
     //    return fetchFonts(setFontLoaded);
     // }
 
     if (!dbLoaded) {
-        downloadDB().then((value) => setDbLoaded(value));
-        return <></>
+        downloadDB(setDbLoaded);
+        return <View><Text>Loading</Text></View>
     } else {
         return (
             <Provider store={store}>

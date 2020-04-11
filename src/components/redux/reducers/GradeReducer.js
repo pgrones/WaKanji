@@ -1,4 +1,4 @@
-const grades = (state = [], action) => {
+const GradeReducer = (state = [], action) => {
     if (action.type === 'SET_GRADES') {
         return action.grades
     } else {
@@ -6,4 +6,4 @@ const grades = (state = [], action) => {
     }
 };
 
-export default grades;
+export default GradeReducer;

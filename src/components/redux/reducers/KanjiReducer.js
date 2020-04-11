@@ -1,4 +1,4 @@
-const kanji = (state = [], action) => {
+const KanjiReducer = (state = [], action) => {
     if (action.type === 'SET_KANJI') {
         return action.kanji
     } else {
@@ -6,4 +6,4 @@ const kanji = (state = [], action) => {
     }
 };
 
-export default kanji;
+export default KanjiReducer;
