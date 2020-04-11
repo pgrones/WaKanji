@@ -21,35 +21,23 @@ export const downloadDB = (setDbLoaded) => {
             console.log('Err\n' + error);
         });
     } else {
-        db = SQLite.openDatabase('WaKanji.db');
         for (let i = 0; i < createScript.length; i++) {
-            db.transaction(tx => {
-                    tx.executeSql(
-                        createScript[i],
-                        [],
-                        () => {}
-                    );
-                    //TODO better handling
-                }, err => console.log(err),
-                () => {
-                });
+            executeTransaction(createScript[i], [])
         }
         setDbLoaded(true);
     }
 };
 
-export const getGrades = (callback) => {
+const executeTransaction = (statement, args, callback, isSetting) => {
     if (!db) {
         db = SQLite.openDatabase('WaKanji.db');
     }
+
     let data;
     db.transaction(tx => {
             tx.executeSql(
-                    `
-                        select *
-                        from Grade;
-                `,
-                [],
+                statement,
+                args,
                 (tx, rs) => {
                     data = rs.rows._array;
                 }
@@ -57,76 +45,55 @@ export const getGrades = (callback) => {
             //TODO better handling
         }, err => console.log(err),
         () => {
-            callback(data);
+            if (callback) {
+                if (isSetting) {
+                    callback(data[0].value)
+                } else {
+                    callback(data);
+                }
+            }
         });
 };
 
-export const getKanjiByGradeId = (id, callback) => {
-    if (!db) {
-        db = SQLite.openDatabase('WaKanji.db');
-    }
-    let data;
-    db.transaction(tx => {
-            tx.executeSql(
-                    `
-                        select *
-                        from Kanji
-                        where gradeId = ?;
-                `,
-                [id],
-                (tx, rs) => {
-                    data = rs.rows._array;
-                }
-            );
-            //TODO better handling
-        }, err => console.log('Error: ' + err),
-        () => {
-            callback(data);
-        });
+export const getGrades = (setGrades) => {
+    executeTransaction(`
+                select *
+                from Grade;
+        `,
+        [],
+        setGrades);
 };
 
-export const getSetting = (type, callback) => {
-    if (!db) {
-        db = SQLite.openDatabase('WaKanji.db');
-    }
-    let setting;
-    db.transaction(tx => {
-            tx.executeSql(
-                    `
-                        select *
-                        from Settings
-                        where type = ?;
-                `,
-                [type],
-                (tx, rs) => {
-                    setting = rs.rows.item(0);
-                }
-            );
-            //TODO better handling
-        }, err => console.log('Error: ' + err),
-        () => {
-            callback(setting.value)
-        });
+export const getKanjiByGradeId = (id, setKanji) => {
+    executeTransaction(
+            `
+                select *
+                from Kanji
+                where gradeId = ?;
+        `,
+        [id],
+        setKanji
+    );
 };
 
-export const setSetting = (type, value, callback) => {
-    if (!db) {
-        db = SQLite.openDatabase('WaKanji.db');
-    }
-    db.transaction(tx => {
-            tx.executeSql(
-                    `
-                        update Settings
-                        set value = ?
-                        where type = ?
-                `,
-                [value, type],
-                () => {
-                }
-            );
-            //TODO better handling
-        }, err => console.log('Error: ' + err),
-        () => {
-            callback(value)
-        });
+export const getSetting = (type, setSetting) => {
+    executeTransaction(`
+                select *
+                from Settings
+                where type = ?;
+        `,
+        [type],
+        setSetting, true)
+};
+
+export const setSetting = (type, value, setSettings) => {
+    executeTransaction(
+            `
+                update Settings
+                set value = ?
+                where type = ?
+        `,
+        [value, type],
+        setSettings
+    );
 };
