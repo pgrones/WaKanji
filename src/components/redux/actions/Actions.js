@@ -12,3 +12,8 @@ export const setKanji = kanji => ({
     type: 'SET_KANJI',
     kanji
 });
+
+export const setThemeLoaded = themeLoaded => ({
+    type: 'SET_THEME_LOADED',
+    themeLoaded
+});
