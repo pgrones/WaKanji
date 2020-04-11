@@ -27,9 +27,7 @@ export const downloadDB = (setDbLoaded) => {
                     tx.executeSql(
                         createScript[i],
                         [],
-                        (tx, rs) => {
-                            console.log(rs)
-                        }
+                        () => {}
                     );
                     //TODO better handling
                 }, err => console.log(err),
@@ -108,5 +106,27 @@ export const getSetting = (type, callback) => {
         }, err => console.log('Error: ' + err),
         () => {
             callback(setting.value)
+        });
+};
+
+export const setSetting = (type, value, callback) => {
+    if (!db) {
+        db = SQLite.openDatabase('WaKanji.db');
+    }
+    db.transaction(tx => {
+            tx.executeSql(
+                    `
+                        update Settings
+                        set value = ?
+                        where type = ?
+                `,
+                [value, type],
+                () => {
+                }
+            );
+            //TODO better handling
+        }, err => console.log('Error: ' + err),
+        () => {
+            callback(value)
         });
 };

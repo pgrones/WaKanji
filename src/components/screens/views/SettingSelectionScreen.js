@@ -1,7 +1,8 @@
 import {Text, TouchableOpacity, View} from "react-native";
-import {setTheme} from "../redux/actions/Actions";
+import {setTheme} from "../../redux/actions/Actions";
 import {connect} from "react-redux";
 import React from "react";
+import {setSetting} from "../../../persistence/DbConnection";
 
 const SettingSelectionScreen = (props) => {
     return (
@@ -10,7 +11,7 @@ const SettingSelectionScreen = (props) => {
             {/*    <Text>Details</Text>*/}
             {/*</TouchableOpacity>*/}
             <TouchableOpacity
-                onPress={() => props.setTheme(props.theme === 'dark' ? 'light' : 'dark')}><Text style={{fontSize: 30}}>{props.theme}</Text></TouchableOpacity>
+                onPress={() => setSetting('theme',  props.theme === 'dark' ? 'light' : 'dark', props.setTheme)}><Text style={{fontSize: 30}}>{props.theme}</Text></TouchableOpacity>
         </View>
     );
 };

@@ -1,14 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 import {Text, View, StyleSheet} from "react-native";
-import {getKanjiById} from "../../persistence/DbConnection";
+import {getKanjiById} from "../../../persistence/DbConnection";
+import {setKanji} from "../../redux/actions/Actions";
+import {connect} from "react-redux";
 
-export const KanjiGridScreen = ({route, navigation}) => {
+const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
     navigation.setOptions({title: route.params.header});
-    const [kanji, setKanji] = useState(null);
-
-    if (!kanji) {
-        getKanjiById(route.params.gradeId, setKanji);
-    }
+    getKanjiById(route.params.gradeId, setKanji);
 
     return (
         <View style={style.container}>
@@ -18,6 +16,16 @@ export const KanjiGridScreen = ({route, navigation}) => {
         </View>
     )
 };
+
+const mapStateToProps = state => ({
+    kanji: state.kanji
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    setKanji: (kanji) => dispatch(setKanji(kanji))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(KanjiGridScreen);
 
 const style = StyleSheet.create({
     container: {

@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import {LearnScreen} from "./screens/LearnScreen";
-import {PracticeScreen} from "./screens/PracticeScreen";
 import {TabBarIcon} from "./helper/TabBarIcon";
-import {SettingsScreen} from "./screens/SettingsScreen";
+import {SettingsScreen} from "./screens/navigationScreens/SettingsScreen";
 import {connect} from "react-redux";
 import {darkTheme, lightTheme} from "./helper/Theme";
 import {getSetting} from "../persistence/DbConnection";
 import {setTheme} from "./redux/actions/Actions";
+import {LearnScreen} from "./screens/navigationScreens/LearnScreen";
+import {PracticeScreen} from "./screens/navigationScreens/PracticeScreen";
 
 const Tab = createBottomTabNavigator();
 

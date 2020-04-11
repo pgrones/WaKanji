@@ -1,25 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FlatList, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {getGrades} from "../../persistence/DbConnection";
-import {KanjiGridScreen} from "./KanjiGridScreen";
-import {SuperScript} from "../helper/SuperScript";
+import {getGrades} from "../../../persistence/DbConnection";
+import {SuperScript} from "../../helper/SuperScript";
 import {connect} from "react-redux";
+import {setGrades} from "../../redux/actions/Actions";
 
-const Stack = createStackNavigator();
-
-export const LearnScreen = () => {
-    return (
-        <Stack.Navigator>
-            <Stack.Screen name="Learn" options={{title: 'Learn  学'}} component={GradesScreen}/>
-            <Stack.Screen name="KanjiGrid" component={KanjiGridScreen}/>
-        </Stack.Navigator>
-    );
-};
-
-const GradesScreen = ({navigation, props}) => {
-    const [grades, setGrades] = useState([{id: 0, grade: ''}]);
-    if (grades.length === 1) {
+const GradesScreen = ({navigation, grades, setGrades}) => {
+    if (grades.length === 0) {
         getGrades(setGrades);
     }
 
@@ -45,6 +32,16 @@ const GradesScreen = ({navigation, props}) => {
         />
     );
 };
+
+const mapStateToProps = state => ({
+    grades: state.grades
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    setGrades: (grades) => dispatch(setGrades(grades))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GradesScreen);
 
 const style = StyleSheet.create({
     container: {

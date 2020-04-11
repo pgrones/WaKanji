@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import SettingSelectionScreen from "./SettingSelectionScreen";
+import SettingSelectionScreen from "../views/SettingSelectionScreen";
 
 const Stack = createStackNavigator();
 
