@@ -38,5 +38,9 @@ INSERT INTO "Grade" ("id", "grade") VALUES ('10', '10th Grade  高一');`,`
 INSERT INTO "Grade" ("id", "grade") VALUES ('11', '11th Grade  高二');`,`
 INSERT INTO "Grade" ("id", "grade") VALUES ('12', '12th Grade  高三');`,`
 
+INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('1', '一', 'ひと', 'イチ, イツ', 'One', '1');`,`
+INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('2', '二', 'ふた', 'ニ', 'Two', '1');`,`
+INSERT INTO "main"."Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId") VALUES ('3', '三', 'み', 'サン', 'Three', '1');`,`
+
 INSERT INTO "Settings" ("type", "value") VALUES ('theme', 'dark');
 `];

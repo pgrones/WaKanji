@@ -1,7 +1,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import {TabBarIcon} from "./helper/TabBarIcon";
+import TabBarIcon from "./helper/TabBarIcon";
 import {SettingsScreen} from "./screens/navigationScreens/SettingsScreen";
 import {connect} from "react-redux";
 import {darkTheme, lightTheme} from "./helper/Theme";
@@ -13,22 +13,15 @@ import {PracticeScreen} from "./screens/navigationScreens/PracticeScreen";
 const Tab = createBottomTabNavigator();
 
 const Navigation = ({theme, setTheme, themeLoaded, setThemeLoaded}) => {
-    if(!themeLoaded.themeLoaded) {
+    if (!themeLoaded.themeLoaded) {
         getSetting('theme', setTheme);
         setThemeLoaded(true);
-    } else{
+    } else {
         console.log(themeLoaded)
     }
     return (
         <NavigationContainer theme={theme === 'dark' ? darkTheme : lightTheme}>
-            <Tab.Navigator
-                // tabBarOptions={{
-                //     activeTintColor: Colors.tabIconSelected,
-                //     inactiveTintColor: Colors.tabIconDefault,
-                //     style: styles.container
-                // }}
-                initialRouteName={'Learn'}
-            >
+            <Tab.Navigator initialRouteName={'Learn'}>
                 <Tab.Screen
                     name="Learn"
                     component={LearnScreen}
