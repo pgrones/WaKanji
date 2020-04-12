@@ -24,8 +24,8 @@ const GradesScreen = ({navigation, grades, setGrades}) => {
                 <View style={[style.wrapper, {borderBottomColor: colors.border}]}>
                     <TouchableOpacity activeOpacity={0.5} onPress={() => onGradePress(item)}>
                         <View style={style.container}>
-                            <SuperScript start={item.grade.length === 13 ? 1 : 2}
-                                         end={item.grade.length === 13 ? 3 : 4}
+                            <SuperScript start={1}
+                                         end={3}
                                          text={item.grade}
                             />
                             <Text style={{color: colors.text}}>ᐳ</Text>

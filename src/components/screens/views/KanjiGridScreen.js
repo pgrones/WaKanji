@@ -16,7 +16,7 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
             {kanji && kanji.length > 0 ?
                 kanji.map((item) =>
                     <View style={style.kanjiButtonWrapper} key={item.id}>
-                        <TouchableOpacity style={style.kanjiButton}>
+                        <TouchableOpacity activeOpacity={0.5} style={style.kanjiButton}>
                             <Text style={style.kanji}>
                                 {item.kanji}
                             </Text>
@@ -41,12 +41,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(KanjiGridScreen);
 const getStyle = (colors, font) => {
     return StyleSheet.create({
         container: {
-            flex: 1,
+            flexGrow: 1,
             flexDirection: 'row',
             flexWrap: 'wrap',
             justifyContent: 'center',
             alignItems: 'flex-start',
-            margin: 10
+            margin: 10,
+            paddingBottom: 20
         },
         kanjiButtonWrapper: {
             flex: 1,
