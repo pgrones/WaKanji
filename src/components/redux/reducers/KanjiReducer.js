@@ -5,3 +5,12 @@ export const KanjiReducer = (state = [], action) => {
         return state
     }
 };
+
+export const KanjiInfoReducer = (state = {}, action) => {
+    if (action.type === 'SET_KANJI_INFO') {
+        return action.info
+    } else {
+        return state
+    }
+};
+

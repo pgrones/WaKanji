@@ -11,12 +11,16 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
     getKanjiByGradeId(route.params.gradeId, setKanji);
     const style = getStyle(colors, font);
 
+    const showInfo = (item) => {
+        navigation.push('KanjiInfo', {header: item.kanji, info: item})
+    };
+
     return (
         <ScrollView contentContainerStyle={style.container}>
             {kanji && kanji.length > 0 ?
                 kanji.map((item) =>
                     <View style={style.kanjiButtonWrapper} key={item.id}>
-                        <TouchableOpacity activeOpacity={0.5} style={style.kanjiButton}>
+                        <TouchableOpacity activeOpacity={0.5} style={style.kanjiButton} onPress={() => showInfo(item)}>
                             <Text style={style.kanji}>
                                 {item.kanji}
                             </Text>

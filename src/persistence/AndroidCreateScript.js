@@ -57,7 +57,7 @@ INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "g
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('19', '土', 'つち', 'ド, ト', 'Earth, Ground', '1', '0');`,`
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('20', '休', 'やす', 'キュウ', 'Rest, Day off', '1', '0');`,`
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('21', '上', 'うえ, うわ, かみ, あ, のぼ', 'ジョウ, ショウ', 'Above, Up', '1', '0');`,`
-INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('22', '下', 'した, しも, もと, さ, くだ, お', 'カ, げ', 'Below, Down', '1', '0');`,`
+INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('22', '下', 'した, しも, もと, さ, くだ, お', 'カ, ゲ', 'Below, Down', '1', '0');`,`
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('23', '右', 'みぎ', 'ウ, ユウ', 'Right', '1', '0');`,`
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('24', '左', 'ひだり', 'サ', 'Left', '1', '0');`,`
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('25', '大', 'おお', 'ダイ, タイ', 'Big, Large', '1', '0');`,`

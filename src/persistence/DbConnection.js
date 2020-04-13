@@ -86,14 +86,13 @@ export const getSetting = (type, setSetting) => {
         setSetting, true)
 };
 
-export const setSetting = (type, value, setSettings) => {
+export const setSetting = (type, value) => {
     executeTransaction(
             `
                 update Settings
                 set value = ?
                 where type = ?
         `,
-        [value, type],
-        setSettings
+        [value, type]
     );
 };

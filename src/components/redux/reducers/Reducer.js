@@ -1,11 +1,12 @@
 import {combineReducers} from "redux";
 import {ThemeLoadedReducer, ThemeReducer} from "./ThemeReducer";
 import {GradeReducer} from "./GradeReducer";
-import {KanjiReducer} from "./KanjiReducer";
+import {KanjiInfoReducer, KanjiReducer} from "./KanjiReducer";
 
 export const Reducer = combineReducers({
     theme: ThemeReducer,
     themeLoaded: ThemeLoadedReducer,
     grades: GradeReducer,
-    kanji: KanjiReducer
+    kanji: KanjiReducer,
+    kanjiInfo: KanjiInfoReducer
 });
