@@ -10,7 +10,7 @@ const SettingSelectionScreen = ({theme, setTheme}) => {
     const {colors} = useTheme();
 
     const toggleTheme = () => {
-        setSetting('theme', theme === 'dark' ? 'light' : 'dark', setTheme)
+        setSetting('theme', theme === 'systemStandard' ? 'dark' : theme === 'dark' ? 'light': 'systemStandard', setTheme)
     };
 
     return (

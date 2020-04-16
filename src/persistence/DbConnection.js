@@ -22,11 +22,29 @@ export const downloadDB = (setDbLoaded) => {
             ).catch(error => {
                 console.log('Err\n' + error);
             });
-        } else{
+        } else {
             console.log('DB exists');
             setDbLoaded(true);
         }
     });
+};
+
+export const overWriteOldDb = (setDbLoaded) => {
+    FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`).then((a) => console.log(a));
+    FileSystem.deleteAsync(`${FileSystem.documentDirectory}SQLite/WaKanji.db`).then(() => {
+        FileSystem.downloadAsync(
+            Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
+            `${FileSystem.documentDirectory}SQLite/WaKanji.db`
+        ).then(({status}) => {
+            if (status === 200) {
+                setDbLoaded(true)
+            }
+        }).catch(error => {
+            console.log('Err\n' + error);
+        });
+    }).catch(error =>{
+        console.log(error)
+    })
 };
 
 const executeTransaction = (statement, args, callback, onlyOneEntry) => {
