@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import TabBarIcon from "./helper/TabBarIcon";
@@ -6,18 +6,18 @@ import {SettingsScreen} from "./screens/navigationScreens/SettingsScreen";
 import {connect} from "react-redux";
 import {darkTheme, lightTheme} from "./helper/Theme";
 import {getSetting} from "../persistence/DbConnection";
-import {setTheme, setThemeLoaded} from "./redux/actions/Actions";
+import {setTheme} from "../redux/actions/Actions";
 import {LearnScreen} from "./screens/navigationScreens/LearnScreen";
 import {PracticeScreen} from "./screens/navigationScreens/PracticeScreen";
 import {StatusBar} from "react-native";
 
 const Tab = createBottomTabNavigator();
 
-const Navigation = ({theme, setTheme, themeLoaded, setThemeLoaded}) => {
-    if (!themeLoaded.themeLoaded) {
+const Navigation = ({theme, setTheme}) => {
+    useEffect(() => {
         getSetting('theme', setTheme);
-        setThemeLoaded(true);
-    }
+    }, []);
+
     return (
         <NavigationContainer theme={theme === 'dark' ? darkTheme : lightTheme}>
             <StatusBar backgroundColor={theme === 'dark' ? darkTheme.colors.card : lightTheme.colors.card}
@@ -51,13 +51,11 @@ const Navigation = ({theme, setTheme, themeLoaded, setThemeLoaded}) => {
 };
 
 const mapStateToProps = state => ({
-    theme: state.theme,
-    themeLoaded: state.themeLoaded
+    theme: state.theme
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setTheme: (theme) => dispatch(setTheme(theme)),
-    setThemeLoaded: (themeLoaded) => dispatch(setThemeLoaded(themeLoaded))
+    setTheme: (theme) => dispatch(setTheme(theme))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation)

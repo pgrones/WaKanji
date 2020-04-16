@@ -1,15 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Text, View, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
 import {getKanjiByGradeId} from "../../../persistence/DbConnection";
-import {setKanji} from "../../redux/actions/Actions";
+import {setKanji} from "../../../redux/actions/Actions";
 import {connect} from "react-redux";
 import {useTheme} from "@react-navigation/native";
+import {Icon} from "react-native-elements";
 
 const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
     navigation.setOptions({title: route.params.header});
     const {colors, font} = useTheme();
-    getKanjiByGradeId(route.params.gradeId, setKanji);
     const style = getStyle(colors, font);
+
+    useEffect(() => {
+        if (kanji.length === 0 || (kanji[0] && route.params.gradeId !== kanji[0].gradeId)) {
+            getKanjiByGradeId(route.params.gradeId, setKanji);
+        }
+    }, []);
 
     const showInfo = (item) => {
         navigation.push('KanjiInfo', {header: item.kanji, info: item})
@@ -25,6 +31,18 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
                                 {item.kanji}
                             </Text>
                         </TouchableOpacity>
+                        {item.gotIt ?
+                            <View style={style.gotItIcon}>
+                                <Icon
+                                    name={'ios-checkmark-circle'}
+                                    size={font.regular}
+                                    type='ionicon'
+                                    color={colors.primary}
+                                    containerStyle={{backgroundColor: colors.card, borderRadius: 50}}
+                                />
+                            </View>
+                            : <></>
+                        }
                     </View>
                 )
                 : <Text style={style.noKanjiAvailable}>No Kanji available yet</Text>}
@@ -80,6 +98,11 @@ const getStyle = (colors, font) => {
             fontSize: font.regular,
             fontFamily: font.fontFamily,
             color: colors.text
+        },
+        gotItIcon: {
+            position: 'absolute',
+            bottom: 5,
+            right: 5
         }
     })
 };

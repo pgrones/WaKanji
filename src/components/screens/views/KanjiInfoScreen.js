@@ -2,12 +2,20 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 import {Icon} from 'react-native-elements';
+import {getKanjiByGradeId, setKanjiGotIt} from "../../../persistence/DbConnection";
+import {setKanji} from "../../../redux/actions/Actions";
+import {connect} from "react-redux";
 
-const KanjiInfoScreen = ({route, navigation}) => {
+const KanjiInfoScreen = ({route, navigation, setKanji}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
     navigation.setOptions({title: route.params.header});
     const info = route.params.info;
+
+    const setGotIt = () => {
+        setKanjiGotIt(info.id, info.gotIt, setKanji);
+        getKanjiByGradeId(info.gradeId, setKanji);
+    };
 
     return (
         <View style={style.container}>
@@ -45,14 +53,20 @@ const KanjiInfoScreen = ({route, navigation}) => {
                 </View>
                 <Text style={style.translation}>{info.onReading}</Text>
             </View>
-            <TouchableOpacity style={style.button} activeOpacity={0.5}>
+            <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => setGotIt(info.id, info.gotIt)}>
                 <Text style={style.buttonText}>Got it! 分かった!</Text>
             </TouchableOpacity>
         </View>
     )
 };
 
-export default KanjiInfoScreen;
+const mapDispatchToProps = (dispatch) => ({
+    setKanji: (kanji) => dispatch(setKanji(kanji))
+});
+
+export default connect(mapDispatchToProps)(KanjiInfoScreen)
+
+//export default KanjiInfoScreen;
 
 const getStyle = (colors, font) => {
     return StyleSheet.create({
@@ -100,23 +114,17 @@ const getStyle = (colors, font) => {
             flexWrap: 'wrap'
         },
         button: {
-            alignItems: 'center'
+            alignItems: 'center',
+            borderColor: colors.border,
+            backgroundColor: colors.card,
+            borderWidth: 2,
+            borderRadius: 10,
+            padding: 10
         },
-        buttonText:{
+        buttonText: {
             fontFamily: font.fontFamily,
             color: colors.primary,
             fontSize: font.large,
-
         }
     });
 };
-
-// const mapStateToProps = state => ({
-//     info: state.info
-// });
-//
-// const mapDispatchToProps = (dispatch) => ({
-//     setKanjiInfo: (info) => dispatch(setKanjiInfo(info))
-// });
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(KanjiInfoScreen)

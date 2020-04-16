@@ -3,12 +3,20 @@ import {downloadDB} from "./src/persistence/DbConnection";
 import Navigation from "./src/components/Navigation";
 import {createStore} from "redux";
 import {Provider} from "react-redux";
-import {Reducer} from "./src/components/redux/reducers/Reducer";
+import {Reducer} from "./src/redux/reducers/Reducer";
 import {Text, View} from "react-native";
 import {useFonts} from "@use-expo/font";
 import {AppLoading} from "expo";
 
 const store = createStore(Reducer);
+
+const Index = () => {
+    return (
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    )
+};
 
 const App = () => {
     const [dbLoaded, setDbLoaded] = useState(false);
@@ -23,12 +31,10 @@ const App = () => {
             return <View><Text>Loading</Text></View>
         } else {
             return (
-                <Provider store={store}>
-                    <Navigation/>
-                </Provider>
+                <Navigation/>
             );
         }
     }
 };
 
-export default App;
+export default Index;
