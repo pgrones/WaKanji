@@ -13,9 +13,9 @@ export const setKanji = kanji => ({
     kanji
 });
 
-// export const setKanjiInfo = info => ({
-// //    type: 'SET_KANJI_INFO',
-// //    info
-// // });
+export const setKanjiInfo = info => ({
+   type: 'SET_KANJI_INFO',
+   info
+});
 
 
