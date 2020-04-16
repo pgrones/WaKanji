@@ -1,66 +1,54 @@
 import {Asset} from "expo-asset";
 import * as SQLite from "expo-sqlite";
 import * as FileSystem from "expo-file-system";
-import {Platform} from "react-native";
-import {createScript} from "./AndroidCreateScript";
 
 let db = null;
 
 export const downloadDB = (setDbLoaded) => {
-
-    // if (Platform.OS === 'ios') {
-    FileSystem.downloadAsync(
-        Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
-        `${FileSystem.documentDirectory}/SQLite/WaKanji.db`
-    ).then(({status}) => {
-        if (status === 200) {
-            // FileSystem.readDirectoryAsync(`${FileSystem.documentDirectory}`).then(value => console.log(value));
-            // FileSystem.readDirectoryAsync(`${FileSystem.documentDirectory}/SQLite`).then(value => console.log(value));
-            // //setDbLoaded(true)
-            // FileSystem.getInfoAsync(`${FileSystem.documentDirectory}WaKanji.db`).then((a) => console.log(a))
-            // FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/WaKanji.db`).then((a) => console.log(a))
-            setDbLoaded(true)
+    FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/WaKanji.db`).then(({exists}) => {
+        if (!exists) {
+            console.log('Creating DB');
+            FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}SQLite`).then(() =>
+                FileSystem.downloadAsync(
+                    Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
+                    `${FileSystem.documentDirectory}SQLite/WaKanji.db`
+                ).then(({status}) => {
+                    if (status === 200) {
+                        setDbLoaded(true)
+                    }
+                }).catch(error => {
+                    console.log('Err\n' + error);
+                })
+            ).catch(error => {
+                console.log('Err\n' + error);
+            });
+        } else{
+            console.log('DB exists');
+            setDbLoaded(true);
         }
-    }).catch(error => {
-        //TODO better error handling
-        console.log('Err\n' + error);
     });
-    // } else {
-    //     for (let i = 0; i < createScript.length; i++) {
-    //         executeTransaction(createScript[i], [])
-    //     }
-    //     setDbLoaded(true);
-    // }
 };
 
 const executeTransaction = (statement, args, callback, onlyOneEntry) => {
     if (!db) {
-        //console.log('TX ' + new Date().getMilliseconds());
         db = SQLite.openDatabase('WaKanji.db');
-        //FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/WaKanji1.db`).then((a) => console.log(a))
-        //FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/WaKanji.db`).then((a) => console.log(a))
-        // const dir = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
-        // for (let i = 0; i < dir.length; i++) {
-        //     console.log(dir[i])
-        // }
     }
 
     let data;
     db.transaction(tx => {
-            tx.executeSql(
-                statement,
-                args,
+            tx.executeSql(statement, args,
                 (tx, rs) => {
                     data = rs.rows._array;
                 }
             );
             //TODO better handling
-        }, err => console.log(err),
+        },
+        err => console.log(err),
         () => {
             if (callback) {
-                if(onlyOneEntry){
+                if (onlyOneEntry) {
                     callback(data[0])
-                } else{
+                } else {
                     callback(data);
                 }
             }
@@ -68,7 +56,7 @@ const executeTransaction = (statement, args, callback, onlyOneEntry) => {
 };
 
 export const getGrades = (setGrades) => {
-    console.log('getGrades')
+    console.log('getGrades');
     executeTransaction(`
                 select *
                 from Grade;
@@ -90,15 +78,15 @@ export const getKanjiByGradeId = (id, setKanji) => {
     );
 };
 
-export const getKanjiInfoById = (id, setKanjInfo) =>{
+export const getKanjiInfoById = (id, setKanjiInfo) => {
     executeTransaction(
-        `
+            `
                 select *
                 from Kanji
                 where id = ?;
         `,
         [id],
-        setKanjInfo,
+        setKanjiInfo,
         true
     );
 };

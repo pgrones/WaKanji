@@ -25,8 +25,10 @@ const KanjiInfoScreen = ({route, navigation, kanjiInfo, setKanjiInfo, setKanji})
     return (
         kanjiInfo ?
             <View style={style.container}>
-                <View style={style.kanjiBg}>
+                <View style={style.kanjiContainer}>
                     <Text style={style.kanji}>{kanjiInfo.kanji}</Text>
+                </View>
+                <View style={style.translationContainer}>
                     <Text style={style.translation}>{kanjiInfo.translation}</Text>
                 </View>
                 <View style={style.readingContainer}>
@@ -94,14 +96,23 @@ const getStyle = (colors, font) => {
             fontSize: 140,
             lineHeight: 170
         },
-        kanjiBg: {
-            paddingBottom: 10,
+        kanjiContainer: {
             alignSelf: 'stretch',
             alignItems: 'center',
             borderColor: colors.border,
             backgroundColor: colors.card,
             borderWidth: 2,
             borderRadius: 10,
+            marginBottom: 10
+        },
+        translationContainer:{
+            alignSelf: 'stretch',
+            alignItems: 'center',
+            borderColor: colors.border,
+            backgroundColor: colors.card,
+            borderWidth: 2,
+            borderRadius: 10,
+            padding: 10,
             marginBottom: 10
         },
         translation: {
