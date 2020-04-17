@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Text, View, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
-import {getKanjiByGradeId} from "../../../persistence/DbConnection";
-import {setKanji} from "../../../redux/actions/Actions";
+import {getKanjiByGradeId} from "../../../../persistence/DbConnection";
+import {setKanji} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
 import {useTheme} from "@react-navigation/native";
 import {Icon} from "react-native-elements";

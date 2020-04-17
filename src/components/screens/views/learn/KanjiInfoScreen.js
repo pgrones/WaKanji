@@ -2,8 +2,8 @@ import React, {useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 import {Icon} from 'react-native-elements';
-import {getKanjiInfoById, setKanjiGotIt} from "../../../persistence/DbConnection";
-import {setKanji, setKanjiInfo} from "../../../redux/actions/Actions";
+import {getKanjiInfoById, setKanjiGotIt} from "../../../../persistence/DbConnection";
+import {setKanji, setKanjiInfo} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
 
 const KanjiInfoScreen = ({route, navigation, kanjiInfo, setKanjiInfo, setKanji}) => {
@@ -138,6 +138,7 @@ const getStyle = (colors, font) => {
             flexWrap: 'wrap'
         },
         button: {
+            alignSelf: 'stretch',
             alignItems: 'center',
             borderColor: colors.border,
             backgroundColor: colors.card,

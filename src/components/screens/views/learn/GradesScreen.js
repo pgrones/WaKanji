@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {FlatList, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
-import {getGrades} from "../../../persistence/DbConnection";
-import {SuperScript} from "../../helper/SuperScript";
+import {getGrades} from "../../../../persistence/DbConnection";
+import {SuperScript} from "../../../helper/SuperScript";
 import {connect} from "react-redux";
-import {setGrades} from "../../../redux/actions/Actions";
+import {setGrades} from "../../../../redux/actions/Actions";
 import {useTheme} from "@react-navigation/native";
 
 const GradesScreen = ({navigation, grades, setGrades}) => {

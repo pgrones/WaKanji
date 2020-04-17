@@ -1,8 +1,8 @@
 import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
-import KanjiGridScreen from "../views/KanjiGridScreen";
-import GradesScreen from "../views/GradesScreen";
-import KanjiInfoScreen from "../views/KanjiInfoScreen";
+import KanjiGridScreen from "../views/learn/KanjiGridScreen";
+import GradesScreen from "../views/learn/GradesScreen";
+import KanjiInfoScreen from "../views/learn/KanjiInfoScreen";
 
 const Stack = createStackNavigator();
 

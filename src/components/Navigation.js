@@ -23,7 +23,7 @@ const Navigation = ({theme, setTheme}) => {
     const getTheme = () => {
         switch (theme) {
             case 'systemStandard':
-                return scheme === 'dark' ? darkTheme: lightTheme;
+                return scheme === 'dark' ? darkTheme : lightTheme;
             case 'dark':
                 return darkTheme;
             case 'light':
@@ -34,7 +34,7 @@ const Navigation = ({theme, setTheme}) => {
     return (
         <NavigationContainer theme={getTheme()}>
             <StatusBar backgroundColor={getTheme().colors.card}
-                       barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+                       barStyle={getTheme() === darkTheme ? 'light-content' : 'dark-content'}
             />
             <Tab.Navigator initialRouteName={'Learn'}>
                 <Tab.Screen

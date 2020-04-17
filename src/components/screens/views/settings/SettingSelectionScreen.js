@@ -1,8 +1,8 @@
 import {Text, TouchableOpacity, View} from "react-native";
-import {setTheme} from "../../../redux/actions/Actions";
+import {setTheme} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
 import React from "react";
-import {setSetting} from "../../../persistence/DbConnection";
+import {setSetting} from "../../../../persistence/DbConnection";
 import {useTheme} from "@react-navigation/native";
 
 
