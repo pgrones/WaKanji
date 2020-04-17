@@ -47,7 +47,7 @@ const getStyle = (colors, font) => {
             color: colors.text,
             fontWeight: 'bold'
         },
-        item:{
+        item: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             padding: 10,

@@ -55,6 +55,7 @@ const getStyle = (colors, font) => {
         },
         text:{
             fontSize: font.regular,
+            fontFamily: font.fontFamily,
             color: colors.text
         }
     });

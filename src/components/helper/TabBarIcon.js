@@ -33,6 +33,7 @@ const TabBarIcon = ({focused, iconText, theme}) => {
     return (
         <Text style={{
             fontSize: 18,
+            fontFamily: darkTheme.font.fontFamily,
             color: getIconColor()
         }}>
             {iconText}

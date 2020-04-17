@@ -37,6 +37,7 @@ const getStyle = (colors, font) => {
         text:{
             fontSize: font.regular,
             color: colors.text,
+            fontFamily: font.fontFamily,
             fontWeight: 'bold'
         }
     });

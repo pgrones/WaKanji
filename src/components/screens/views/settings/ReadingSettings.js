@@ -70,6 +70,7 @@ const getStyle = (colors, font) => {
     return StyleSheet.create({
         text: {
             fontSize: font.regular,
+            fontFamily: font.fontFamily,
             color: colors.text
         },
         button: {

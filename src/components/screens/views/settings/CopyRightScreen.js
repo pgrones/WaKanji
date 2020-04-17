@@ -4,11 +4,11 @@ import {useTheme} from "@react-navigation/native";
 
 export const CopyRightScreen = () =>{
   const {colors, font} = useTheme();
-  const style = getStyle(colors, font);
+  const style = getStyle(colors);
 
   return(
       <View style={style.container}>
-        <Text style={{color: colors.text}}>
+        <Text style={{color: colors.text, fontFamily: font.fontFamily}}>
           KanjiStrokeOrders Font:
           {"\n"}{"\n"}
           Copyright (C) 2004-2020 Ulrich Apel, the AAAA project and the Wadoku project
@@ -39,7 +39,7 @@ export const CopyRightScreen = () =>{
   )
 };
 
-const getStyle = (colors, font) => {
+const getStyle = (colors) => {
   return StyleSheet.create({
     container: {
       margin: 10,
