@@ -25,9 +25,11 @@ const Accordion = ({title, data, expanded, setExpanded}) => {
                 />
             </TouchableOpacity>
             {expanded &&
-                <View style={style.child}>
-                    {data}
+            data.map((item, index) =>
+                <View style={style.child} key={index}>
+                    {item}
                 </View>
+            )
             }
         </View>
     )
@@ -46,17 +48,17 @@ export default connect(mapStateToProps, mapDispatchToProps)(Accordion);
 const getStyle = (colors, font) => {
     const item = {
         flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 10,
-            alignItems: 'center',
-            backgroundColor: colors.card,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: colors.border
+        justifyContent: 'space-between',
+        padding: 10,
+        alignItems: 'center',
+        backgroundColor: colors.card,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: colors.border
     };
 
     return StyleSheet.create({
-        container:{
+        container: {
             margin: 10
         },
         title: {
@@ -65,8 +67,9 @@ const getStyle = (colors, font) => {
             fontWeight: 'bold'
         },
         item,
-        child:{
+        child: {
             margin: 5,
+            marginBottom: 0,
             ...item
         }
     });

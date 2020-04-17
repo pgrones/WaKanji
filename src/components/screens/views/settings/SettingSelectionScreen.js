@@ -1,47 +1,19 @@
-import {Text, TouchableOpacity, View} from "react-native";
-import {setTheme} from "../../../../redux/actions/Actions";
-import {connect} from "react-redux";
 import React from "react";
-import {setSetting} from "../../../../persistence/DbConnection";
-import {useTheme} from "@react-navigation/native";
 import Accordion from "../../../helper/Accordion";
+import ThemeSetting from "./ThemeSettings";
 
 
-const SettingSelectionScreen = ({theme, setTheme}) => {
-    const {colors} = useTheme();
-
-    const toggleTheme = () => {
-        setSetting('theme', theme === 'systemStandard' ? 'dark' : theme === 'dark' ? 'light' : 'systemStandard', setTheme)
-    };
-
+const SettingSelectionScreen = () => {
     return (
         <Accordion
             title='Theme'
-            data={
-                <TouchableOpacity
-                    onPress={() => toggleTheme()}>
-                    <Text style={{fontSize: 30, color: colors.text}}>{theme}</Text>
-                </TouchableOpacity>
-            }
+            data={[
+                <ThemeSetting title='System-Standard' type='systemStandard'/>,
+                <ThemeSetting title='Dark' type='dark'/>,
+                <ThemeSetting title='Light' type='light'/>
+            ]}
         />
-        // <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        //     {/*<TouchableOpacity onPress={() => navigation.push('Details', {count: 1})}>*/}
-        //     {/*    <Text>Details</Text>*/}
-        //     {/*</TouchableOpacity>*/}
-        //     <TouchableOpacity
-        //         onPress={() => toggleTheme()}>
-        //         <Text style={{fontSize: 30, color: colors.text}}>{theme}</Text>
-        //     </TouchableOpacity>
-        // </View>
     );
 };
 
-const mapStateToProps = state => ({
-    theme: state.theme
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    setTheme: (theme) => dispatch(setTheme(theme))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingSelectionScreen);
+export default SettingSelectionScreen
