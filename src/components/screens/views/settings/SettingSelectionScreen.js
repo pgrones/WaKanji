@@ -4,25 +4,35 @@ import {connect} from "react-redux";
 import React from "react";
 import {setSetting} from "../../../../persistence/DbConnection";
 import {useTheme} from "@react-navigation/native";
+import Accordion from "../../../helper/Accordion";
 
 
 const SettingSelectionScreen = ({theme, setTheme}) => {
     const {colors} = useTheme();
 
     const toggleTheme = () => {
-        setSetting('theme', theme === 'systemStandard' ? 'dark' : theme === 'dark' ? 'light': 'systemStandard', setTheme)
+        setSetting('theme', theme === 'systemStandard' ? 'dark' : theme === 'dark' ? 'light' : 'systemStandard', setTheme)
     };
 
     return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            {/*<TouchableOpacity onPress={() => navigation.push('Details', {count: 1})}>*/}
-            {/*    <Text>Details</Text>*/}
-            {/*</TouchableOpacity>*/}
-            <TouchableOpacity
-                onPress={() => toggleTheme()}>
-                <Text style={{fontSize: 30, color: colors.text}}>{theme}</Text>
-            </TouchableOpacity>
-        </View>
+        <Accordion
+            title='Theme'
+            data={
+                <TouchableOpacity
+                    onPress={() => toggleTheme()}>
+                    <Text style={{fontSize: 30, color: colors.text}}>{theme}</Text>
+                </TouchableOpacity>
+            }
+        />
+        // <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        //     {/*<TouchableOpacity onPress={() => navigation.push('Details', {count: 1})}>*/}
+        //     {/*    <Text>Details</Text>*/}
+        //     {/*</TouchableOpacity>*/}
+        //     <TouchableOpacity
+        //         onPress={() => toggleTheme()}>
+        //         <Text style={{fontSize: 30, color: colors.text}}>{theme}</Text>
+        //     </TouchableOpacity>
+        // </View>
     );
 };
 

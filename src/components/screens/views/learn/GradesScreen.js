@@ -5,6 +5,7 @@ import {SuperScript} from "../../../helper/SuperScript";
 import {connect} from "react-redux";
 import {setGrades} from "../../../../redux/actions/Actions";
 import {useTheme} from "@react-navigation/native";
+import {Icon} from "react-native-elements";
 
 const GradesScreen = ({navigation, grades, setGrades}) => {
     const {colors, font} = useTheme();
@@ -26,7 +27,12 @@ const GradesScreen = ({navigation, grades, setGrades}) => {
                     <TouchableOpacity activeOpacity={0.5} onPress={() => onGradePress(item)}>
                         <View style={style.container}>
                             <SuperScript start={1} end={3} text={item.grade}/>
-                            <Text style={style.arrow}>ᐳ</Text>
+                            <Icon
+                                name={'chevron-right'}
+                                size={font.large}
+                                type='material-community'
+                                color={colors.text}
+                            />
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -64,10 +70,6 @@ const getStyle = (colors, font) => {
             borderColor: colors.border,
             backgroundColor: colors.card,
             borderRadius: 10
-        },
-        arrow: {
-            color: colors.text,
-            fontSize: font.regular
         }
     })
 };
