@@ -5,3 +5,19 @@ export const ThemeReducer = (state = 'systemStandard', action) => {
         return state
     }
 };
+
+export const KunyomiReducer = (state = 'hiragana', action) => {
+    if (action.type === 'SET_KUNYOMI') {
+        return action.reading.value
+    } else {
+        return state
+    }
+};
+
+export const OnyomiReducer = (state = 'katakana', action) => {
+    if (action.type === 'SET_ONYOMI') {
+        return action.reading.value
+    } else {
+        return state
+    }
+};

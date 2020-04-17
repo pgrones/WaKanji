@@ -1,12 +1,12 @@
 import React from "react";
 import {useFonts} from "@use-expo/font";
 import {AppLoading} from "expo";
-import {downloadDB} from "./src/persistence/DbConnection";
+import {downloadDB, overWriteOldDb} from "./src/persistence/DbConnection";
 import Navigation from "./src/components/Navigation";
 import {setDbLoaded} from "./src/redux/actions/Actions";
 import {connect} from "react-redux";
 
-const Index = (dbLoaded, setDbLoaded) => {
+const Index = ({dbLoaded, setDbLoaded}) => {
     let [fontsLoaded] = useFonts({
         'KanjiStrokeFont': require('./assets/fonts/KanjiStrokeOrders_v4.003.ttf'),
     });

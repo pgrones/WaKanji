@@ -30,21 +30,19 @@ export const downloadDB = (setDbLoaded) => {
 };
 
 export const overWriteOldDb = (setDbLoaded) => {
-    FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`).then((a) => console.log(a));
-    FileSystem.deleteAsync(`${FileSystem.documentDirectory}SQLite/WaKanji.db`).then(() => {
-        FileSystem.downloadAsync(
-            Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
-            `${FileSystem.documentDirectory}SQLite/WaKanji.db`
-        ).then(({status}) => {
-            if (status === 200) {
-                setDbLoaded(true)
-            }
-        }).catch(error => {
-            console.log('Err\n' + error);
-        });
-    }).catch(error =>{
-        console.log(error)
-    })
+    console.log('overwrite');
+    //FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`).then((a) => console.log(a));
+    FileSystem.downloadAsync(
+        Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
+        `${FileSystem.documentDirectory}SQLite/WaKanji.db`
+    ).then(({status}) => {
+        if (status === 200) {
+            setDbLoaded(true)
+        }
+    }).catch(error => {
+        console.log('Err\n' + error);
+    });
+
 };
 
 const executeTransaction = (statement, args, callback, onlyOneEntry) => {
@@ -123,7 +121,7 @@ export const setKanjiGotIt = (id, state, gradeId, setKanji) => {
 };
 
 export const getSetting = (type, setSetting) => {
-    console.log('getSetting');
+    console.log('getSetting ' + type);
     executeTransaction(`
                 select *
                 from Settings
@@ -134,8 +132,8 @@ export const getSetting = (type, setSetting) => {
         true)
 };
 
-export const setSetting = (type, value, setTheme) => {
-    console.log('setSetting');
+export const setSetting = (type, value, setSetting) => {
+    console.log('setSetting ' + type);
     executeTransaction(
             `
                 update Settings
@@ -143,6 +141,6 @@ export const setSetting = (type, value, setTheme) => {
                 where type = ?
         `,
         [value, type],
-        () => getSetting(type, setTheme)
+        () => getSetting(type, setSetting)
     );
 };

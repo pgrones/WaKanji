@@ -2,6 +2,7 @@ import React from "react";
 import Accordion from "../../../helper/Accordion";
 import ThemeSetting from "./ThemeSettings";
 import {ScrollView} from "react-native";
+import ReadingSetting from "./ReadingSettings";
 
 
 const SettingSelectionScreen = () => {
@@ -18,9 +19,8 @@ const SettingSelectionScreen = () => {
             <Accordion
                 title='Readings'
                 data={[
-                    <ThemeSetting title='System-Standard' type='systemStandard'/>,
-                    <ThemeSetting title='Dark' type='dark'/>,
-                    <ThemeSetting title='Light' type='light'/>
+                    <ReadingSetting title='Kunyomi' type='kunReading'/>,
+                    <ReadingSetting title='Onyomi' type='onReading'/>
                 ]}
             />
         </ScrollView>

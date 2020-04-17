@@ -8,6 +8,16 @@ export const setTheme = theme => ({
     theme
 });
 
+export const setKunyomi = reading => ({
+    type: 'SET_KUNYOMI',
+    reading
+});
+
+export const setOnyomi = reading => ({
+    type: 'SET_ONYOMI',
+    reading
+});
+
 export const setGrades = grades => ({
     type: 'SET_GRADES',
     grades
