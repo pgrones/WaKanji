@@ -23,8 +23,7 @@ const GradesScreen = ({navigation, grades, setGrades}) => {
         <FlatList
             data={grades}
             renderItem={({item}) =>
-                <View style={style.wrapper}>
-                    <TouchableOpacity activeOpacity={0.5} onPress={() => onGradePress(item)}>
+                    <TouchableOpacity style={style.wrapper} activeOpacity={0.5} onPress={() => onGradePress(item)}>
                         <View style={style.container}>
                             <SuperScript start={1} end={3} text={item.grade}/>
                             <Icon
@@ -35,9 +34,9 @@ const GradesScreen = ({navigation, grades, setGrades}) => {
                             />
                         </View>
                     </TouchableOpacity>
-                </View>
             }
             keyExtractor={item => item.id.toString()}
+            bounces={false}
         />
     );
 };

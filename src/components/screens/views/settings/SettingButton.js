@@ -1,9 +1,9 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import {Icon} from "react-native-elements";
 import React from "react";
 import {useTheme} from "@react-navigation/native";
 
-export const SettingButton = ({title, onPress}) =>{
+export const SettingButton = ({title, onPress, icon, type}) =>{
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
@@ -11,9 +11,9 @@ export const SettingButton = ({title, onPress}) =>{
         <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => onPress()}>
             <Text style={style.text}>{title}</Text>
             <Icon
-                name={'chevron-right'}
+                name={icon}
                 size={font.large}
-                type='material-community'
+                type={type}
                 color={colors.text}
             />
         </TouchableOpacity>
