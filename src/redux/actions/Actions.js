@@ -1,3 +1,8 @@
+export const setDbLoaded = isLoaded => ({
+    type: 'SET_DB_LOADED',
+    isLoaded
+});
+
 export const setTheme = theme => ({
     type: 'SET_THEME',
     theme

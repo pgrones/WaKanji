@@ -32,6 +32,7 @@ const GradesScreen = ({navigation, grades, setGrades}) => {
                 </View>
             }
             keyExtractor={item => item.id.toString()}
+            style={{marginTop: 5}}
         />
     );
 };

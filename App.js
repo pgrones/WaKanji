@@ -1,40 +1,17 @@
-import React, {useState} from 'react';
-import {downloadDB} from "./src/persistence/DbConnection";
-import Navigation from "./src/components/Navigation";
+import React from 'react';
 import {createStore} from "redux";
 import {Provider} from "react-redux";
 import {Reducer} from "./src/redux/reducers/Reducer";
-import {Text, View} from "react-native";
-import {useFonts} from "@use-expo/font";
-import {AppLoading} from "expo";
+import Index from "./Index";
 
 const store = createStore(Reducer);
 
-const Index = () => {
+const App = () => {
     return (
         <Provider store={store}>
-            <App/>
+            <Index/>
         </Provider>
     )
 };
 
-const App = () => {
-    const [dbLoaded, setDbLoaded] = useState(false);
-    let [fontsLoaded] = useFonts({
-        'KanjiStrokeFont': require('./assets/fonts/KanjiStrokeOrders_v4.003.ttf'),
-    });
-    if (!fontsLoaded) {
-        return <AppLoading/>;
-    } else {
-        if (!dbLoaded) {
-            downloadDB(setDbLoaded);
-            return <View><Text>Loading</Text></View>
-        } else {
-            return (
-                <Navigation/>
-            );
-        }
-    }
-};
-
-export default Index;
+export default App;
