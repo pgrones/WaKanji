@@ -5,9 +5,9 @@ export const convert = (item, reading) =>{
         case 'romaji':
             return toRomaji(item);
         case 'hiragana':
-            return toHiragana(item);
+            return toHiragana(item).replace(/、/g, ',');
         case 'katakana':
-            return toKatakana(item);
+            return toKatakana(item).replace(/、/g, ',');
         default:
             console.log('Reading not found ' + reading);
     }

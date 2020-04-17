@@ -5,8 +5,9 @@ import {Icon} from 'react-native-elements';
 import {getKanjiInfoById, setKanjiGotIt} from "../../../../persistence/DbConnection";
 import {setKanji, setKanjiInfo} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
+import {convert} from "../../../helper/ReadingConverter";
 
-const KanjiInfoScreen = ({route, navigation, kanjiInfo, setKanjiInfo, setKanji}) => {
+const KanjiInfoScreen = ({route, navigation, kanjiInfo, kunyomi, onyomi, setKanjiInfo, setKanji}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
     navigation.setOptions({title: route.params.header});
@@ -44,7 +45,7 @@ const KanjiInfoScreen = ({route, navigation, kanjiInfo, setKanjiInfo, setKanji})
                             />
                         </TouchableOpacity>
                     </View>
-                    <Text style={style.reading}>{kanjiInfo.kunReading}</Text>
+                    <Text style={style.reading}>{convert(kanjiInfo.kunReading, kunyomi)}</Text>
                 </View>
                 <View style={style.readingContainer}>
                     <View style={{flexDirection: 'row', width: 90}}>
@@ -59,7 +60,7 @@ const KanjiInfoScreen = ({route, navigation, kanjiInfo, setKanjiInfo, setKanji})
                             />
                         </TouchableOpacity>
                     </View>
-                    <Text style={style.translation}>{kanjiInfo.onReading}</Text>
+                    <Text style={style.translation}>{convert(kanjiInfo.onReading, onyomi)}</Text>
                 </View>
                 <TouchableOpacity style={style.button} activeOpacity={0.5}
                                   onPress={() => setGotIt(info.id, info.gotIt)}>
@@ -70,7 +71,9 @@ const KanjiInfoScreen = ({route, navigation, kanjiInfo, setKanjiInfo, setKanji})
 };
 
 const mapStateToProps = state => ({
-    kanjiInfo: state.kanjiInfo
+    kanjiInfo: state.kanjiInfo,
+    kunyomi: state.kunyomi,
+    onyomi: state.onyomi
 });
 
 const mapDispatchToProps = (dispatch) => ({
