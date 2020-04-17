@@ -32,7 +32,7 @@ const ReadingSetting = ({title, type, kunyomi, onyomi, setKunyomi, setOnyomi}) =
     };
 
     return (
-        <TouchableOpacity style={style.button} onPress={() => setReading()}>
+        <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => setReading()}>
             <Text style={style.text}>{getTitle()}</Text>
             <Text style={style.text}>
                 {title === 'Kunyomi' ?
@@ -68,15 +68,21 @@ export default connect(mapStateToProps, mapDispatchToProps)(ReadingSetting);
 
 const getStyle = (colors, font) => {
     return StyleSheet.create({
-        button: {
-            flex: 1,
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            alignItems: 'center'
-        },
         text: {
             fontSize: font.regular,
             color: colors.text
+        },
+        button: {
+            margin: 5,
+            marginBottom: 0,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: 10,
+            alignItems: 'center',
+            backgroundColor: colors.card,
+            borderRadius: 10,
+            borderWidth: 2,
+            borderColor: colors.border
         }
     });
 };

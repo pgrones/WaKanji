@@ -25,13 +25,15 @@ const getStyle = (colors, font) => {
             fontSize: font.regular,
             fontFamily: font.fontFamily,
             lineHeight: 30,
-            color: colors.text
+            color: colors.text,
+            fontWeight: 'bold'
         },
         superScriptText: {
             fontSize: 14,
             fontFamily: font.fontFamily,
             lineHeight: 18,
-            color: colors.text
+            color: colors.text,
+            fontWeight: 'bold'
         }
     })
 };

@@ -17,7 +17,7 @@ const ThemeSetting = ({title, type, theme, setTheme}) => {
     };
 
     return (
-        <TouchableOpacity style={style.button} onPress={() => toggleTheme()}>
+        <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => toggleTheme()}>
             <Text style={style.text}>{title}</Text>
             {theme === type && <Icon
                 name={'ios-checkmark-circle'}
@@ -42,10 +42,16 @@ export default connect(mapStateToProps, mapDispatchToProps)(ThemeSetting);
 const getStyle = (colors, font) => {
     return StyleSheet.create({
         button: {
-            flex: 1,
-            justifyContent: 'space-between',
+            margin: 5,
+            marginBottom: 0,
             flexDirection: 'row',
-            alignItems: 'center'
+            justifyContent: 'space-between',
+            padding: 10,
+            alignItems: 'center',
+            backgroundColor: colors.card,
+            borderRadius: 10,
+            borderWidth: 2,
+            borderColor: colors.border
         },
         text:{
             fontSize: font.regular,

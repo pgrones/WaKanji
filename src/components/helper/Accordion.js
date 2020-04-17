@@ -37,17 +37,6 @@ const Accordion = ({title, data}) => {
 export default Accordion
 
 const getStyle = (colors, font) => {
-    const item = {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 10,
-        alignItems: 'center',
-        backgroundColor: colors.card,
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: colors.border
-    };
-
     return StyleSheet.create({
         container: {
             margin: 10,
@@ -58,11 +47,15 @@ const getStyle = (colors, font) => {
             color: colors.text,
             fontWeight: 'bold'
         },
-        item,
-        child: {
-            margin: 5,
-            marginBottom: 0,
-            ...item
+        item:{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: 10,
+            alignItems: 'center',
+            backgroundColor: colors.card,
+            borderRadius: 10,
+            borderWidth: 2,
+            borderColor: colors.border
         }
     });
 };

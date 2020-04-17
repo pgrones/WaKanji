@@ -3,9 +3,10 @@ import Accordion from "../../../helper/Accordion";
 import ThemeSetting from "./ThemeSettings";
 import {ScrollView} from "react-native";
 import ReadingSetting from "./ReadingSettings";
+import {SettingButton} from "./SettingButton";
 
 
-const SettingSelectionScreen = () => {
+const SettingSelectionScreen = ({navigation}) => {
     return (
         <ScrollView bounces={false}>
             <Accordion
@@ -23,6 +24,7 @@ const SettingSelectionScreen = () => {
                     <ReadingSetting title='Onyomi' type='onReading'/>
                 ]}
             />
+            <SettingButton title='Copyright' onPress={() => navigation.push('Copyright')}/>
         </ScrollView>
     );
 };
