@@ -23,7 +23,7 @@ const KanjiInfoScreen = ({route, navigation, kanjiInfo, setKanjiInfo, setKanji})
     };
 
     return (
-        kanjiInfo ?
+        kanjiInfo &&
             <View style={style.container}>
                 <View style={style.kanjiContainer}>
                     <Text style={style.kanji}>{kanjiInfo.kanji}</Text>
@@ -66,7 +66,6 @@ const KanjiInfoScreen = ({route, navigation, kanjiInfo, setKanjiInfo, setKanji})
                     <Text style={style.buttonText}>Got it! 分かった!</Text>
                 </TouchableOpacity>
             </View>
-            : <></>
     )
 };
 

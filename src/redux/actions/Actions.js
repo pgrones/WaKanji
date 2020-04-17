@@ -23,9 +23,4 @@ export const setKanjiInfo = info => ({
    info
 });
 
-export const setExpanded = expanded => ({
-    type: 'SET_EXPANDED',
-    expanded
-});
-
 

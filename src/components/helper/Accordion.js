@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, TouchableOpacity, View, StyleSheet} from "react-native";
 import {Icon} from "react-native-elements";
-import {setExpanded} from "../../redux/actions/Actions";
-import {connect} from "react-redux";
 import {useTheme} from "@react-navigation/native";
 
-const Accordion = ({title, data, expanded, setExpanded}) => {
+const Accordion = ({title, data}) => {
+    const [expanded, setExpanded] = useState(false);
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
@@ -35,15 +34,7 @@ const Accordion = ({title, data, expanded, setExpanded}) => {
     )
 };
 
-const mapStateToProps = state => ({
-    expanded: state.expanded
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    setExpanded: (expanded) => dispatch(setExpanded(expanded))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Accordion);
+export default Accordion
 
 const getStyle = (colors, font) => {
     const item = {
@@ -59,7 +50,8 @@ const getStyle = (colors, font) => {
 
     return StyleSheet.create({
         container: {
-            margin: 10
+            margin: 10,
+            marginBottom: 0
         },
         title: {
             fontSize: font.regular,

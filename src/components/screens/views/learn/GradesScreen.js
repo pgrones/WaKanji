@@ -9,11 +9,11 @@ import {Icon} from "react-native-elements";
 
 const GradesScreen = ({navigation, grades, setGrades}) => {
     const {colors, font} = useTheme();
-    const style = getStyle(colors, font);
+    const style = getStyle(colors);
 
-    useEffect(() =>{
+    useEffect(() => {
         getGrades(setGrades);
-    },[]);
+    }, []);
 
     const onGradePress = (item) => {
         navigation.push('KanjiGrid', {header: item.grade, gradeId: item.id})
@@ -38,7 +38,6 @@ const GradesScreen = ({navigation, grades, setGrades}) => {
                 </View>
             }
             keyExtractor={item => item.id.toString()}
-            style={{marginTop: 5}}
         />
     );
 };
@@ -53,19 +52,18 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(GradesScreen);
 
-const getStyle = (colors, font) => {
+const getStyle = (colors) => {
     return StyleSheet.create({
         container: {
             flex: 1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: 10,
-            paddingRight: 20,
+            padding: 10
         },
         wrapper: {
-            marginLeft: 20,
-            marginTop: 5,
+            margin: 10,
+            marginBottom: 0,
             borderWidth: 2,
             borderColor: colors.border,
             backgroundColor: colors.card,
