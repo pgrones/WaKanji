@@ -1,13 +1,10 @@
 import React from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
+import {Overlay} from "../../../helper/Overlay";
 
 const PracticeSelectionScreen = ({navigation}) => {
     return (
-        <View>
-            <TouchableOpacity onPress={() => navigation.push('Details', {count: 1})}>
-                <Text>Details</Text>
-            </TouchableOpacity>
-        </View>
+        <Overlay/>
     );
 };
 

@@ -44,6 +44,7 @@ const getStyle = (colors, font) => {
         },
         title: {
             fontSize: font.regular,
+            fontFamily: font.fontFamily,
             color: colors.text,
             fontWeight: 'bold'
         },

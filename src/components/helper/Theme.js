@@ -10,7 +10,8 @@ const font = {
 export const lightTheme = {
     ...DefaultTheme,
     colors: {
-        ...DefaultTheme.colors
+        ...DefaultTheme.colors,
+        buttonText: '#e5e5e7'
     },
     font:{
         ...font
@@ -20,7 +21,8 @@ export const lightTheme = {
 export const darkTheme = {
     ...DarkTheme,
     colors: {
-        ...DarkTheme.colors
+        ...DarkTheme.colors,
+        buttonText: '#e5e5e7'
     },
     font:{
         ...font

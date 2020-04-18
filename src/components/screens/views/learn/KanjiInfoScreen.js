@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 import {Icon} from 'react-native-elements';
@@ -6,8 +6,11 @@ import {getKanjiInfoById, setKanjiGotIt} from "../../../../persistence/DbConnect
 import {setKanji, setKanjiInfo} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
 import {convert} from "../../../helper/ReadingConverter";
+import {Overlay} from "../../../helper/Overlay";
 
 const KanjiInfoScreen = ({route, navigation, kanjiInfo, kunyomi, onyomi, setKanjiInfo, setKanji}) => {
+    const [modalVisible, setModalVisible] = useState(false);
+    const [reading, setReading] = useState();
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
     navigation.setOptions({title: route.params.header});
@@ -23,50 +26,57 @@ const KanjiInfoScreen = ({route, navigation, kanjiInfo, kunyomi, onyomi, setKanj
         setKanjiGotIt(info.id, info.gotIt, info.gradeId, setKanji);
     };
 
+    const openModal = (reading) =>{
+        setReading(reading);
+        setModalVisible(true)
+    };
+
     return (
         kanjiInfo &&
-            <View style={style.container}>
-                <View style={style.kanjiContainer}>
-                    <Text style={style.kanji}>{kanjiInfo.kanji}</Text>
-                </View>
-                <View style={style.translationContainer}>
-                    <Text style={style.translation}>{kanjiInfo.translation}</Text>
-                </View>
-                <View style={style.readingContainer}>
-                    <View style={{flexDirection: 'row', width: 90}}>
-                        <Text style={style.translation}>Kun:</Text>
-                        <TouchableOpacity activeOpacity={0.5}>
-                            <Icon
-                                name={'question'}
-                                size={font.regular}
-                                type='simple-line-icon'
-                                iconStyle={{marginBottom: -10, marginRight: 10}}
-                                color={colors.primary}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={style.reading}>{convert(kanjiInfo.kunReading, kunyomi)}</Text>
-                </View>
-                <View style={style.readingContainer}>
-                    <View style={{flexDirection: 'row', width: 90}}>
-                        <Text style={style.translation}>On:</Text>
-                        <TouchableOpacity activeOpacity={0.5}>
-                            <Icon
-                                name={'question'}
-                                size={font.regular}
-                                type='simple-line-icon'
-                                iconStyle={{marginBottom: -10, marginRight: 10}}
-                                color={colors.primary}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={style.translation}>{convert(kanjiInfo.onReading, onyomi)}</Text>
-                </View>
-                <TouchableOpacity style={style.button} activeOpacity={0.5}
-                                  onPress={() => setGotIt(info.id, info.gotIt)}>
-                    <Text style={style.buttonText}>Got it! 分かった!</Text>
-                </TouchableOpacity>
+        <View style={style.container}>
+            <View style={style.kanjiContainer}>
+                <Text style={style.kanji}>{kanjiInfo.kanji}</Text>
             </View>
+            <View style={style.translationContainer}>
+                <Text style={style.translation}>{kanjiInfo.translation}</Text>
+            </View>
+            <View style={style.readingContainer}>
+                <View style={{flexDirection: 'row', width: 90}}>
+                    <Text style={style.translation}>Kun:</Text>
+                    <TouchableOpacity activeOpacity={0.5} onPress={() => openModal(kunExplanation)}>
+                        <Icon
+                            name={'question'}
+                            size={font.regular}
+                            type='simple-line-icon'
+                            iconStyle={{marginBottom: -10, marginRight: 10}}
+                            color={colors.primary}
+                        />
+                    </TouchableOpacity>
+                </View>
+                <Text style={style.reading}>{convert(kanjiInfo.kunReading, kunyomi)}</Text>
+            </View>
+            <View style={style.readingContainer}>
+                <View style={{flexDirection: 'row', width: 90}}>
+                    <Text style={style.translation}>On:</Text>
+                    <TouchableOpacity activeOpacity={0.5} onPress={() => openModal(onExplanation)}>
+                        <Icon
+                            name={'question'}
+                            size={font.regular}
+                            type='simple-line-icon'
+                            iconStyle={{marginBottom: -10, marginRight: 10}}
+                            color={colors.primary}
+                        />
+                    </TouchableOpacity>
+                </View>
+                <Text style={style.translation}>{convert(kanjiInfo.onReading, onyomi)}</Text>
+            </View>
+            <TouchableOpacity style={style.button} activeOpacity={0.5}
+                              onPress={() => setGotIt(info.id, info.gotIt)}>
+                <Text style={style.buttonText}>Got it! 分かった!</Text>
+            </TouchableOpacity>
+
+            <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={reading}/>
+        </View>
     )
 };
 
@@ -82,8 +92,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KanjiInfoScreen)
-
-//export default KanjiInfoScreen;
 
 const getStyle = (colors, font) => {
     return StyleSheet.create({
@@ -107,7 +115,7 @@ const getStyle = (colors, font) => {
             borderRadius: 10,
             marginBottom: 10
         },
-        translationContainer:{
+        translationContainer: {
             alignSelf: 'stretch',
             alignItems: 'center',
             borderColor: colors.border,
@@ -140,18 +148,26 @@ const getStyle = (colors, font) => {
             flexWrap: 'wrap'
         },
         button: {
+            backgroundColor: colors.primary,
+            borderRadius: 35,
+            padding: 10,
             alignSelf: 'stretch',
             alignItems: 'center',
-            borderColor: colors.border,
-            backgroundColor: colors.card,
-            borderWidth: 2,
-            borderRadius: 10,
-            padding: 10
         },
         buttonText: {
             fontFamily: font.fontFamily,
-            color: colors.primary,
+            color: colors.buttonText,
             fontSize: font.large,
         }
     });
 };
+
+const kunExplanation = 'Kunyomi, Kun-reading or simply Kun is the Japanese reading of a Kanji. ' +
+    'It is usually unique to the Japanese language. \n\nMost dictionaries use hiragana to depict these readings. ' +
+    'Head to settings to use different characters like katakana or romaji.';
+
+const onExplanation = 'Onyomi, On-reading or simply On is the Chinese reading of a Kanji. ' +
+    'If you ever study Chinese you will notice the similarities in the way Kanji are read in both languages. ' +
+    'Sometimes the Onyomi of a Kanji sounds nothing like it does in Chinese though. ' +
+    '\n\nMost dictionaries use katakana to depict these readings. ' +
+    'Head to settings to use different characters like hiragana or romaji.';
