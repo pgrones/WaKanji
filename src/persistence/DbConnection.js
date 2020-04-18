@@ -115,7 +115,7 @@ export const setKanjiGotIt = (id, state, gradeId, setKanji) => {
                 set gotIt = ?
                 where id = ?
         `,
-        [!state, id],
+        [state, id],
         () => getKanjiByGradeId(gradeId, setKanji)
     );
 };

@@ -38,7 +38,7 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
                                     size={font.regular}
                                     type='ionicon'
                                     color={colors.primary}
-                                    containerStyle={{backgroundColor: colors.card, borderRadius: 50}}
+                                    containerStyle={{backgroundColor: 'transparent'}}
                                 />
                             </View>
                             : <></>
@@ -101,8 +101,8 @@ const getStyle = (colors, font) => {
         },
         gotItIcon: {
             position: 'absolute',
-            bottom: 5,
-            right: 5
+            bottom: 0,
+            right: 3
         }
     })
 };

@@ -23,7 +23,8 @@ const KanjiInfoScreen = ({route, navigation, kanjiInfo, kunyomi, onyomi, setKanj
     }, []);
 
     const setGotIt = () => {
-        setKanjiGotIt(info.id, info.gotIt, info.gradeId, setKanji);
+        setKanjiInfo({...kanjiInfo, gotIt: !kanjiInfo.gotIt});
+        setKanjiGotIt(info.id, !kanjiInfo.gotIt, info.gradeId, setKanji);
     };
 
     const openModal = (reading) =>{
@@ -36,6 +37,18 @@ const KanjiInfoScreen = ({route, navigation, kanjiInfo, kunyomi, onyomi, setKanj
         <View style={style.container}>
             <View style={style.kanjiContainer}>
                 <Text style={style.kanji}>{kanjiInfo.kanji}</Text>
+                {kanjiInfo.gotIt ?
+                    <View style={style.gotItIcon}>
+                        <Icon
+                            name={'ios-checkmark-circle'}
+                            size={font.large}
+                            type='ionicon'
+                            color={colors.primary}
+                            containerStyle={{backgroundColor: 'transparent'}}
+                        />
+                    </View>
+                    : <></>
+                }
             </View>
             <View style={style.translationContainer}>
                 <Text style={style.translation}>{kanjiInfo.translation}</Text>
@@ -72,7 +85,7 @@ const KanjiInfoScreen = ({route, navigation, kanjiInfo, kunyomi, onyomi, setKanj
             </View>
             <TouchableOpacity style={style.button} activeOpacity={0.5}
                               onPress={() => setGotIt(info.id, info.gotIt)}>
-                <Text style={style.buttonText}>Got it! 分かった!</Text>
+                <Text style={style.buttonText}>{!kanjiInfo.gotIt ? 'Got it! 分かった!' : "Study some more?"}</Text>
             </TouchableOpacity>
 
             <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={reading}/>
@@ -158,6 +171,11 @@ const getStyle = (colors, font) => {
             fontFamily: font.fontFamily,
             color: colors.buttonText,
             fontSize: font.large,
+        },
+        gotItIcon: {
+            position: 'absolute',
+            bottom: 0,
+            right: 5
         }
     });
 };
