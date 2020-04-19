@@ -17,16 +17,17 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
         }
     }, []);
 
-    const showInfo = (item) => {
-        navigation.push('KanjiInfo', {header: item.kanji, info: item})
+    const showInfo = (item, index) => {
+        navigation.push('KanjiInfo', {header: item.kanji, index: index})
     };
 
     return (
         <ScrollView contentContainerStyle={style.container}>
             {kanji && kanji.length > 0 ?
-                kanji.map((item) =>
+                kanji.map((item, index) =>
                     <View style={style.kanjiButtonWrapper} key={item.id}>
-                        <TouchableOpacity activeOpacity={0.5} style={style.kanjiButton} onPress={() => showInfo(item)}>
+                        <TouchableOpacity activeOpacity={0.5} style={style.kanjiButton}
+                                          onPress={() => showInfo(item, index)}>
                             <Text style={style.kanji}>
                                 {item.kanji}
                             </Text>

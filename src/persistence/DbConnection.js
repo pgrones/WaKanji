@@ -85,7 +85,7 @@ export const getKanjiByGradeId = (id, setKanji) => {
     console.log('getKanjiByGradeId');
     executeTransaction(
             `
-                select id, kanji, gradeId, gotIt
+                select *
                 from Kanji
                 where gradeId = ?;
         `,

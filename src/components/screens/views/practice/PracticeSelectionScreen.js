@@ -4,7 +4,7 @@ import {Overlay} from "../../../helper/Overlay";
 
 const PracticeSelectionScreen = ({navigation}) => {
     return (
-        <Overlay/>
+        <View/>
     );
 };
 

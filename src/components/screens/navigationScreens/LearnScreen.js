@@ -11,7 +11,7 @@ export const LearnScreen = () => {
         <Stack.Navigator>
             <Stack.Screen name="Learn" options={{title: 'Learn  学'}} component={GradesScreen}/>
             <Stack.Screen name="KanjiGrid" component={KanjiGridScreen}/>
-            <Stack.Screen name="KanjiInfo" component={KanjiInfoScreen}/>
+            <Stack.Screen name="KanjiInfo" component={KanjiInfoScreen} options={{gestureEnabled: false}}/>
         </Stack.Navigator>
     );
 };
