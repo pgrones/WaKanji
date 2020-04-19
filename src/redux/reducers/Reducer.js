@@ -1,7 +1,7 @@
 import {combineReducers} from "redux";
 import {KunyomiReducer, OnyomiReducer, ThemeReducer} from "./SettingsReducer";
 import {GradeReducer} from "./LearnReducer";
-import {KanjiInfoReducer, KanjiReducer} from "./LearnReducer";
+import {KanjiReducer} from "./LearnReducer";
 import {DBReducer} from "./DBReducer";
 
 export const Reducer = combineReducers({
@@ -11,5 +11,5 @@ export const Reducer = combineReducers({
     onyomi: OnyomiReducer,
     grades: GradeReducer,
     kanji: KanjiReducer,
-    kanjiInfo: KanjiInfoReducer
+    // kanjiInfo: KanjiInfoReducer
 });

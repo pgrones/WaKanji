@@ -94,18 +94,18 @@ export const getKanjiByGradeId = (id, setKanji) => {
     );
 };
 
-export const getKanjiInfoById = (id, setKanjiInfo) => {
-    executeTransaction(
-            `
-                select *
-                from Kanji
-                where id = ?;
-        `,
-        [id],
-        setKanjiInfo,
-        true
-    );
-};
+// export const getKanjiInfoById = (id, setKanjiInfo) => {
+//     executeTransaction(
+//             `
+//                 select *
+//                 from Kanji
+//                 where id = ?;
+//         `,
+//         [id],
+//         setKanjiInfo,
+//         true
+//     );
+// };
 
 export const setKanjiGotIt = (id, state, gradeId, setKanji) => {
     console.log('setKanjiGotIt');

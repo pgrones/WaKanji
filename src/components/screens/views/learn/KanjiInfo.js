@@ -6,12 +6,12 @@ import React, {useState} from "react";
 import {useTheme} from "@react-navigation/native";
 import {connect} from "react-redux";
 
-const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt}) => {
+const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, index}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [reading, setReading] = useState();
 
     const {colors, font} = useTheme();
-    const style = getStyle(colors, font);
+    const style = getStyle(colors, font, prev, next);
 
     const openModal = (reading) => {
         setReading(reading);
@@ -19,7 +19,7 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt}) => {
     };
 
     const gotIt = () => {
-        setGotIt(kanjiInfo.id, !kanjiInfo.gotIt, kanjiInfo.gradeId)
+        setGotIt(kanjiInfo.id, !kanjiInfo.gotIt, kanjiInfo.gradeId, index)
     };
 
     return (
@@ -78,25 +78,26 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt}) => {
             </TouchableOpacity>
             <View style={style.swipeContainerWrapper}>
                 <View style={style.swipeContainer}>
-                    <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity disabled={!prev} activeOpacity={0.5} style={{flexDirection: 'row'}}
+                                      onPress={() => scrollBy(-1)}>
                         <Icon
                             name={'chevron-left'}
                             size={font.large}
                             type='material-community'
-                            color={colors.primary}
+                            color={prev ? colors.primary : colors.background}
                         />
-                        <Text style={style.swipeText}>{prev}</Text>
-                    </View>
-                    <Text style={style.swipeText}>Swipe</Text>
-                    <View style={{flexDirection: 'row'}}>
-                        <Text style={style.swipeText}>{next}</Text>
+                        <Text style={style.swipeTextPrev}>{prev ? prev : '一'}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity disabled={!next} activeOpacity={0.5} style={{flexDirection: 'row'}}
+                                      onPress={() => scrollBy(1)}>
+                        <Text style={style.swipeTextNext}>{next}</Text>
                         <Icon
                             name={'chevron-right'}
                             size={font.large}
                             type='material-community'
-                            color={colors.primary}
+                            color={next ? colors.primary : colors.background}
                         />
-                    </View>
+                    </TouchableOpacity>
                 </View>
             </View>
 
@@ -112,7 +113,7 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps,)(KanjiInfo)
 
-const getStyle = (colors, font) => {
+const getStyle = (colors, font, prev, next) => {
     const container = {
         alignSelf: 'stretch',
         alignItems: 'center',
@@ -122,6 +123,14 @@ const getStyle = (colors, font) => {
         borderRadius: 10,
         padding: 10,
         marginBottom: 10
+    };
+
+    const swipeText = {
+        fontFamily: font.fontFamily,
+        color: colors.primary,
+        fontSize: font.regular,
+        alignSelf: 'center',
+        paddingBottom: 2
     };
 
     return StyleSheet.create({
@@ -185,12 +194,13 @@ const getStyle = (colors, font) => {
             justifyContent: 'flex-end',
             alignSelf: 'stretch'
         },
-        swipeText: {
-            fontFamily: font.fontFamily,
-            color: colors.primary,
-            fontSize: font.regular,
-            alignSelf: 'center',
-            paddingBottom: 2
+        swipeTextPrev: {
+            ...swipeText,
+            color: prev ? colors.primary : colors.background
+        },
+        swipeTextNext: {
+            ...swipeText,
+            color: next ? colors.primary : colors.background
         }
     });
 };
