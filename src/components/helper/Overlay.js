@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Modal, Text, TouchableHighlight, View, StyleSheet, ScrollView, TouchableOpacity} from "react-native";
+import React from "react";
+import {Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 
 export const Overlay = ({isVisible, setVisible, content}) => {

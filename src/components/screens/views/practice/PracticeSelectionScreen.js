@@ -1,8 +1,7 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {Overlay} from "../../../helper/Overlay";
+import {View} from 'react-native';
 
-const PracticeSelectionScreen = ({navigation}) => {
+const PracticeSelectionScreen = () => {
     return (
         <View/>
     );

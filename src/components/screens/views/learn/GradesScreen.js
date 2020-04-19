@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {FlatList, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {getGrades} from "../../../../persistence/DbConnection";
 import {SuperScript} from "../../../helper/SuperScript";
 import {connect} from "react-redux";

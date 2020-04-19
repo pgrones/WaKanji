@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Text, View, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
+import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {getKanjiByGradeId} from "../../../../persistence/DbConnection";
 import {setKanji} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
