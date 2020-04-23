@@ -1,32 +1,43 @@
 import {Asset} from "expo-asset";
 import * as SQLite from "expo-sqlite";
 import * as FileSystem from "expo-file-system";
+import * as Device from 'expo-device';
+import {createScript} from "./AndroidCreateScript";
 
 let db = null;
 
 export const downloadDB = (setDbLoaded) => {
-    FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/WaKanji.db`).then(({exists}) => {
-        if (!exists) {
-            console.log('Creating DB');
-            FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}SQLite`).then(() =>
-                FileSystem.downloadAsync(
-                    Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
-                    `${FileSystem.documentDirectory}SQLite/WaKanji.db`
-                ).then(({status}) => {
-                    if (status === 200) {
-                        setDbLoaded(true)
-                    }
-                }).catch(error => {
+    if (Device.isDevice) {
+        FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/WaKanji.db`).then(({exists}) => {
+            if (!exists) {
+                console.log('Creating DB');
+                FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}SQLite`).then(() =>
+                    FileSystem.downloadAsync(
+                        Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
+                        `${FileSystem.documentDirectory}SQLite/WaKanji.db`
+                    ).then(({status}) => {
+                        if (status === 200) {
+                            setDbLoaded(true)
+                        }
+                    }).catch(error => {
+                        console.log('Err\n' + error);
+                    })
+                ).catch(error => {
                     console.log('Err\n' + error);
-                })
-            ).catch(error => {
-                console.log('Err\n' + error);
-            });
-        } else {
-            console.log('DB exists');
-            setDbLoaded(true);
+                });
+            } else {
+                console.log('DB exists');
+                setDbLoaded(true);
+            }
+        });
+    } else {
+        console.log('Creating Emulator DB');
+
+        for (let i = 0; i < createScript.length; i++) {
+            executeTransaction(createScript[i], [])
         }
-    });
+        setDbLoaded(true);
+    }
 };
 
 export const overWriteOldDb = (setDbLoaded) => {

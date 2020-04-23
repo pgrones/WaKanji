@@ -15,6 +15,7 @@
     "@use-expo/font": "^2.0.0",
     "expo": "~37.0.3",
     "expo-asset": "latest",
+    "expo-device": "^2.1.0",
     "expo-file-system": "latest",
     "expo-font": "~8.1.0",
     "expo-sqlite": "latest",

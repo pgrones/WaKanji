@@ -1,12 +1,8 @@
-//for (let i = 0; i < createScript.length; i++) {
-//         executeTransaction(createScript[i], [])
-//     }
-//     setDbLoaded(true);
-
 export const createScript = [`
 DROP TABLE IF EXISTS "Kanji";`,
         `DROP TABLE IF EXISTS "Grade";`,
         `DROP TABLE IF EXISTS "Settings";`,
+
         `CREATE TABLE "Grade" (
 "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 "grade" TEXT NOT NULL
@@ -122,5 +118,7 @@ INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "g
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('79', '草', 'くさ', 'ソウ', 'Grass, Herb', '1', '0');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('80', '竹', 'たけ', 'チク', 'Bamboo', '1', '0');`, `
 
-INSERT INTO "Settings" ("type", "value") VALUES ('theme', 'dark');
+INSERT INTO "main"."Settings" ("type", "value") VALUES ('theme', 'systemStandard');`, `
+INSERT INTO "main"."Settings" ("type", "value") VALUES ('kunReading', 'hiragana');`, `
+INSERT INTO "main"."Settings" ("type", "value") VALUES ('onReading', 'katakana');
 `];
