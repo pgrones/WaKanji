@@ -8,7 +8,7 @@ export const Overlay = ({isVisible, setVisible, content}) => {
 
     return (
         <Modal
-            animationType="slide"
+            animationType="fade"
             transparent={true}
             visible={isVisible}
             onRequestClose={() => {
@@ -36,6 +36,7 @@ const getStyle = (colors, font) => {
             flex: 1,
             justifyContent: "center",
             alignItems: "stretch",
+            backgroundColor: 'rgba(100,100,100, 0.5)',
         },
         modalView: {
             margin: 10,

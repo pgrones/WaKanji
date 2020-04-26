@@ -81,7 +81,7 @@ const getStyle = (colors, font) => {
             borderColor: colors.border,
             backgroundColor: colors.card,
             aspectRatio: 1,
-            minWidth: 60,
+            minWidth: '16%',
             margin: 5
         },
         kanjiButton: {
