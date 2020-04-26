@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {Animated, Easing, StyleSheet, View} from 'react-native';
 import {useTheme} from "@react-navigation/native";
 
-const ProgressBar = ({duration, onFinish}) => {
+const ProgressBar = ({duration, onFinish, children}) => {
     const {colors} = useTheme();
     const style = getStyle(colors);
     const animation = useRef(new Animated.Value(0)).current;
@@ -31,8 +31,8 @@ const ProgressBar = ({duration, onFinish}) => {
                     outputRange: ['100%', '0%'],
                 })
             }]}/>
+            {children}
         </View>
-
     );
 };
 
@@ -41,13 +41,14 @@ export default ProgressBar
 const getStyle = (colors) => {
     return StyleSheet.create({
         progressBar: {
-            maxHeight: 40,
             flex: 1,
             backgroundColor: colors.card,
             borderColor: colors.border,
             borderWidth: 2,
             borderRadius: 10,
             margin: 10,
+            alignItems: 'center',
+            justifyContent: 'center'
         },
         absoluteFill: {
             borderRadius: 10,
