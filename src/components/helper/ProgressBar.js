@@ -24,11 +24,19 @@ const ProgressBar = ({duration, onFinish, children}) => {
             <Animated.View style={[style.absoluteFill, {
                 backgroundColor: animation.interpolate({
                     inputRange: [0, 50, 100],
-                    outputRange: ['green', 'orange', 'red'],
+                    outputRange: ['#2ECC40', '#FF851B', '#f2291d'],
                 }),
                 width: animation.interpolate({
                     inputRange: [0, 100],
                     outputRange: ['100%', '0%'],
+                }),
+                top: animation.interpolate({
+                    inputRange: [0, 95, 100],
+                    outputRange: [0, 0, 5],
+                }),
+                bottom: animation.interpolate({
+                    inputRange: [0, 95, 100],
+                    outputRange: [0, 0, 5],
                 })
             }]}/>
             {children}
@@ -54,9 +62,7 @@ const getStyle = (colors) => {
             borderRadius: 10,
             position: 'absolute',
             left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0
+            right: 0
         }
     })
 };

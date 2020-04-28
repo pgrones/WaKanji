@@ -19,7 +19,8 @@ const PracticeSelectionScreen = ({navigation}) => {
     return (
         <View style={style.container}>
             <View style={style.wrapper}>
-                <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => navigation.push('Game')}>
+                <TouchableOpacity style={style.button} activeOpacity={0.5}
+                                  onPress={() => navigation.push('Game', {game: 0})}>
                     <Text style={style.buttonText}>Game</Text>
                     <TouchableOpacity style={style.help} activeOpacity={0.5} onPress={() => openModal(exp1)}>
                         <Icon

@@ -155,3 +155,19 @@ export const setSetting = (type, value, setSetting) => {
         () => getSetting(type, setSetting)
     );
 };
+
+export const getRandomKanji = (filterArray, callBack) => {
+    console.log('getRandomKanji');
+    executeTransaction(
+            `
+                select *
+                from Kanji
+                where gotIt = 1
+        `,
+        [],
+        (data) => {
+            const kanji = data.filter((item) => filterArray.indexOf(item.id) < 0).sort(() => Math.random() - 0.5);
+            callBack(kanji[0]);
+        }
+    );
+};
