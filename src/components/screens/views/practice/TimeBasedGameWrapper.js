@@ -2,13 +2,15 @@ import React, {useEffect, useRef, useState} from "react";
 import TimeBasedGame from "./TimeBasedGame";
 import {Animated, Dimensions, Easing, Text, View} from "react-native";
 import {getRandomKanji, getTranslations} from "../../../../persistence/DbConnection";
+import {Overlay} from "../../../helper/Overlay";
 
-export const TimeBasedGameWrapper = () => {
+export const TimeBasedGameWrapper = ({navigation}) => {
     const [id, setId] = useState(0);
     const [randomKanji, setRandomKanji] = useState([]);
     const [translations, setTranslations] = useState([]);
     const [index, setIndex] = useState(0);
     const [duration, setDuration] = useState(10000);
+    const [isModalVisible, setModalVisible] = useState(false);
     const animation = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -64,31 +66,39 @@ export const TimeBasedGameWrapper = () => {
         return t.sort(() => Math.random() - 0.5);
     };
 
+    const closeModal = (visible) => {
+        setModalVisible(visible);
+        navigation.goBack();
+    };
+
     return (
-        randomKanji.length && translations.length ?
-            <Animated.View
-                key={id}
-                style={{
-                    position: 'absolute',
-                    left: animation.interpolate({
-                        inputRange: [0, 100, 200],
-                        outputRange: [Dimensions.get('screen').width, 0, -Dimensions.get('screen').width],
-                    }),
-                    top: 0,
-                    bottom: 0,
-                    right: animation.interpolate({
-                        inputRange: [0, 100, 200],
-                        outputRange: [-Dimensions.get('screen').width, 0, Dimensions.get('screen').width],
-                    })
-                }}
-            >
-                <TimeBasedGame
-                    next={getNext}
-                    kanji={randomKanji[index]}
-                    translations={getTranslationsArray()}
-                    duration={duration}
-                />
-            </Animated.View>
-            : <View><Text>Loading</Text></View> //TODO make nicer
+        !isModalVisible ?
+            randomKanji.length && translations.length ?
+                <Animated.View
+                    key={id}
+                    style={{
+                        position: 'absolute',
+                        left: animation.interpolate({
+                            inputRange: [0, 100, 200],
+                            outputRange: [Dimensions.get('screen').width, 0, -Dimensions.get('screen').width],
+                        }),
+                        top: 0,
+                        bottom: 0,
+                        right: animation.interpolate({
+                            inputRange: [0, 100, 200],
+                            outputRange: [-Dimensions.get('screen').width, 0, Dimensions.get('screen').width],
+                        })
+                    }}
+                >
+                    <TimeBasedGame
+                        next={getNext}
+                        kanji={randomKanji[index]}
+                        translations={getTranslationsArray()}
+                        duration={duration}
+                        onFinish={() => setModalVisible(true)}
+                    />
+                </Animated.View>
+                : <View><Text>Loading</Text></View> //TODO make nicer
+            : <Overlay isVisible={isModalVisible} setVisible={closeModal} content={'Finish'}/>
     )
 };

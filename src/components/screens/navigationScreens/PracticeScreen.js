@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 export const PracticeScreen = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Practice  練習" component={PracticeSelectionScreen}/>
+            <Stack.Screen name="Practice" options={{title: "Practice  練習"}} component={PracticeSelectionScreen}/>
             <Stack.Screen name="Game" component={TimeBasedGameWrapper}/>
         </Stack.Navigator>
     );
