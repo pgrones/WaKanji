@@ -11,7 +11,8 @@ const ProgressBar = ({duration, onFinish, children}) => {
         Animated.timing(animation, {
             toValue: 100,
             easing: Easing.out(Easing.ease),
-            duration: duration
+            duration: duration,
+            delay: 200
         }).start(({finished}) => {
             if (finished) {
                 onFinish();

@@ -156,18 +156,31 @@ export const setSetting = (type, value, setSetting) => {
     );
 };
 
-export const getRandomKanji = (filterArray, callBack) => {
+export const getRandomKanji = (setRandomKanji) => {
     console.log('getRandomKanji');
     executeTransaction(
             `
-                select *
+                select id, kanji, translation
                 from Kanji
                 where gotIt = 1
         `,
         [],
         (data) => {
-            const kanji = data.filter((item) => filterArray.indexOf(item.id) < 0).sort(() => Math.random() - 0.5);
-            callBack(kanji[0]);
+            setRandomKanji(data.sort(() => Math.random() - 0.5));
+        }
+    );
+};
+
+export const getTranslations = (setTranslations) => { //TODO maybe gradeID?
+    console.log('getTranslations');
+    executeTransaction(
+            `
+                select translation
+                from Kanji
+        `,
+        [],
+        (data) => {
+            setTranslations(data.sort(() => Math.random() - 0.5));
         }
     );
 };

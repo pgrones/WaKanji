@@ -1,47 +1,49 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import ProgressBar from "../../../helper/ProgressBar";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
-import {getRandomKanji} from "../../../../persistence/DbConnection";
 
-const TimeBasedGame = ({next}) => {
-    const [kanji, setKanji] = useState(false);
+const TimeBasedGame = ({next, kanji, translations}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
-    useEffect(() => {
-        getRandomKanji([], setKanji);
-    }, []);
+    const onChoice = (translation) => {
+        if (translation === kanji.translation) {
+            next();
+        }
+    };
 
     return (
-        kanji ?
-            <View style={{flex: 1}}>
-                <ProgressBar duration={10000} onFinish={() => console.log('finish')}>
-                    <Text style={style.scoreText}>0</Text>
-                </ProgressBar>
-                <View style={style.kanjiContainer}>
-                    <Text style={style.kanji}>{kanji.kanji}</Text>
+        <View style={{flex: 1}}>
+            <ProgressBar duration={10000} onFinish={() => console.log('finish')}>
+                <Text style={style.scoreText}>0</Text>
+            </ProgressBar>
+            <View style={style.kanjiContainer}>
+                <Text style={style.kanji}>{kanji.kanji}</Text>
+            </View>
+            <View style={style.buttonContainer}>
+                <View style={style.row}>
+                    <TouchableOpacity style={style.button} onPress={() => onChoice(translations[0])}
+                                      activeOpacity={0.5}>
+                        <Text style={style.buttonText}>{translations[0]}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={style.button} onPress={() => onChoice(translations[1])}
+                                      activeOpacity={0.5}>
+                        <Text style={style.buttonText}>{translations[1]}</Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={style.buttonContainer}>
-                    <View style={style.row}>
-                        <TouchableOpacity style={style.button} onPress={() => next()} activeOpacity={0.5}>
-                            <Text style={style.buttonText}>{kanji.translation}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={style.button} activeOpacity={0.5}>
-                            <Text style={style.buttonText}>Gold</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={style.row}>
-                        <TouchableOpacity style={style.button} activeOpacity={0.5}>
-                            <Text style={style.buttonText}>Car</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={style.button} activeOpacity={0.5}>
-                            <Text style={style.buttonText}>House</Text>
-                        </TouchableOpacity>
-                    </View>
+                <View style={style.row}>
+                    <TouchableOpacity style={style.button} onPress={() => onChoice(translations[2])}
+                                      activeOpacity={0.5}>
+                        <Text style={style.buttonText}>{translations[2]}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={style.button} onPress={() => onChoice(translations[3])}
+                                      activeOpacity={0.5}>
+                        <Text style={style.buttonText}>{translations[3]}</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
-            : <View/>
+        </View>
     );
 };
 

@@ -1,10 +1,18 @@
 import React, {useEffect, useRef, useState} from "react";
 import TimeBasedGame from "./TimeBasedGame";
-import {Animated, Dimensions, Easing} from "react-native";
+import {Animated, Dimensions, Easing, Text, View} from "react-native";
+import {getRandomKanji, getTranslations} from "../../../../persistence/DbConnection";
 
 export const TimeBasedGameWrapper = () => {
-    const [next, setNext] = useState(true);
+    const [randomKanji, setRandomKanji] = useState([]);
+    const [translations, setTranslations] = useState([]);
+    const [index, setIndex] = useState(0);
     const animation = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        getRandomKanji(setRandomKanji);
+        getTranslations(setTranslations);
+    }, []);
 
     useEffect(() => {
         Animated.timing(animation, {
@@ -12,7 +20,7 @@ export const TimeBasedGameWrapper = () => {
             easing: Easing.out(Easing.ease),
             duration: 300
         }).start();
-    }, [next]);
+    }, [index]);
 
     const getNext = () => {
         Animated.timing(animation, {
@@ -22,26 +30,49 @@ export const TimeBasedGameWrapper = () => {
         }).start(({finished}) => {
             if (finished) {
                 animation.setValue(0);
-                setNext(!next);
+                if (index < randomKanji.length - 1) {
+                    setIndex(index + 1)
+                } else {
+                    setRandomKanji(randomKanji.sort(() => Math.random() - 0.5));
+                    setIndex(0);
+                }
             }
         });
     };
 
+    const getTranslationsArray = () => {
+        const t = [];
+        t.push(randomKanji[index].translation.split(',')[0]);
+
+        for (let i = 0; i < 3; i++) {
+            const translation = translations[Math.floor(Math.random() * translations.length)].translation.split(',')[0];
+            if (t.indexOf(translation) < 0) {
+                t.push(translation);
+            } else {
+                i--;
+            }
+        }
+
+        return t.sort(() => Math.random() - 0.5);
+    };
+
     return (
-        <Animated.View key={next} style={{
-            position: 'absolute',
-            left: animation.interpolate({
-                inputRange: [0, 100, 200],
-                outputRange: [Dimensions.get('screen').width, 0, -Dimensions.get('screen').width],
-            }),
-            top: 0,
-            bottom: 0,
-            right: animation.interpolate({
-                inputRange: [0, 100, 200],
-                outputRange: [-Dimensions.get('screen').width, 0, Dimensions.get('screen').width],
-            })
-        }}>
-            <TimeBasedGame next={getNext}/>
-        </Animated.View>
+        randomKanji.length && translations.length ?
+            <Animated.View key={randomKanji[index].id} style={{
+                position: 'absolute',
+                left: animation.interpolate({
+                    inputRange: [0, 100, 200],
+                    outputRange: [Dimensions.get('screen').width, 0, -Dimensions.get('screen').width],
+                }),
+                top: 0,
+                bottom: 0,
+                right: animation.interpolate({
+                    inputRange: [0, 100, 200],
+                    outputRange: [-Dimensions.get('screen').width, 0, Dimensions.get('screen').width],
+                })
+            }}>
+                <TimeBasedGame next={getNext} kanji={randomKanji[index]} translations={getTranslationsArray()}/>
+            </Animated.View>
+            : <View><Text>Loading</Text></View> //TODO make nicer
     )
 };
