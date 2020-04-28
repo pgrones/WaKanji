@@ -4,9 +4,11 @@ import {Animated, Dimensions, Easing, Text, View} from "react-native";
 import {getRandomKanji, getTranslations} from "../../../../persistence/DbConnection";
 
 export const TimeBasedGameWrapper = () => {
+    const [id, setId] = useState(0);
     const [randomKanji, setRandomKanji] = useState([]);
     const [translations, setTranslations] = useState([]);
     const [index, setIndex] = useState(0);
+    const [duration, setDuration] = useState(10000);
     const animation = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -15,6 +17,12 @@ export const TimeBasedGameWrapper = () => {
     }, []);
 
     useEffect(() => {
+        if (duration > 500) {
+            setDuration(duration - 500)
+        }
+
+        setId(id + 1);
+
         Animated.timing(animation, {
             toValue: 100,
             easing: Easing.out(Easing.ease),
@@ -58,20 +66,28 @@ export const TimeBasedGameWrapper = () => {
 
     return (
         randomKanji.length && translations.length ?
-            <Animated.View key={randomKanji[index].id} style={{
-                position: 'absolute',
-                left: animation.interpolate({
-                    inputRange: [0, 100, 200],
-                    outputRange: [Dimensions.get('screen').width, 0, -Dimensions.get('screen').width],
-                }),
-                top: 0,
-                bottom: 0,
-                right: animation.interpolate({
-                    inputRange: [0, 100, 200],
-                    outputRange: [-Dimensions.get('screen').width, 0, Dimensions.get('screen').width],
-                })
-            }}>
-                <TimeBasedGame next={getNext} kanji={randomKanji[index]} translations={getTranslationsArray()}/>
+            <Animated.View
+                key={id}
+                style={{
+                    position: 'absolute',
+                    left: animation.interpolate({
+                        inputRange: [0, 100, 200],
+                        outputRange: [Dimensions.get('screen').width, 0, -Dimensions.get('screen').width],
+                    }),
+                    top: 0,
+                    bottom: 0,
+                    right: animation.interpolate({
+                        inputRange: [0, 100, 200],
+                        outputRange: [-Dimensions.get('screen').width, 0, Dimensions.get('screen').width],
+                    })
+                }}
+            >
+                <TimeBasedGame
+                    next={getNext}
+                    kanji={randomKanji[index]}
+                    translations={getTranslationsArray()}
+                    duration={duration}
+                />
             </Animated.View>
             : <View><Text>Loading</Text></View> //TODO make nicer
     )

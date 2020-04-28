@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ProgressBar from "../../../helper/ProgressBar";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
+import {Overlay} from "../../../helper/Overlay";
 
-const TimeBasedGame = ({next, kanji, translations}) => {
+const TimeBasedGame = ({next, kanji, translations, duration}) => {
+    const [isVisible, setVisible] = useState(false);
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
@@ -15,7 +17,7 @@ const TimeBasedGame = ({next, kanji, translations}) => {
 
     return (
         <View style={{flex: 1}}>
-            <ProgressBar duration={10000} onFinish={() => console.log('finish')}>
+            <ProgressBar duration={duration} onFinish={() => setVisible(true)}>
                 <Text style={style.scoreText}>0</Text>
             </ProgressBar>
             <View style={style.kanjiContainer}>
@@ -43,6 +45,7 @@ const TimeBasedGame = ({next, kanji, translations}) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <Overlay isVisible={isVisible} setVisible={setVisible} content={'Finish'}/>
         </View>
     );
 };

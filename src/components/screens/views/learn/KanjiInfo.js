@@ -86,7 +86,7 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, 
                             type='material-community'
                             color={prev ? colors.primary : colors.background}
                         />
-                        <Text style={style.swipeTextPrev}>{prev ? prev : '一'}</Text>
+                        <Text style={style.swipeTextPrev}>{prev}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity disabled={!next} activeOpacity={0.5} style={{flexDirection: 'row'}}
                                       onPress={() => scrollBy(1)}>
