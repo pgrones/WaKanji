@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useTheme} from "@react-navigation/native";
 import {Icon} from "react-native-elements";
 import {Overlay} from "../../../helper/Overlay";
+import {setNavigationVisible} from "../../../../redux/actions/Actions";
+import {connect} from "react-redux";
 
-const PracticeSelectionScreen = ({navigation}) => {
+const PracticeSelectionScreen = ({navigation, setNavigationVisible}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [explanation, setExplanation] = useState();
 
@@ -20,8 +22,11 @@ const PracticeSelectionScreen = ({navigation}) => {
         <View style={style.container}>
             <View style={style.wrapper}>
                 <TouchableOpacity style={style.button} activeOpacity={0.5}
-                                  onPress={() => navigation.push('Game', {game: 0})}>
-                    <Text style={style.buttonText}>Game</Text>
+                                  onPress={() => {
+                                      navigation.push('Game', {game: 0});
+                                      setNavigationVisible(false);
+                                  }}>
+                    <Image style={{width: 155, height: 155}} source={require('../../../../../assets/flashcards.png')}/>
                     <TouchableOpacity style={style.help} activeOpacity={0.5} onPress={() => openModal(exp1)}>
                         <Icon
                             name={'question'}
@@ -49,7 +54,11 @@ const PracticeSelectionScreen = ({navigation}) => {
     );
 };
 
-export default PracticeSelectionScreen
+const mapDispatchToProps = (dispatch) => ({
+    setNavigationVisible: (visible) => dispatch(setNavigationVisible(visible))
+});
+
+export default connect(null, mapDispatchToProps)(PracticeSelectionScreen);
 
 const getStyle = (colors, font) => {
     return StyleSheet.create({
@@ -57,7 +66,7 @@ const getStyle = (colors, font) => {
             flexGrow: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            margin: 5,
+            margin: 5
         },
         wrapper: {
             flexDirection: 'row',
@@ -79,7 +88,7 @@ const getStyle = (colors, font) => {
         buttonText: {
             color: colors.primary,
             fontFamily: font.fontFamily,
-            fontSize: font.large
+            fontSize: font.large,
         },
         help: {
             position: 'absolute',
@@ -89,4 +98,5 @@ const getStyle = (colors, font) => {
     })
 };
 
-const exp1 = 'Some explanation';
+const exp1 = "This game takes the term 'flash cards' literally and offers a quick-paced, time-based, multiple choice game" +
+    " that tests your recollection speed.\n\nThis game is primarily meant to have fun. Use the other games to study more efficiently.";

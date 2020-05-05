@@ -33,4 +33,9 @@ export const setKanji = kanji => ({
 //    info
 // });
 
+export const setNavigationVisible = visible => ({
+    type: 'SET_NAVIGATION_VISIBLE',
+    visible
+});
+
 

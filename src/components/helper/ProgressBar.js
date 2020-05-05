@@ -1,15 +1,17 @@
-import React, {useEffect, useRef} from 'react';
-import {Animated, Easing, StyleSheet, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated, Easing, StyleSheet, Text, View} from 'react-native';
 import {useTheme} from "@react-navigation/native";
 
-const ProgressBar = ({duration, onFinish, children}) => {
-    const {colors} = useTheme();
-    const style = getStyle(colors);
-    const animation = useRef(new Animated.Value(0)).current;
+const ProgressBar = ({duration, setWrapperProgress, onFinish, stop, text}) => {
+    const [progress, setProgress] = useState(0)
+    const {colors, font} = useTheme();
+    const style = getStyle(colors, font);
+    const animation = useRef(new Animated.Value(100)).current;
+    animation.addListener(({value}) => setProgress(value));
 
     useEffect(() => {
         Animated.timing(animation, {
-            toValue: 100,
+            toValue: 0,
             easing: Easing.out(Easing.ease),
             duration: duration,
             delay: 200
@@ -20,34 +22,43 @@ const ProgressBar = ({duration, onFinish, children}) => {
         });
     }, []);
 
+    useEffect(() => {
+        if (stop) {
+            Animated.timing(
+                animation, {}
+            ).stop();
+            setWrapperProgress(progress)
+        }
+    }, [stop]);
+
     return (
         <View style={style.progressBar}>
             <Animated.View style={[style.absoluteFill, {
                 backgroundColor: animation.interpolate({
                     inputRange: [0, 50, 100],
-                    outputRange: ['#2ECC40', '#FF851B', '#f2291d'],
+                    outputRange: ['#f2291d', '#FF851B', '#2ECC40'],
                 }),
                 width: animation.interpolate({
                     inputRange: [0, 100],
-                    outputRange: ['100%', '0%'],
+                    outputRange: ['0%', '100%'],
                 }),
                 top: animation.interpolate({
-                    inputRange: [0, 95, 100],
-                    outputRange: [0, 0, 5],
+                    inputRange: [0, 5, 100],
+                    outputRange: [5, 0, 0],
                 }),
                 bottom: animation.interpolate({
-                    inputRange: [0, 95, 100],
-                    outputRange: [0, 0, 5],
+                    inputRange: [0, 5, 100],
+                    outputRange: [5, 0, 0],
                 })
             }]}/>
-            {children}
+            <Text style={style.scoreText}>{text}</Text>
         </View>
     );
 };
 
 export default ProgressBar
 
-const getStyle = (colors) => {
+const getStyle = (colors, font) => {
     return StyleSheet.create({
         progressBar: {
             flex: 1,
@@ -64,6 +75,12 @@ const getStyle = (colors) => {
             position: 'absolute',
             left: 0,
             right: 0
+        },
+        scoreText: {
+            color: colors.text,
+            fontFamily: font.fontFamily,
+            fontWeight: 'bold',
+            fontSize: 24
         }
     })
 };

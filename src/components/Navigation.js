@@ -12,7 +12,7 @@ import {useColorScheme} from "react-native-appearance";
 
 const Tab = createBottomTabNavigator();
 
-const Navigation = ({theme}) => {
+const Navigation = ({theme, navigationVisible}) => {
     const scheme = useColorScheme();
 
     const getTheme = () => {
@@ -37,14 +37,15 @@ const Navigation = ({theme}) => {
                     component={LearnScreen}
                     options={{
                         tabBarIcon: ({focused}) => <TabBarIcon focused={focused} iconText="学"/>,
-                        headerTitle: 'Learn'
+                        headerTitle: 'Learn',
                     }}/>
                 <Tab.Screen
                     name="Practice"
                     component={PracticeScreen}
                     options={{
                         tabBarIcon: ({focused}) => <TabBarIcon focused={focused} iconText="練習"/>,
-                        headerTitle: 'Practice'
+                        headerTitle: 'Practice',
+                        tabBarVisible: navigationVisible
                     }}/>
                 <Tab.Screen
                     name="Settings"
@@ -59,7 +60,8 @@ const Navigation = ({theme}) => {
 };
 
 const mapStateToProps = state => ({
-    theme: state.theme
+    theme: state.theme,
+    navigationVisible: state.navigationVisible
 });
 
 export default connect(mapStateToProps)(Navigation)

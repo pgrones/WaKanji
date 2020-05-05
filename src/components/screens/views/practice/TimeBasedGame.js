@@ -1,23 +1,21 @@
 import React from 'react';
-import ProgressBar from "../../../helper/ProgressBar";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 
-const TimeBasedGame = ({next, kanji, translations, duration, onFinish}) => {
+const TimeBasedGame = ({next, kanji, translations, finish}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
     const onChoice = (translation) => {
         if (translation === kanji.translation) {
             next();
+        } else {
+            finish()
         }
     };
 
     return (
-        <View style={{flex: 1}}>
-            <ProgressBar duration={duration} onFinish={() => onFinish()}>
-                <Text style={style.scoreText}>0</Text>
-            </ProgressBar>
+        <View style={{flex: 15}}>
             <View style={style.kanjiContainer}>
                 <Text style={style.kanji}>{kanji.kanji}</Text>
             </View>
@@ -92,11 +90,6 @@ const getStyle = (colors, font) => {
             color: colors.primary,
             fontFamily: font.fontFamily,
             fontSize: font.large
-        },
-        scoreText: {
-            color: colors.text,
-            fontFamily: font.fontFamily,
-            fontSize: font.regular
         }
     })
 };
