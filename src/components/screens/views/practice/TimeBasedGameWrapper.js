@@ -6,6 +6,7 @@ import {Overlay} from "../../../helper/Overlay";
 import ProgressBar from "../../../helper/ProgressBar";
 import {setNavigationVisible} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
+import {CountDown} from "../../../helper/CountDown";
 
 const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
     const [id, setId] = useState(0);
@@ -16,18 +17,13 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
     const [progress, setWrapperProgress] = useState(0)
     const [duration, setDuration] = useState(12000);
     const [isModalVisible, setModalVisible] = useState(false);
+    const [countDown, setCountDown] = useState(true);
     const [stop, setStop] = useState(false);
     const animation = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         getRandomKanji(setRandomKanji);
         getTranslations(setTranslations);
-        Animated.timing(animation, {
-            toValue: 100,
-            duration: 1000
-        }).start(() => {
-            animation.setValue(0);
-        });
     }, []);
 
     useEffect(() => {
@@ -41,9 +37,12 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
 
         Animated.timing(animation, {
             toValue: 100,
+            delay: countDown ? 3000 : 0,
             easing: Easing.out(Easing.ease),
             duration: 300
-        }).start();
+        }).start(() => {
+            setCountDown(false)
+        });
     }, [index]);
 
     useEffect(() => {
@@ -74,6 +73,7 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
     };
 
     const getTranslationsArray = () => {
+        console.log("array")
         const t = [];
         t.push(randomKanji[index].translation.split(',')[0]);
 
@@ -97,7 +97,9 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
 
     return (
         !isModalVisible ?
-            randomKanji.length && translations.length ?
+            countDown ?
+                <CountDown/>
+                : randomKanji.length && translations.length ?
                 <Animated.View
                     key={id} //Could lead to problems
                     style={{
@@ -115,9 +117,14 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
                     }}
                 >
                     <View style={{flex: 1, marginBottom: 50}}>
-                        <ProgressBar duration={duration} setWrapperProgress={setWrapperProgress} stop={stop}
-                                     onFinish={() => setModalVisible(true)}
-                                     text={score.toFixed(0)}/>
+                        <ProgressBar
+                            duration={duration}
+                            delay={countDown ? 3000 : 0}
+                            setWrapperProgress={setWrapperProgress}
+                            stop={stop}
+                            onFinish={() => setModalVisible(true)}
+                            text={score.toFixed(0)}
+                        />
                         <TimeBasedGame
                             next={getNext}
                             kanji={randomKanji[index]}

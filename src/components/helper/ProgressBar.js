@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Animated, Easing, StyleSheet, Text, View} from 'react-native';
 import {useTheme} from "@react-navigation/native";
 
-const ProgressBar = ({duration, setWrapperProgress, onFinish, stop, text}) => {
+const ProgressBar = ({duration, delay, setWrapperProgress, onFinish, stop, text}) => {
     const [progress, setProgress] = useState(0)
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
@@ -14,7 +14,7 @@ const ProgressBar = ({duration, setWrapperProgress, onFinish, stop, text}) => {
             toValue: 0,
             easing: Easing.out(Easing.ease),
             duration: duration,
-            delay: 200
+            delay: 200 + delay
         }).start(({finished}) => {
             if (finished) {
                 onFinish();
