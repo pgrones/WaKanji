@@ -28,10 +28,10 @@ export const setKanji = kanji => ({
     kanji
 });
 
-// export const setKanjiInfo = info => ({
-//    type: 'SET_KANJI_INFO',
-//    info
-// });
+export const setGotItAmount = amount => ({
+    type: 'SET_GOT_IT_AMOUNT',
+    amount
+});
 
 export const setNavigationVisible = visible => ({
     type: 'SET_NAVIGATION_VISIBLE',

@@ -6,7 +6,7 @@ import {SettingsScreen} from "./screens/navigationScreens/SettingsScreen";
 import {connect} from "react-redux";
 import {darkTheme, lightTheme} from "./helper/Theme";
 import {LearnScreen} from "./screens/navigationScreens/LearnScreen";
-import {PracticeScreen} from "./screens/navigationScreens/PracticeScreen";
+import PracticeScreen from "./screens/navigationScreens/PracticeScreen";
 import {StatusBar} from "react-native";
 import {useColorScheme} from "react-native-appearance";
 
@@ -38,7 +38,8 @@ const Navigation = ({theme, navigationVisible}) => {
                     options={{
                         tabBarIcon: ({focused}) => <TabBarIcon focused={focused} iconText="学"/>,
                         headerTitle: 'Learn',
-                    }}/>
+                    }}
+                />
                 <Tab.Screen
                     name="Practice"
                     component={PracticeScreen}
@@ -46,14 +47,16 @@ const Navigation = ({theme, navigationVisible}) => {
                         tabBarIcon: ({focused}) => <TabBarIcon focused={focused} iconText="練習"/>,
                         headerTitle: 'Practice',
                         tabBarVisible: navigationVisible
-                    }}/>
+                    }}
+                />
                 <Tab.Screen
                     name="Settings"
                     component={SettingsScreen}
                     options={{
                         tabBarIcon: ({focused}) => <TabBarIcon focused={focused} iconText="設定"/>,
                         headerTitle: 'Settings'
-                    }}/>
+                    }}
+                />
             </Tab.Navigator>
         </NavigationContainer>
     )

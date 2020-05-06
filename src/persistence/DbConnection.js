@@ -184,3 +184,19 @@ export const getTranslations = (setTranslations) => { //TODO maybe gradeID?
         }
     );
 };
+
+export const getGotItAmount = (setAmount) => {
+    console.log('getGotItAmount');
+    executeTransaction(
+            `
+                SELECT COUNT(*) as count
+                FROM Kanji
+                WHERE gotIt = true;
+        `,
+        [],
+        (data) => {
+            setAmount(data["count"]);
+        },
+        true
+    )
+};
