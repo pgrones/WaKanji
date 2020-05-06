@@ -20,6 +20,7 @@ const ProgressBar = ({duration, delay, setWrapperProgress, onFinish, stop, text}
                 onFinish();
             }
         });
+        return () => animation.removeAllListeners();
     }, []);
 
     useEffect(() => {

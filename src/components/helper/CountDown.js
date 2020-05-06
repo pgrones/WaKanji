@@ -16,6 +16,7 @@ export const CountDown = () => {
             easing: Easing.out(Easing.ease),
             duration: 3000
         }).start();
+        return () => animation.removeAllListeners();
     }, [])
 
     return (

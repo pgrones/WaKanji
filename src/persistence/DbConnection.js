@@ -191,7 +191,7 @@ export const getGotItAmount = (setAmount) => {
             `
                 SELECT COUNT(*) as count
                 FROM Kanji
-                WHERE gotIt = true;
+                WHERE gotIt = 1;
         `,
         [],
         (data) => {
