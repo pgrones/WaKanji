@@ -5,12 +5,15 @@ import * as Device from 'expo-device';
 import {createScript} from "./AndroidCreateScript";
 
 let db = null;
+let logDBCalls = false;
 
 export const downloadDB = (setDbLoaded) => {
     if (Device.isDevice) {
         FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/WaKanji.db`).then(({exists}) => {
             if (!exists) {
-                console.log('Creating DB');
+                if (logDBCalls) {
+                    console.log('Creating DB');
+                }
                 FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}SQLite`).then(() =>
                     FileSystem.downloadAsync(
                         Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
@@ -20,18 +23,26 @@ export const downloadDB = (setDbLoaded) => {
                             setDbLoaded(true)
                         }
                     }).catch(error => {
-                        console.log('Err\n' + error);
+                        if (logDBCalls) {
+                            console.log('Err\n' + error);
+                        }
                     })
                 ).catch(error => {
-                    console.log('Err\n' + error);
+                    if (logDBCalls) {
+                        console.log('Err\n' + error);
+                    }
                 });
             } else {
-                console.log('DB exists');
+                if (logDBCalls) {
+                    console.log('DB exists');
+                }
                 setDbLoaded(true);
             }
         });
     } else {
-        console.log('Creating Emulator DB');
+        if (logDBCalls) {
+            console.log('Creating Emulator DB');
+        }
 
         for (let i = 0; i < createScript.length; i++) {
             executeTransaction(createScript[i], [])
@@ -41,8 +52,10 @@ export const downloadDB = (setDbLoaded) => {
 };
 
 export const overWriteOldDb = (setDbLoaded) => {
-    console.log('overwrite');
-    //FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`).then((a) => console.log(a));
+    if (logDBCalls) {
+        console.log('overwrite');
+    }
+    //FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`).then((a) => if(logDBCalls){console.log(a));}
     FileSystem.downloadAsync(
         Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
         `${FileSystem.documentDirectory}SQLite/WaKanji.db`
@@ -51,7 +64,9 @@ export const overWriteOldDb = (setDbLoaded) => {
             setDbLoaded(true)
         }
     }).catch(error => {
-        console.log('Err\n' + error);
+        if (logDBCalls) {
+            console.log('Err\n' + error);
+        }
     });
 
 };
@@ -83,7 +98,9 @@ const executeTransaction = (statement, args, callback, onlyOneEntry) => {
 };
 
 export const getGrades = (setGrades) => {
-    console.log('getGrades');
+    if (logDBCalls) {
+        console.log('getGrades');
+    }
     executeTransaction(`
                 select *
                 from Grade;
@@ -93,7 +110,9 @@ export const getGrades = (setGrades) => {
 };
 
 export const getKanjiByGradeId = (id, setKanji) => {
-    console.log('getKanjiByGradeId');
+    if (logDBCalls) {
+        console.log('getKanjiByGradeId');
+    }
     executeTransaction(
             `
                 select *
@@ -105,21 +124,10 @@ export const getKanjiByGradeId = (id, setKanji) => {
     );
 };
 
-// export const getKanjiInfoById = (id, setKanjiInfo) => {
-//     executeTransaction(
-//             `
-//                 select *
-//                 from Kanji
-//                 where id = ?;
-//         `,
-//         [id],
-//         setKanjiInfo,
-//         true
-//     );
-// };
-
 export const setKanjiGotIt = (id, state, gradeId, setKanji) => {
-    console.log('setKanjiGotIt');
+    if (logDBCalls) {
+        console.log('setKanjiGotIt');
+    }
     executeTransaction(
             `
                 update Kanji
@@ -132,7 +140,9 @@ export const setKanjiGotIt = (id, state, gradeId, setKanji) => {
 };
 
 export const getSetting = (type, setSetting) => {
-    console.log('getSetting ' + type);
+    if (logDBCalls) {
+        console.log('getSetting ' + type);
+    }
     executeTransaction(`
                 select *
                 from Settings
@@ -144,7 +154,9 @@ export const getSetting = (type, setSetting) => {
 };
 
 export const setSetting = (type, value, setSetting) => {
-    console.log('setSetting ' + type);
+    if (logDBCalls) {
+        console.log('setSetting ' + type);
+    }
     executeTransaction(
             `
                 update Settings
@@ -157,7 +169,9 @@ export const setSetting = (type, value, setSetting) => {
 };
 
 export const getRandomKanji = (setRandomKanji) => {
-    console.log('getRandomKanji');
+    if (logDBCalls) {
+        console.log('getRandomKanji');
+    }
     executeTransaction(
             `
                 select id, kanji, translation
@@ -172,7 +186,9 @@ export const getRandomKanji = (setRandomKanji) => {
 };
 
 export const getTranslations = (setTranslations) => { //TODO maybe gradeID?
-    console.log('getTranslations');
+    if (logDBCalls) {
+        console.log('getTranslations');
+    }
     executeTransaction(
             `
                 select translation
@@ -186,7 +202,9 @@ export const getTranslations = (setTranslations) => { //TODO maybe gradeID?
 };
 
 export const getGotItAmount = (setAmount) => {
-    console.log('getGotItAmount');
+    if (logDBCalls) {
+        console.log('getGotItAmount');
+    }
     executeTransaction(
             `
                 SELECT COUNT(*) as count
