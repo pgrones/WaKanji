@@ -4,7 +4,8 @@ import {Platform} from "react-native";
 const font = {
     regular: 18,
     large: 30,
-    fontFamily: Platform.OS === 'ios' ? 'PingFangSC-Regular': ''
+    medium: 24,
+    fontFamily: Platform.OS === 'ios' ? 'PingFangSC-Regular' : ''
 };
 
 export const lightTheme = {
