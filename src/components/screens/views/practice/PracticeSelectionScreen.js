@@ -92,7 +92,7 @@ const getStyle = (colors, font) => {
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 2,
-            borderRadius: 10,
+            borderRadius: 40,
             borderColor: colors.border,
             backgroundColor: colors.card,
             aspectRatio: 1,
@@ -122,11 +122,11 @@ const getStyle = (colors, font) => {
         },
         help: {
             position: 'absolute',
-            bottom: 5,
-            right: 6
+            bottom: 10,
+            right: 11
         }
     })
 };
 
 const exp1 = "This game takes the term 'flash cards' literally and offers a quick-paced, time-based, multiple choice game" +
-    " that tests your recollection speed.\n\nThis game is primarily meant to have fun. Use the other games to study more efficiently.";
+    " that tests your recollection speed.";

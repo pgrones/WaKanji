@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Icon} from "react-native-elements";
 import {convert} from "../../../helper/ReadingConverter";
 import {Overlay} from "../../../helper/Overlay";
@@ -23,27 +23,30 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, 
     };
 
     return (
-        <ScrollView contentContainerStyle={style.wrapper} bounces={false}>
-            <View style={style.kanjiContainer}>
+        // Would like to have a scroll view here, but it just doesn't scroll
+        <View style={style.wrapper}>
+            <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={reading}/>
+            <TouchableOpacity style={style.kanjiContainer} activeOpacity={0.5} onPress={() => gotIt()}>
                 <Text style={style.kanji}>{kanjiInfo.kanji}</Text>
                 {kanjiInfo.gotIt ?
                     <View style={style.gotItIcon}>
                         <Icon
                             name={'ios-checkmark-circle'}
-                            size={font.large}
+                            size={font.medium}
                             type='ionicon'
                             color={colors.primary}
                             containerStyle={{backgroundColor: 'transparent'}}
                         />
                     </View>
-                    : <></>
+                    :
+                    <View style={style.gotItIconPlaceHolder}/>
                 }
-            </View>
+            </TouchableOpacity>
             <View style={style.translationContainer}>
                 <Text style={style.translation}>{kanjiInfo.translation}</Text>
             </View>
             <View style={style.readingContainer}>
-                <View style={{flexDirection: 'row', width: 90}}>
+                <View style={{flexDirection: 'row', height: '100%', width: 90}}>
                     <Text style={style.translation}>Kun:</Text>
                     <TouchableOpacity activeOpacity={0.5} onPress={() => openModal(kunExplanation)}>
                         <Icon
@@ -58,7 +61,7 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, 
                 <Text style={style.reading}>{convert(kanjiInfo.kunReading, kunyomi)}</Text>
             </View>
             <View style={style.readingContainer}>
-                <View style={{flexDirection: 'row', width: 90}}>
+                <View style={{flexDirection: 'row', height: '100%', width: 90}}>
                     <Text style={style.translation}>On:</Text>
                     <TouchableOpacity activeOpacity={0.5} onPress={() => openModal(onExplanation)}>
                         <Icon
@@ -72,9 +75,14 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, 
                 </View>
                 <Text style={style.translation}>{convert(kanjiInfo.onReading, onyomi)}</Text>
             </View>
-            <TouchableOpacity style={style.button} activeOpacity={0.5}
-                              onPress={() => gotIt()}>
-                <Text style={style.buttonText}>{!kanjiInfo.gotIt ? 'Got it! 分かった!' : "Didn't get it yet!"}</Text>
+            <TouchableOpacity style={style.exampleContainer} activeOpacity={0.5}>
+                <Text style={style.example}>Example Sentences</Text>
+                <Icon
+                    name={'chevron-right'}
+                    size={font.large}
+                    type='material-community'
+                    color={colors.text}
+                />
             </TouchableOpacity>
             <View style={style.swipeContainerWrapper}>
                 <View style={style.swipeContainer}>
@@ -82,7 +90,7 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, 
                                       onPress={() => scrollBy(-1)}>
                         <Icon
                             name={'chevron-left'}
-                            size={font.large}
+                            size={font.medium}
                             type='material-community'
                             color={prev ? colors.primary : colors.background}
                         />
@@ -93,16 +101,14 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, 
                         <Text style={style.swipeTextNext}>{next}</Text>
                         <Icon
                             name={'chevron-right'}
-                            size={font.large}
+                            size={font.medium}
                             type='material-community'
                             color={next ? colors.primary : colors.background}
                         />
                     </TouchableOpacity>
                 </View>
             </View>
-
-            <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={reading}/>
-        </ScrollView>
+        </View>
     )
 };
 
@@ -117,8 +123,8 @@ const getStyle = (colors, font, prev, next) => {
     const container = {
         alignSelf: 'stretch',
         alignItems: 'center',
-        borderColor: colors.border,
         backgroundColor: colors.card,
+        borderColor: colors.border,
         borderWidth: 2,
         borderRadius: 10,
         padding: 10,
@@ -142,11 +148,11 @@ const getStyle = (colors, font, prev, next) => {
         kanji: {
             fontFamily: 'KanjiStrokeFont',
             color: colors.text,
-            fontSize: 140,
-            lineHeight: 170
+            fontSize: 120
         },
         kanjiContainer: {
-            ...container
+            ...container,
+            padding: 0
         },
         translationContainer: {
             ...container
@@ -154,40 +160,51 @@ const getStyle = (colors, font, prev, next) => {
         translation: {
             fontFamily: font.fontFamily,
             color: colors.text,
-            fontSize: font.large
+            fontSize: font.medium
         },
         readingContainer: {
             flexDirection: 'row',
+            justifyContent: 'flex-start',
             ...container
         },
         reading: {
             fontFamily: font.fontFamily,
             color: colors.text,
-            fontSize: font.large,
+            fontSize: font.medium,
             flex: 1,
             flexWrap: 'wrap'
         },
-        button: {
-            backgroundColor: colors.primary,
-            borderRadius: 35,
-            padding: 10,
-            alignSelf: 'stretch',
+        exampleContainer: {
+            ...container,
+            flexDirection: 'row',
             alignItems: 'center',
+            justifyContent: 'space-between',
         },
-        buttonText: {
+        example: {
             fontFamily: font.fontFamily,
-            color: colors.buttonText,
-            fontSize: font.large,
+            color: colors.text,
+            fontSize: font.medium,
         },
         gotItIcon: {
             position: 'absolute',
-            bottom: 0,
+            bottom: 3,
             right: 5
+        },
+        gotItIconPlaceHolder: {
+            position: 'absolute',
+            bottom: 5,
+            right: 5,
+            height: 21,
+            width: 21,
+            borderColor: colors.border,
+            borderWidth: 1,
+            borderRadius: 50
         },
         swipeContainer: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignSelf: 'stretch',
+            backgroundColor: colors.background
         },
         swipeContainerWrapper: {
             flex: 1,
