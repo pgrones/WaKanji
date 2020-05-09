@@ -1,6 +1,6 @@
-import {toHiragana, toKatakana, toRomaji} from "wanakana";
+import {isHiragana as isH, isKatakana as isK, toHiragana, toKatakana, toRomaji} from "wanakana";
 
-export const convert = (item, reading) =>{
+export const convert = (item, reading) => {
     switch (reading) {
         case 'romaji':
             return toRomaji(item);
@@ -12,3 +12,11 @@ export const convert = (item, reading) =>{
             console.log('Reading not found ' + reading);
     }
 };
+
+export const isHiragana = (reading) => {
+    return isH(reading);
+}
+
+export const isKatakana = (reading) => {
+    return isK(reading);
+}

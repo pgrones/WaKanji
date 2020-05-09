@@ -55,7 +55,7 @@ const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt
                                     name={'question'}
                                     size={font.regular}
                                     type='simple-line-icon'
-                                    iconStyle={{marginBottom: -10, marginRight: 10}}
+                                    iconStyle={{marginBottom: -10, marginRight: 10, marginLeft: 5}}
                                     color={colors.primary}
                                 />
                             </TouchableOpacity>
@@ -70,7 +70,7 @@ const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt
                                     name={'question'}
                                     size={font.regular}
                                     type='simple-line-icon'
-                                    iconStyle={{marginBottom: -10, marginRight: 10}}
+                                    iconStyle={{marginBottom: -10, marginRight: 10, marginLeft: 5}}
                                     color={colors.primary}
                                 />
                             </TouchableOpacity>
@@ -124,7 +124,7 @@ const mapStateToProps = state => ({
     onyomi: state.onyomi
 });
 
-export default connect(mapStateToProps,)(KanjiInfo)
+export default connect(mapStateToProps)(KanjiInfo)
 
 const getStyle = (colors, font, prev, next) => {
     const container = {
@@ -196,7 +196,7 @@ const getStyle = (colors, font, prev, next) => {
         },
         gotItIcon: {
             position: 'absolute',
-            bottom: 3,
+            bottom: 2,
             right: 5
         },
         gotItIconPlaceHolder: {
