@@ -32,7 +32,8 @@ const getStyle = (colors, font) => {
             backgroundColor: colors.card,
             borderRadius: 10,
             borderWidth: 2,
-            borderColor: colors.border
+            borderColor: colors.border,
+            minHeight: 57
         },
         text:{
             fontSize: font.regular,

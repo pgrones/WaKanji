@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {SectionList, StyleSheet, Text, View} from "react-native";
+import {SectionList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {getKanjiExamplesById} from "../../../../persistence/DbConnection";
 import {useTheme} from "@react-navigation/native";
 import {connect} from "react-redux";
 import {convert, isHiragana} from "../../../helper/ReadingConverter";
+import {Icon} from "react-native-elements";
 
-const ExamplesScreen = ({route, kunyomi, onyomi}) => {
+const ExamplesScreen = ({navigation, route, kunyomi, onyomi}) => {
     const [examples, setExamples] = useState([]);
     const {kanjiId} = route.params;
 
@@ -67,6 +68,17 @@ const ExamplesScreen = ({route, kunyomi, onyomi}) => {
                     bounces={false}
                     stickySectionHeadersEnabled={false}
                 />
+                <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => {
+                    navigation.navigate('Settings'); //TODO actually link up to report
+                }}>
+                    <Text style={style.exHeader}>Typos or mistakes? Report the issue</Text>
+                    <Icon
+                        name={'external-link'}
+                        size={font.large}
+                        type={'feather'}
+                        color={colors.text}
+                    />
+                </TouchableOpacity>
             </View>
             :
             <Text style={[style.ex, {textAlign: 'center'}]}>No examples available yet</Text>
@@ -116,6 +128,18 @@ const getStyle = (colors, font) => {
             fontWeight: 'bold',
             marginTop: 5,
             marginBottom: 5
+        },
+        button: {
+            alignSelf: 'stretch',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: colors.card,
+            borderColor: colors.border,
+            borderWidth: 2,
+            borderRadius: 10,
+            padding: 10,
+            marginBottom: 10,
         }
     })
 };
