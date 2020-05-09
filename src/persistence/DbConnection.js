@@ -2,7 +2,7 @@ import {Asset} from "expo-asset";
 import * as SQLite from "expo-sqlite";
 import * as FileSystem from "expo-file-system";
 import * as Device from 'expo-device';
-import {createScript} from "./AndroidCreateScript";
+import {createScript} from "./EmulatorCreateScript";
 
 let db = null;
 let logDBCalls = false;
