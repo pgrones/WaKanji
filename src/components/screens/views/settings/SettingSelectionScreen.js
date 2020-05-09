@@ -25,8 +25,10 @@ const SettingSelectionScreen = ({navigation}) => {
                 ]}
             />
             <SettingButton title='Jisho Dictionary' onPress={() => Linking.openURL('https://jisho.org/')} icon='external-link' type='feather'/>
-            <SettingButton title='Patreon' onPress={() => Linking.openURL('https://www.patreon.com/home')} icon='external-link' type='feather'/>
-            <SettingButton title='Copyright' onPress={() => navigation.push('Copyright')} icon='chevron-right' type='material-community'/>
+            <SettingButton title='Patreon' onPress={() => Linking.openURL('https://www.patreon.com/home')}
+                           icon='external-link' type='feather'/>
+            <SettingButton title='Attributions' onPress={() => navigation.push('Attributions')} icon='chevron-right'
+                           type='material-community'/>
         </ScrollView>
     );
 };

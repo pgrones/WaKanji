@@ -9,7 +9,7 @@ export const SettingsScreen = () => {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Settings  設定" component={SettingSelectionScreen}/>
-            <Stack.Screen name="Copyright" component={CopyRightScreen}/>
+            <Stack.Screen name="Attributions" component={CopyRightScreen}/>
         </Stack.Navigator>
     );
 };
