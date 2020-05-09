@@ -32,7 +32,7 @@ const ExamplesScreen = ({navigation, route, kunyomi, onyomi}) => {
         return (
             <View style={style.container}>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                    <Text style={style.exHeader}>Ex: </Text>
+                    <Text style={style.exHeader}>Example: </Text>
                     <Text style={style.ex}>{sentence}</Text>
                 </View>
                 <View style={{flexDirection: 'row', marginTop: 10}}>
@@ -40,7 +40,7 @@ const ExamplesScreen = ({navigation, route, kunyomi, onyomi}) => {
                     <Text style={style.ex}>{sentenceInHiragana}</Text>
                 </View>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop: 10}}>
-                    <Text style={style.exHeader}>Tl: </Text>
+                    <Text style={style.exHeader}>Translation: </Text>
                     <Text style={style.ex}>{translation}</Text>
                 </View>
             </View>
@@ -52,7 +52,7 @@ const ExamplesScreen = ({navigation, route, kunyomi, onyomi}) => {
             <View style={{flex: 1, margin: 10, marginTop: 0, marginBottom: 0}}>
                 <SectionList
                     sections={examples}
-                    keyExtractor={(item, index) => index}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={({item}) =>
                         <ListItem
                             sentence={item.sentence}
@@ -65,7 +65,7 @@ const ExamplesScreen = ({navigation, route, kunyomi, onyomi}) => {
                             Reading: {isHiragana(reading) ? convert(reading, kunyomi) : convert(reading, onyomi)}
                         </Text>
                     }
-                    bounces={false}
+
                     stickySectionHeadersEnabled={false}
                 />
                 <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => {
@@ -112,8 +112,7 @@ const getStyle = (colors, font) => {
             marginBottom: 10,
         },
         exHeader: {
-            ...example,
-            minWidth: 55
+            ...example
         },
         ex: {
             ...example,

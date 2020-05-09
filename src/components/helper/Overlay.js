@@ -15,7 +15,7 @@ export const Overlay = ({isVisible, setVisible, content}) => {
                 Alert.alert("Modal has been closed.");
             }}
         >
-            <ScrollView bounces={false} contentContainerStyle={style.centered}>
+            <ScrollView contentContainerStyle={style.centered}>
                 <View style={style.modalView}>
                     <Text style={style.modalText}>{content}</Text>
 

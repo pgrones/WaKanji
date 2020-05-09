@@ -25,7 +25,7 @@ const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt
     return (
         // Using a flatList with one item instead of a scroll view, because I just couldn't get it to scroll
         <View style={{flex: 1}}>
-            <FlatList data={[0]} bounces={false} keyExtractor={item => item.toString()} renderItem={() =>
+            <FlatList data={[0]} bounces={false} keyExtractor={(item, index) => index.toString()} renderItem={() =>
                 <View style={style.wrapper}>
                     <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={reading}/>
                     <TouchableOpacity style={style.kanjiContainer} activeOpacity={0.5} onPress={() => gotIt()}>

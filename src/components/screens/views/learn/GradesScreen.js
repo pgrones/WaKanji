@@ -36,7 +36,7 @@ const GradesScreen = ({navigation, grades, setGrades}) => {
                     </TouchableOpacity>
             }
             keyExtractor={item => item.id.toString()}
-            bounces={false}
+
         />
     );
 };
