@@ -37,6 +37,7 @@ class KanjiInfoScreen extends Component {
                 {kanji.map((item, index) =>
                     <KanjiInfo
                         key={index}
+                        navigation={navigation}
                         kanjiInfo={item}
                         index={index}
                         prev={index - 1 >= 0 ? kanji[index - 1].kanji : false}

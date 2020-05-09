@@ -5,7 +5,7 @@ import * as Device from 'expo-device';
 import {createScript} from "./AndroidCreateScript";
 
 let db = null;
-let logDBCalls = true;
+let logDBCalls = false;
 
 export const downloadDB = (setDbLoaded) => {
     if (Device.isDevice) {

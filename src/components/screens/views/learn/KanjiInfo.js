@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Icon} from "react-native-elements";
 import {convert} from "../../../helper/ReadingConverter";
 import {Overlay} from "../../../helper/Overlay";
@@ -6,7 +6,7 @@ import React, {useState} from "react";
 import {useTheme} from "@react-navigation/native";
 import {connect} from "react-redux";
 
-const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, index}) => {
+const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, index}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [reading, setReading] = useState();
 
@@ -23,67 +23,72 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, 
     };
 
     return (
-        // Would like to have a scroll view here, but it just doesn't scroll
-        <View style={style.wrapper}>
-            <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={reading}/>
-            <TouchableOpacity style={style.kanjiContainer} activeOpacity={0.5} onPress={() => gotIt()}>
-                <Text style={style.kanji}>{kanjiInfo.kanji}</Text>
-                {kanjiInfo.gotIt ?
-                    <View style={style.gotItIcon}>
-                        <Icon
-                            name={'ios-checkmark-circle'}
-                            size={font.medium}
-                            type='ionicon'
-                            color={colors.primary}
-                            containerStyle={{backgroundColor: 'transparent'}}
-                        />
+        // Using a flatList with one item instead of a scroll view, because I just couldn't get it to scroll
+        <View style={{flex: 1}}>
+            <FlatList data={[0]} bounces={false} keyExtractor={item => item.toString()} renderItem={() =>
+                <View style={style.wrapper}>
+                    <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={reading}/>
+                    <TouchableOpacity style={style.kanjiContainer} activeOpacity={0.5} onPress={() => gotIt()}>
+                        <Text style={style.kanji}>{kanjiInfo.kanji}</Text>
+                        {kanjiInfo.gotIt ?
+                            <View style={style.gotItIcon}>
+                                <Icon
+                                    name={'ios-checkmark-circle'}
+                                    size={font.medium}
+                                    type='ionicon'
+                                    color={colors.primary}
+                                    containerStyle={{backgroundColor: 'transparent'}}
+                                />
+                            </View>
+                            :
+                            <View style={style.gotItIconPlaceHolder}/>
+                        }
+                    </TouchableOpacity>
+                    <View style={style.translationContainer}>
+                        <Text style={style.translation}>{kanjiInfo.translation}</Text>
                     </View>
-                    :
-                    <View style={style.gotItIconPlaceHolder}/>
-                }
-            </TouchableOpacity>
-            <View style={style.translationContainer}>
-                <Text style={style.translation}>{kanjiInfo.translation}</Text>
-            </View>
-            <View style={style.readingContainer}>
-                <View style={{flexDirection: 'row', height: '100%', width: 90}}>
-                    <Text style={style.translation}>Kun:</Text>
-                    <TouchableOpacity activeOpacity={0.5} onPress={() => openModal(kunExplanation)}>
+                    <View style={style.readingContainer}>
+                        <View style={{flexDirection: 'row', height: '100%', width: 90}}>
+                            <Text style={style.translation}>Kun:</Text>
+                            <TouchableOpacity activeOpacity={0.5} onPress={() => openModal(kunExplanation)}>
+                                <Icon
+                                    name={'question'}
+                                    size={font.regular}
+                                    type='simple-line-icon'
+                                    iconStyle={{marginBottom: -10, marginRight: 10}}
+                                    color={colors.primary}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={style.reading}>{convert(kanjiInfo.kunReading, kunyomi)}</Text>
+                    </View>
+                    <View style={style.readingContainer}>
+                        <View style={{flexDirection: 'row', height: '100%', width: 90}}>
+                            <Text style={style.translation}>On:</Text>
+                            <TouchableOpacity activeOpacity={0.5} onPress={() => openModal(onExplanation)}>
+                                <Icon
+                                    name={'question'}
+                                    size={font.regular}
+                                    type='simple-line-icon'
+                                    iconStyle={{marginBottom: -10, marginRight: 10}}
+                                    color={colors.primary}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={style.translation}>{convert(kanjiInfo.onReading, onyomi)}</Text>
+                    </View>
+                    <TouchableOpacity style={style.exampleContainer} activeOpacity={0.5}
+                                      onPress={() => navigation.push('Examples', {kanjiId: kanjiInfo.id})}>
+                        <Text style={style.example}>Example Sentences</Text>
                         <Icon
-                            name={'question'}
-                            size={font.regular}
-                            type='simple-line-icon'
-                            iconStyle={{marginBottom: -10, marginRight: 10}}
-                            color={colors.primary}
+                            name={'chevron-right'}
+                            size={font.large}
+                            type='material-community'
+                            color={colors.text}
                         />
                     </TouchableOpacity>
                 </View>
-                <Text style={style.reading}>{convert(kanjiInfo.kunReading, kunyomi)}</Text>
-            </View>
-            <View style={style.readingContainer}>
-                <View style={{flexDirection: 'row', height: '100%', width: 90}}>
-                    <Text style={style.translation}>On:</Text>
-                    <TouchableOpacity activeOpacity={0.5} onPress={() => openModal(onExplanation)}>
-                        <Icon
-                            name={'question'}
-                            size={font.regular}
-                            type='simple-line-icon'
-                            iconStyle={{marginBottom: -10, marginRight: 10}}
-                            color={colors.primary}
-                        />
-                    </TouchableOpacity>
-                </View>
-                <Text style={style.translation}>{convert(kanjiInfo.onReading, onyomi)}</Text>
-            </View>
-            <TouchableOpacity style={style.exampleContainer} activeOpacity={0.5}>
-                <Text style={style.example}>Example Sentences</Text>
-                <Icon
-                    name={'chevron-right'}
-                    size={font.large}
-                    type='material-community'
-                    color={colors.text}
-                />
-            </TouchableOpacity>
+            }/>
             <View style={style.swipeContainerWrapper}>
                 <View style={style.swipeContainer}>
                     <TouchableOpacity disabled={!prev} activeOpacity={0.5} style={{flexDirection: 'row'}}
@@ -93,6 +98,7 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, 
                             size={font.medium}
                             type='material-community'
                             color={prev ? colors.primary : colors.background}
+                            containerStyle={{marginTop: 5}}
                         />
                         <Text style={style.swipeTextPrev}>{prev}</Text>
                     </TouchableOpacity>
@@ -104,6 +110,7 @@ const KanjiInfo = ({onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, 
                             size={font.medium}
                             type='material-community'
                             color={next ? colors.primary : colors.background}
+                            containerStyle={{marginTop: 5}}
                         />
                     </TouchableOpacity>
                 </View>
@@ -136,14 +143,16 @@ const getStyle = (colors, font, prev, next) => {
         color: colors.primary,
         fontSize: font.regular,
         alignSelf: 'center',
-        paddingBottom: 2
+        paddingBottom: 5,
+        paddingTop: 5,
     };
 
     return StyleSheet.create({
         wrapper: {
             flex: 1,
             alignItems: 'center',
-            margin: 10
+            margin: 10,
+            marginBottom: 30
         },
         kanji: {
             fontFamily: 'KanjiStrokeFont',
@@ -200,16 +209,17 @@ const getStyle = (colors, font, prev, next) => {
             borderWidth: 1,
             borderRadius: 50
         },
+        swipeContainerWrapper: {
+            position: 'absolute',
+            bottom: 0,
+            left: 10,
+            right: 10
+        },
         swipeContainer: {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignSelf: 'stretch',
             backgroundColor: colors.background
-        },
-        swipeContainerWrapper: {
-            flex: 1,
-            justifyContent: 'flex-end',
-            alignSelf: 'stretch'
         },
         swipeTextPrev: {
             ...swipeText,
