@@ -1,14 +1,15 @@
 export const createScript = [`
 DROP TABLE IF EXISTS "Kanji";`,
-        `DROP TABLE IF EXISTS "Grade";`,
-        `DROP TABLE IF EXISTS "Settings";`,
+                `DROP TABLE IF EXISTS "Grade";`,
+                `DROP TABLE IF EXISTS "Settings";`,
+                `DROP TABLE IF EXISTS "Examples";`,
 
-        `CREATE TABLE "Grade" (
+                `
+CREATE TABLE "Grade" (
 "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 "grade" TEXT NOT NULL
 );`,
-        `
-
+                `
 CREATE TABLE "Kanji" (
  "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
  "kanji" TEXT NOT NULL,
@@ -16,17 +17,25 @@ CREATE TABLE "Kanji" (
  "onReading" TEXT NOT NULL,
  "translation" TEXT NOT NULL,
  "gradeId" INTEGER NOT NULL,
- "gotIt" INTEGER NOT NULL
+ "gotIt" INTEGER NOT NULL,
+ FOREIGN KEY("gradeId") REFERENCES "Grade"("id")
 );`,
-
-        `
-
+                `
+CREATE TABLE "Examples" (
+"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+"kanjiId" INTEGER NOT NULL,
+"sentence" TEXT NOT NULL,
+"sentenceInHiragana" TEXT NOT NULL,
+"translation" TEXT NOT NULL,
+"reading" TEXT,
+FOREIGN KEY("kanjiId") REFERENCES "Kanji"("id")
+)`,
+                `
 CREATE TABLE "Settings" (
  "type" TEXT NOT NULL,
  "value" TEXT NOT NULL
 );`,
-        `
-
+                `
 INSERT INTO "Grade" ("id", "grade") VALUES ('1', '1st Grade  小一');`, `
 INSERT INTO "Grade" ("id", "grade") VALUES ('2', '2nd Grade  小二');`, `
 INSERT INTO "Grade" ("id", "grade") VALUES ('3', '3rd Grade  小三');`, `
@@ -65,7 +74,7 @@ INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "g
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('26', '中', 'なか', 'チュウ', 'Inside, Middle', '1', '0');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('27', '小', 'ちい, こ, お', 'ショウ', 'Little, Small', '1', '0');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('28', '円', 'まる', 'エン', 'Circle, Round, Yen', '1', '0');`, `
-INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('29', '人', 'ひと', 'ジン, ニン', 'Person', '1', '0');`, `
+INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('29', '人', 'ひと, り', 'ジン, ニン', 'Person', '1', '0');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('30', '目', 'め, ま', 'モク, ボク', 'Eye, Look', '1', '0');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('31', '耳', 'みみ', 'ジ', 'Ear', '1', '0');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('32', '口', 'くち', 'コウ, ク', 'Mouth', '1', '0');`, `
@@ -118,7 +127,13 @@ INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "g
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('79', '草', 'くさ', 'ソウ', 'Grass, Herb', '1', '0');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('80', '竹', 'たけ', 'チク', 'Bamboo', '1', '0');`, `
 
-INSERT INTO "main"."Settings" ("type", "value") VALUES ('theme', 'systemStandard');`, `
-INSERT INTO "main"."Settings" ("type", "value") VALUES ('kunReading', 'hiragana');`, `
-INSERT INTO "main"."Settings" ("type", "value") VALUES ('onReading', 'katakana');
+INSERT INTO "Examples" ("id", "kanjiId", "sentence", "sentenceInHiragana", "translation", "reading") VALUES ('1', '1', '一人で来たの？', 'ひとりできたの？', 'Did you come alone', ' ひと');`, `
+INSERT INTO "Examples" ("id", "kanjiId", "sentence", "sentenceInHiragana", "translation", "reading") VALUES ('2', '1', '一日中上天気だった。', 'いちにちじゅうじょうてんきだった。', 'It was sunny all day.', 'イチ');`, `
+INSERT INTO "Examples" ("id", "kanjiId", "sentence", "sentenceInHiragana", "translation", "reading") VALUES ('3', '1', '昨日は五月の一日だった。', 'きのうはごがつのついたしだった。', 'Yesterday was the first of May.', 'ツイ');`, `
+INSERT INTO "Examples" ("id", "kanjiId", "sentence", "sentenceInHiragana", "translation", "reading") VALUES ('4', '2', '私は二つの文を書きました。', 'わたしはふたつのぶんをかきました。', 'I wrote two sentences.', 'ふた');`, `
+INSERT INTO "Examples" ("id", "kanjiId", "sentence", "sentenceInHiragana", "translation", "reading") VALUES ('5', '2', '十二年前に起こった。', 'じゅうにねんまえにおこった。', 'It happened twelve years ago.', 'ニ');`, `
+
+INSERT INTO "Settings" ("type", "value") VALUES ('theme', 'systemStandard');`, `
+INSERT INTO "Settings" ("type", "value") VALUES ('kunReading', 'hiragana');`, `
+INSERT INTO "Settings" ("type", "value") VALUES ('onReading', 'katakana');
 `];

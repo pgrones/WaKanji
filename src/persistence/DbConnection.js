@@ -5,7 +5,7 @@ import * as Device from 'expo-device';
 import {createScript} from "./AndroidCreateScript";
 
 let db = null;
-let logDBCalls = false;
+let logDBCalls = true;
 
 export const downloadDB = (setDbLoaded) => {
     if (Device.isDevice) {
@@ -55,20 +55,30 @@ export const overWriteOldDb = (setDbLoaded) => {
     if (logDBCalls) {
         console.log('overwrite');
     }
-    //FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`).then((a) => if(logDBCalls){console.log(a));}
-    FileSystem.downloadAsync(
-        Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
-        `${FileSystem.documentDirectory}SQLite/WaKanji.db`
-    ).then(({status}) => {
-        if (status === 200) {
-            setDbLoaded(true)
-        }
-    }).catch(error => {
+    if (Device.isDevice) {
+        //FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`).then((a) => if(logDBCalls){console.log(a));}
+        FileSystem.downloadAsync(
+            Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
+            `${FileSystem.documentDirectory}SQLite/WaKanji.db`
+        ).then(({status}) => {
+            if (status === 200) {
+                setDbLoaded(true)
+            }
+        }).catch(error => {
+            if (logDBCalls) {
+                console.log('Err\n' + error);
+            }
+        });
+    } else {
         if (logDBCalls) {
-            console.log('Err\n' + error);
+            console.log('Creating Emulator DB');
         }
-    });
 
+        for (let i = 0; i < createScript.length; i++) {
+            executeTransaction(createScript[i], [])
+        }
+        setDbLoaded(true);
+    }
 };
 
 const executeTransaction = (statement, args, callback, onlyOneEntry) => {
@@ -121,6 +131,21 @@ export const getKanjiByGradeId = (id, setKanji) => {
         `,
         [id],
         setKanji
+    );
+};
+
+export const getKanjiExamplesById = (id, setExamples) => {
+    if (logDBCalls) {
+        console.log('getKanjiExamplesById');
+    }
+    executeTransaction(
+            `
+                select *
+                from Examples
+                where kanjiId = ?;
+        `,
+        [id],
+        setExamples
     );
 };
 
