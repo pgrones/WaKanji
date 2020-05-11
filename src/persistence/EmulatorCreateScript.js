@@ -127,13 +127,8 @@ INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "g
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('79', '草', 'くさ', 'ソウ', 'Grass, Herb', '1', '0');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('80', '竹', 'たけ', 'チク', 'Bamboo', '1', '0');`, `
 
-INSERT INTO "Examples" ("id", "kanjiId", "sentence", "sentenceInHiragana", "translation", "reading") VALUES ('1', '1', '一人で来たの？', 'ひとりできたの？', 'Did you come alone?', 'ひと');`, `
-INSERT INTO "Examples" ("id", "kanjiId", "sentence", "sentenceInHiragana", "translation", "reading") VALUES ('2', '1', '一日中上天気だった。', 'いちにちじゅうじょうてんきだった。', 'It was sunny all day.', 'イチ');`, `
-INSERT INTO "Examples" ("id", "kanjiId", "sentence", "sentenceInHiragana", "translation", "reading") VALUES ('3', '1', '昨日は五月の一日だった。', 'きのうはごがつのついたしだった。', 'Yesterday was the first of May.', 'ツイ');`, `
-INSERT INTO "Examples" ("id", "kanjiId", "sentence", "sentenceInHiragana", "translation", "reading") VALUES ('4', '2', '私は二つの文を書きました。', 'わたしはふたつのぶんをかきました。', 'I wrote two sentences.', 'ふた');`, `
-INSERT INTO "Examples" ("id", "kanjiId", "sentence", "sentenceInHiragana", "translation", "reading") VALUES ('5', '2', '十二年前に起こった。', 'じゅうにねんまえにおこった。', 'It happened twelve years ago.', 'ニ');`, `
-
 INSERT INTO "Settings" ("type", "value") VALUES ('theme', 'systemStandard');`, `
 INSERT INTO "Settings" ("type", "value") VALUES ('kunReading', 'hiragana');`, `
-INSERT INTO "Settings" ("type", "value") VALUES ('onReading', 'katakana');
+INSERT INTO "Settings" ("type", "value") VALUES ('onReading', 'katakana');`, `
+INSERT INTO "Settings" ("type", "value") VALUES ('furigana', 'true');
 `];

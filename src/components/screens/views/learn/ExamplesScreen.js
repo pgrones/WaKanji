@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {searchForExamples} from "../../../../api/jisho";
 import {Furigana} from "../../../helper/Furigana";
 
-const ExamplesScreen = ({navigation, route}) => {
+const ExamplesScreen = ({navigation, route, furigana}) => {
     const [examples, setExamples] = useState([]);
     const {kanji} = route.params;
     navigation.setOptions({title: kanji + '  Examples'});
@@ -37,7 +37,13 @@ const ExamplesScreen = ({navigation, route}) => {
     const ListItem = ({pieces, sentence, translation}) => {
         return (
             <View style={style.container}>
-                <Furigana pieces={pieces} sentence={sentence}/>
+                {furigana === 'true' ?
+                    <Furigana pieces={pieces} sentence={sentence}/>
+                    :
+                    <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                        <Text style={style.ex}>{sentence}</Text>
+                    </View>
+                }
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop: 10}}>
                     <Text style={style.ex}>{translation}</Text>
                 </View>
@@ -70,8 +76,7 @@ const ExamplesScreen = ({navigation, route}) => {
 };
 
 const mapStateToProps = state => ({
-    kunyomi: state.kunyomi,
-    onyomi: state.onyomi
+    furigana: state.furigana
 });
 
 export default connect(mapStateToProps)(ExamplesScreen)
