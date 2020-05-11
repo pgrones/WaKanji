@@ -19,7 +19,9 @@
     "expo-file-system": "latest",
     "expo-font": "~8.1.0",
     "expo-sqlite": "latest",
+    "htmlparser2": "^4.1.0",
     "mem": ">=4.0.0",
+    "node-libs-react-native": "^1.2.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.0.tar.gz",
@@ -33,6 +35,7 @@
     "react-native-web": "~0.11.7",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
+    "unofficial-jisho-api": "^2.0.8",
     "wanakana": "^4.0.2"
   },
   "devDependencies": {

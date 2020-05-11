@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {useFonts} from "@use-expo/font";
 import {AppLoading} from "expo";
-import {downloadDB, getSetting, overWriteOldDb} from "./src/persistence/DbConnection";
+import {getSetting, overWriteOldDb} from "./src/persistence/DbConnection";
 import Navigation from "./src/components/Navigation";
 import {setDbLoaded, setKunyomi, setOnyomi, setTheme} from "./src/redux/actions/Actions";
 import {connect} from "react-redux";
@@ -25,7 +25,7 @@ const Index = ({dbLoaded, setDbLoaded, setTheme, setKunyomi, setOnyomi}) => {
     }
 
     if (!dbLoaded) {
-        downloadDB(setDbLoaded);
+        overWriteOldDb(setDbLoaded);
         return <AppLoading/>;
     }
 

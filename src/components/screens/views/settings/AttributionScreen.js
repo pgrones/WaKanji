@@ -14,10 +14,21 @@ export const AttributionScreen = () => {
                     <Text style={{color: colors.text, fontFamily: font.fontFamily}}>
                         {item}
                     </Text>
+                    {index === 0 ?
+                        <Text style={{color: colors.primary, fontFamily: font.fontFamily}}
+                              onPress={() => Linking.openURL('http://jisho.org/forum/54fefc1f6e73340b1f160000-is-there-any-kind-of-search-api')}>
+                            Jisho.org Forum Post
+                        </Text>
+                        : <></>
+                    }
                 </View>
                 {index === 0 ?
-                    <SettingButton title='Tatoeba.org' onPress={() => Linking.openURL('https://tatoeba.org')}
-                                   icon='external-link' type='feather'/>
+                    <>
+                        <SettingButton title='Jisho.org' onPress={() => Linking.openURL('https://jisho.org')}
+                                       icon='external-link' type='feather'/>
+                        <SettingButton title='Tatoeba.org' onPress={() => Linking.openURL('https://tatoeba.org')}
+                                       icon='external-link' type='feather'/>
+                    </>
                     : <></>
                 }
             </View>}/>
@@ -39,7 +50,8 @@ const getStyle = (colors) => {
 };
 
 const DATA = [
-    'Example Sentences:\n\nAll of the example sentences are from Tatoeba.org and released under the CC - BY 2.0 FR licence.',
+    'Example Sentences:\n\nAll of the example sentences are from Tatoeba.org and released under the CC - BY 2.0 FR licence.\n\n' +
+    'The (unofficial) Jisho API is used to fetch these examples for each Kanji. Permission to scrape the html was granted by Jisho\'s admin Kimtaro here:',
     'KanjiStrokeOrders Font:' +
     '\n\n' +
     'Copyright (C) 2004-2020 Ulrich Apel, the AAAA project and the Wadoku project\n' +
