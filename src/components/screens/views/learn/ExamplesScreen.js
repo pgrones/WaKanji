@@ -4,6 +4,7 @@ import {useTheme} from "@react-navigation/native";
 import {connect} from "react-redux";
 import {searchForExamples} from "../../../../api/jisho";
 import {Furigana} from "../../../helper/Furigana";
+import {LoadingScreen} from "../../../helper/LoadingScreen";
 
 const ExamplesScreen = ({navigation, route, furigana}) => {
     const [examples, setExamples] = useState([]);
@@ -71,7 +72,7 @@ const ExamplesScreen = ({navigation, route, furigana}) => {
                 />
             </View>
             :
-            <Text style={[style.ex, {textAlign: 'center'}]}>Fetching examples</Text> //TODO add loading bar
+            <LoadingScreen text={'Fetching examples'}/>
     )
 };
 

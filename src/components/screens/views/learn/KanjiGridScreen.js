@@ -5,6 +5,7 @@ import {setKanji} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
 import {useTheme} from "@react-navigation/native";
 import {Icon} from "react-native-elements";
+import {LoadingScreen} from "../../../helper/LoadingScreen";
 
 const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
     navigation.setOptions({title: route.params.header});
@@ -22,9 +23,9 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
     };
 
     return (
-        <ScrollView contentContainerStyle={style.container}>
-            {kanji && kanji.length > 0 ?
-                kanji.map((item, index) =>
+        kanji && kanji.length > 0 ?
+            <ScrollView contentContainerStyle={style.container}>
+                {kanji.map((item, index) =>
                     <View style={style.kanjiButtonWrapper} key={item.id}>
                         <TouchableOpacity activeOpacity={0.5} style={style.kanjiButton}
                                           onPress={() => showInfo(item, index)}>
@@ -44,9 +45,10 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
                         </View>
                         }
                     </View>
-                )
-                : <Text style={style.noKanjiAvailable}>No Kanji available yet</Text>}
-        </ScrollView>
+                )}
+            </ScrollView>
+            :
+            <LoadingScreen text={'Loading ' + route.params.header + ' Kanji'}/>
     )
 };
 

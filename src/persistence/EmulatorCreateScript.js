@@ -2,7 +2,6 @@ export const createScript = [`
 DROP TABLE IF EXISTS "Kanji";`,
                 `DROP TABLE IF EXISTS "Grade";`,
                 `DROP TABLE IF EXISTS "Settings";`,
-                `DROP TABLE IF EXISTS "Examples";`,
 
                 `
 CREATE TABLE "Grade" (
@@ -20,16 +19,6 @@ CREATE TABLE "Kanji" (
  "gotIt" INTEGER NOT NULL,
  FOREIGN KEY("gradeId") REFERENCES "Grade"("id")
 );`,
-                `
-CREATE TABLE "Examples" (
-"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-"kanjiId" INTEGER NOT NULL,
-"sentence" TEXT NOT NULL,
-"sentenceInHiragana" TEXT NOT NULL,
-"translation" TEXT NOT NULL,
-"reading" TEXT,
-FOREIGN KEY("kanjiId") REFERENCES "Kanji"("id")
-)`,
                 `
 CREATE TABLE "Settings" (
  "type" TEXT NOT NULL,
