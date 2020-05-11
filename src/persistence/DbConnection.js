@@ -23,14 +23,10 @@ export const downloadDB = (setDbLoaded) => {
                             setDbLoaded(true)
                         }
                     }).catch(error => {
-                        if (logDBCalls) {
                             console.log('Err\n' + error);
-                        }
                     })
                 ).catch(error => {
-                    if (logDBCalls) {
                         console.log('Err\n' + error);
-                    }
                 });
             } else {
                 if (logDBCalls) {
@@ -56,6 +52,9 @@ export const overWriteOldDb = (setDbLoaded) => {
         console.log('overwrite');
     }
     if (Device.isDevice) {
+        if (logDBCalls) {
+            console.log('real device');
+        }
         //FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`).then((a) => if(logDBCalls){console.log(a));}
         FileSystem.downloadAsync(
             Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
@@ -65,9 +64,7 @@ export const overWriteOldDb = (setDbLoaded) => {
                 setDbLoaded(true)
             }
         }).catch(error => {
-            if (logDBCalls) {
-                console.log('Err\n' + error);
-            }
+            console.log('Err\n' + error);
         });
     } else {
         if (logDBCalls) {
@@ -174,7 +171,7 @@ export const setSetting = (type, value, setSetting) => {
                 where type = ?
         `,
         [value, type],
-        () => getSetting(type, setSetting)
+        () => setSetting({value: value})
     );
 };
 
