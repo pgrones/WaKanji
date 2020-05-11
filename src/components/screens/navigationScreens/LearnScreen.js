@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 export const LearnScreen = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Learn" component={GradesScreen} options={{title: 'Learn  学'}}/>
+            <Stack.Screen name="Learn" component={GradesScreen} options={{title: 'Dictionary  辞書'}}/>
             <Stack.Screen name="KanjiGrid" component={KanjiGridScreen}/>
             <Stack.Screen name="KanjiInfo" component={KanjiInfoScreen} options={{gestureEnabled: false}}/>
             <Stack.Screen name="Examples" component={ExamplesScreen}/>

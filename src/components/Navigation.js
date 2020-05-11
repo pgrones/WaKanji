@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {darkTheme, lightTheme} from "./helper/Theme";
 import {LearnScreen} from "./screens/navigationScreens/LearnScreen";
 import PracticeScreen from "./screens/navigationScreens/PracticeScreen";
-import {StatusBar} from "react-native";
+import {StatusBar, Text} from "react-native";
 import {useColorScheme} from "react-native-appearance";
 
 const Tab = createBottomTabNavigator();
@@ -36,25 +36,61 @@ const Navigation = ({theme, navigationVisible}) => {
                     name="Learn"
                     component={LearnScreen}
                     options={{
-                        tabBarIcon: ({focused}) => <TabBarIcon focused={focused} iconText="学"/>,
-                        headerTitle: 'Learn',
+                        tabBarIcon: ({focused}) =>
+                            <TabBarIcon
+                                focused={focused}
+                                iconText="辞書"
+                                color={focused ? getTheme().colors.primary : getTheme().colors.text}
+                            />
+                        ,
+                        tabBarLabel: ({focused}) =>
+                            <Text style={{
+                                color: focused ? getTheme().colors.primary : getTheme().colors.text,
+                                fontSize: 12
+                            }}>
+                                Dictionary
+                            </Text>
                     }}
                 />
                 <Tab.Screen
                     name="Practice"
                     component={PracticeScreen}
                     options={{
-                        tabBarIcon: ({focused}) => <TabBarIcon focused={focused} iconText="練習"/>,
-                        headerTitle: 'Practice',
-                        tabBarVisible: navigationVisible
+                        tabBarIcon: ({focused}) =>
+                            <TabBarIcon
+                                focused={focused}
+                                iconText="練習"
+                                color={focused ? getTheme().colors.primary : getTheme().colors.text}
+                            />
+                        ,
+                        tabBarVisible: navigationVisible,
+                        tabBarLabel: ({focused}) =>
+                            <Text style={{
+                                color: focused ? getTheme().colors.primary : getTheme().colors.text,
+                                fontSize: 12
+                            }}>
+                                Practice
+                            </Text>
                     }}
                 />
                 <Tab.Screen
                     name="Settings"
                     component={SettingsScreen}
                     options={{
-                        tabBarIcon: ({focused}) => <TabBarIcon focused={focused} iconText="設定"/>,
-                        headerTitle: 'Settings'
+                        tabBarIcon: ({focused}) =>
+                            <TabBarIcon
+                                focused={focused}
+                                iconText="設定"
+                                color={focused ? getTheme().colors.primary : getTheme().colors.text}
+                            />
+                        ,
+                        tabBarLabel: ({focused}) =>
+                            <Text style={{
+                                color: focused ? getTheme().colors.primary : getTheme().colors.text,
+                                fontSize: 12
+                            }}>
+                                Settings
+                            </Text>
                     }}
                 />
             </Tab.Navigator>
