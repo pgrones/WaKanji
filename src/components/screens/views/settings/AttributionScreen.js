@@ -9,27 +9,25 @@ export const AttributionScreen = () => {
 
     return (
         <FlatList data={DATA} keyExtractor={(item, index) => index.toString()} renderItem={({item, index}) =>
-            <View>
+            <View style={{marginBottom: 10}}>
                 <View style={style.container}>
                     <Text style={{color: colors.text, fontFamily: font.fontFamily}}>
                         {item}
                     </Text>
-                    {index === 0 ?
-                        <Text style={{color: colors.primary, fontFamily: font.fontFamily}}
-                              onPress={() => Linking.openURL('http://jisho.org/forum/54fefc1f6e73340b1f160000-is-there-any-kind-of-search-api')}>
-                            Jisho.org Forum Post
-                        </Text>
-                        : <></>
+                    {index === 0 &&
+                    <Text style={{color: colors.primary, fontFamily: font.fontFamily}}
+                          onPress={() => Linking.openURL('http://jisho.org/forum/54fefc1f6e73340b1f160000-is-there-any-kind-of-search-api')}>
+                        Jisho.org Forum Post
+                    </Text>
                     }
                 </View>
-                {index === 0 ?
-                    <>
-                        <SettingButton title='Jisho.org' onPress={() => Linking.openURL('https://jisho.org')}
-                                       icon='external-link' type='feather'/>
-                        <SettingButton title='Tatoeba.org' onPress={() => Linking.openURL('https://tatoeba.org')}
-                                       icon='external-link' type='feather'/>
-                    </>
-                    : <></>
+                {index === 0 &&
+                <>
+                    <SettingButton title='Jisho.org' onPress={() => Linking.openURL('https://jisho.org')}
+                                   icon='external-link' type='feather'/>
+                    <SettingButton title='Tatoeba.org' onPress={() => Linking.openURL('https://tatoeba.org')}
+                                   icon='external-link' type='feather'/>
+                </>
                 }
             </View>}/>
     )

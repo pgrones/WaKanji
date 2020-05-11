@@ -3,10 +3,12 @@ import {SectionList, StyleSheet, Text, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 import {connect} from "react-redux";
 import {searchForExamples} from "../../../../api/jisho";
+import {Furigana} from "../../../helper/Furigana";
 
-const ExamplesScreen = ({route}) => {
+const ExamplesScreen = ({navigation, route}) => {
     const [examples, setExamples] = useState([]);
     const {kanji} = route.params;
+    navigation.setOptions({title: kanji + '  Examples'});
 
     const {colors, font} = useTheme();
     const style = getStyle(colors, font,);
@@ -14,19 +16,17 @@ const ExamplesScreen = ({route}) => {
     useEffect(() => {
         searchForExamples(kanji).then(result => {
             getExamples(result.results)
-        })
+        })//TODO error handling
     }, []);
 
     const getExamples = (data) => {
         const arr = [];
         for (let ex of data) {
-            if (ex.kanji.length < 22) {
-                arr.push({
-                    sentence: ex.kanji,
-                    sentenceInHiragana: ex.kana,
-                    translation: ex.english
-                })
-            }
+            arr.push({
+                pieces: ex.pieces,
+                sentence: ex.kanji,
+                translation: ex.english
+            })
         }
         setExamples([{
             title: 'Sentences',
@@ -34,15 +34,10 @@ const ExamplesScreen = ({route}) => {
         }]);
     }
 
-    const ListItem = ({sentence, sentenceInHiragana, translation}) => {
+    const ListItem = ({pieces, sentence, translation}) => {
         return (
             <View style={style.container}>
-                <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                    <Text style={style.ex}>{sentence}</Text>
-                </View>
-                <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <Text style={style.ex}>{sentenceInHiragana}</Text>
-                </View>
+                <Furigana pieces={pieces} sentence={sentence}/>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop: 10}}>
                     <Text style={style.ex}>{translation}</Text>
                 </View>
@@ -57,11 +52,7 @@ const ExamplesScreen = ({route}) => {
                     sections={examples}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({item}) =>
-                        <ListItem
-                            sentence={item.sentence}
-                            sentenceInHiragana={item.sentenceInHiragana}
-                            translation={item.translation}
-                        />
+                        <ListItem pieces={item.pieces} sentence={item.sentence} translation={item.translation}/>
                     }
                     renderSectionHeader={({section: {title}}) =>
                         <View style={style.headerWrapper}>

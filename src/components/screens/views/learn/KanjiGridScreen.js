@@ -32,17 +32,16 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
                                 {item.kanji}
                             </Text>
                         </TouchableOpacity>
-                        {item.gotIt ?
-                            <View style={style.gotItIcon}>
-                                <Icon
-                                    name={'ios-checkmark-circle'}
-                                    size={font.regular}
-                                    type='ionicon'
-                                    color={colors.primary}
-                                    containerStyle={{backgroundColor: 'transparent'}}
-                                />
-                            </View>
-                            : <></>
+                        {item.gotIt === 1 &&
+                        <View style={style.gotItIcon}>
+                            <Icon
+                                name={'ios-checkmark-circle'}
+                                size={font.regular}
+                                type='ionicon'
+                                color={colors.primary}
+                                containerStyle={{backgroundColor: 'transparent'}}
+                            />
+                        </View>
                         }
                     </View>
                 )
