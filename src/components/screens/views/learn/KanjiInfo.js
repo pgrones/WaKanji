@@ -78,7 +78,7 @@ const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt
                         <Text style={style.translation}>{convert(kanjiInfo.onReading, onyomi)}</Text>
                     </View>
                     <TouchableOpacity style={style.exampleContainer} activeOpacity={0.5}
-                                      onPress={() => navigation.push('Examples', {kanjiId: kanjiInfo.id})}>
+                                      onPress={() => navigation.push('Examples', {kanji: kanjiInfo.kanji})}>
                         <Text style={style.example}>Example Sentences</Text>
                         <Icon
                             name={'chevron-right'}

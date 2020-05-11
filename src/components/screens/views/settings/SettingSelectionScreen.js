@@ -24,8 +24,6 @@ const SettingSelectionScreen = ({navigation}) => {
                     <ThemeSetting title='Light' type='light'/>
                 ]}
             />
-            <SettingButton title='Jisho.org' onPress={() => Linking.openURL('https://jisho.org/')} icon='external-link'
-                           type='feather'/>
             <SettingButton title='Patreon' onPress={() => Linking.openURL('https://www.patreon.com/home')}
                            icon='external-link' type='feather'/>
             <SettingButton title='Attributions' onPress={() => navigation.push('Attributions')} icon='chevron-right'

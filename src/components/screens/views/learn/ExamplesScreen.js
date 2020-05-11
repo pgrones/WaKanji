@@ -1,46 +1,49 @@
 import React, {useEffect, useState} from "react";
-import {SectionList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {getKanjiExamplesById} from "../../../../persistence/DbConnection";
+import {SectionList, StyleSheet, Text, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 import {connect} from "react-redux";
-import {convert, isHiragana} from "../../../helper/ReadingConverter";
-import {Icon} from "react-native-elements";
+import {searchForExamples} from "../../../../api/jisho";
 
-const ExamplesScreen = ({navigation, route, kunyomi, onyomi}) => {
+const ExamplesScreen = ({route}) => {
     const [examples, setExamples] = useState([]);
-    const {kanjiId} = route.params;
+    const {kanji} = route.params;
 
     const {colors, font} = useTheme();
     const style = getStyle(colors, font,);
 
     useEffect(() => {
-        getKanjiExamplesById(kanjiId, getExamples);
+        searchForExamples(kanji).then(result => {
+            getExamples(result.results)
+        })
     }, []);
 
     const getExamples = (data) => {
         const arr = [];
         for (let ex of data) {
-            arr.push({
-                reading: ex.reading,
-                data: [ex]
-            })
+            if (ex.kanji.length < 22) {
+                arr.push({
+                    sentence: ex.kanji,
+                    sentenceInHiragana: ex.kana,
+                    translation: ex.english
+                })
+            }
         }
-        setExamples(arr);
+        setExamples([{
+            title: 'Sentences',
+            data: arr
+        }]);
     }
 
     const ListItem = ({sentence, sentenceInHiragana, translation}) => {
         return (
             <View style={style.container}>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                    <Text style={style.exHeader}>Example: </Text>
                     <Text style={style.ex}>{sentence}</Text>
                 </View>
                 <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <Text style={style.exHeader}>Kana: </Text>
                     <Text style={style.ex}>{sentenceInHiragana}</Text>
                 </View>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap', marginTop: 10}}>
-                    <Text style={style.exHeader}>Translation: </Text>
                     <Text style={style.ex}>{translation}</Text>
                 </View>
             </View>
@@ -49,7 +52,7 @@ const ExamplesScreen = ({navigation, route, kunyomi, onyomi}) => {
 
     return (
         examples.length ?
-            <View style={{flex: 1, margin: 10, marginTop: 0, marginBottom: 0}}>
+            <View style={{flex: 1, margin: 10}}>
                 <SectionList
                     sections={examples}
                     keyExtractor={(item, index) => index.toString()}
@@ -60,28 +63,18 @@ const ExamplesScreen = ({navigation, route, kunyomi, onyomi}) => {
                             translation={item.translation}
                         />
                     }
-                    renderSectionHeader={({section: {reading}}) =>
-                        <Text style={style.header}>
-                            Reading: {isHiragana(reading) ? convert(reading, kunyomi) : convert(reading, onyomi)}
-                        </Text>
+                    renderSectionHeader={({section: {title}}) =>
+                        <View style={style.headerWrapper}>
+                            <View style={style.container}>
+                                <Text style={style.header}>{title}</Text>
+                            </View>
+                        </View>
                     }
-
-                    stickySectionHeadersEnabled={false}
+                    stickySectionHeadersEnabled={true}
                 />
-                <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => {
-                    navigation.navigate('Settings'); //TODO actually link up to report
-                }}>
-                    <Text style={style.exHeader}>Typos or mistakes? Report the issue</Text>
-                    <Icon
-                        name={'external-link'}
-                        size={font.large}
-                        type={'feather'}
-                        color={colors.text}
-                    />
-                </TouchableOpacity>
             </View>
             :
-            <Text style={[style.ex, {textAlign: 'center'}]}>No examples available yet</Text>
+            <Text style={[style.ex, {textAlign: 'center'}]}>Fetching examples</Text> //TODO add loading bar
     )
 };
 
@@ -119,26 +112,15 @@ const getStyle = (colors, font) => {
             flex: 1,
             flexWrap: 'wrap'
         },
+        headerWrapper: {
+            backgroundColor: colors.background
+        },
         header: {
             fontFamily: font.fontFamily,
             color: colors.text,
             fontSize: 20,
             textAlign: 'center',
-            fontWeight: 'bold',
-            marginTop: 5,
-            marginBottom: 5
-        },
-        button: {
-            alignSelf: 'stretch',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            backgroundColor: colors.card,
-            borderColor: colors.border,
-            borderWidth: 2,
-            borderRadius: 10,
-            padding: 10,
-            marginBottom: 10,
+            fontWeight: 'bold'
         }
     })
 };

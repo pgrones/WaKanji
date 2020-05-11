@@ -9,7 +9,7 @@ import ErrorBoundary from "./src/components/ErrorBoundary";
 const store = createStore(Reducer);
 
 const App = () => {
-    const globals = node_libs_react_native;
+    const globals = node_libs_react_native; // Needed for the Jisho API; DO NOT REMOVE
     return (
         <Provider store={store}>
             <ErrorBoundary>
