@@ -1,7 +1,7 @@
 import {DarkTheme, DefaultTheme} from "@react-navigation/native";
 import {Platform} from "react-native";
 
-const font = {
+export const font = {
     regular: 18,
     large: 30,
     medium: 24,

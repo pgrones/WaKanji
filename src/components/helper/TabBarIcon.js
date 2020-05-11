@@ -1,13 +1,12 @@
 import React from "react";
 import {Text} from "react-native";
-import {connect} from "react-redux";
-import {darkTheme} from "./Theme";
+import {font} from "./Theme";
 
-const TabBarIcon = ({iconText, color}) => {
+export const TabBarIcon = ({iconText, color}) => {
     return (
         <Text style={{
             fontSize: 18,
-            fontFamily: darkTheme.font.fontFamily,
+            fontFamily: font.fontFamily,
             color: color
         }}>
             {iconText}
@@ -15,8 +14,14 @@ const TabBarIcon = ({iconText, color}) => {
     )
 };
 
-const mapStateToProps = state => ({
-    theme: state.theme
-});
-
-export default connect(mapStateToProps)(TabBarIcon)
+export const TabBarText = ({text, color}) => {
+    return (
+        <Text style={{
+            color: color,
+            fontSize: 12,
+            marginBottom: 5
+        }}>
+            {text}
+        </Text>
+    )
+}

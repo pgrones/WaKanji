@@ -1,13 +1,13 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import TabBarIcon from "./helper/TabBarIcon";
+import {TabBarIcon, TabBarText} from "./helper/TabBarIcon";
 import {SettingsScreen} from "./screens/navigationScreens/SettingsScreen";
 import {connect} from "react-redux";
 import {darkTheme, lightTheme} from "./helper/Theme";
 import {LearnScreen} from "./screens/navigationScreens/LearnScreen";
 import PracticeScreen from "./screens/navigationScreens/PracticeScreen";
-import {StatusBar, Text} from "react-native";
+import {StatusBar} from "react-native";
 import {useColorScheme} from "react-native-appearance";
 
 const Tab = createBottomTabNavigator();
@@ -44,12 +44,10 @@ const Navigation = ({theme, navigationVisible}) => {
                             />
                         ,
                         tabBarLabel: ({focused}) =>
-                            <Text style={{
-                                color: focused ? getTheme().colors.primary : getTheme().colors.text,
-                                fontSize: 12
-                            }}>
-                                Dictionary
-                            </Text>
+                            <TabBarText
+                                text={'Dictionary'}
+                                color={focused ? getTheme().colors.primary : getTheme().colors.text}
+                            />
                     }}
                 />
                 <Tab.Screen
@@ -65,12 +63,10 @@ const Navigation = ({theme, navigationVisible}) => {
                         ,
                         tabBarVisible: navigationVisible,
                         tabBarLabel: ({focused}) =>
-                            <Text style={{
-                                color: focused ? getTheme().colors.primary : getTheme().colors.text,
-                                fontSize: 12
-                            }}>
-                                Practice
-                            </Text>
+                            <TabBarText
+                                text={'Practice'}
+                                color={focused ? getTheme().colors.primary : getTheme().colors.text}
+                            />
                     }}
                 />
                 <Tab.Screen
@@ -85,12 +81,10 @@ const Navigation = ({theme, navigationVisible}) => {
                             />
                         ,
                         tabBarLabel: ({focused}) =>
-                            <Text style={{
-                                color: focused ? getTheme().colors.primary : getTheme().colors.text,
-                                fontSize: 12
-                            }}>
-                                Settings
-                            </Text>
+                            <TabBarText
+                                text={'Settings'}
+                                color={focused ? getTheme().colors.primary : getTheme().colors.text}
+                            />
                     }}
                 />
             </Tab.Navigator>
