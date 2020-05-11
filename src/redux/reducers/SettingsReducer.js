@@ -21,3 +21,11 @@ export const OnyomiReducer = (state = 'katakana', action) => {
         return state
     }
 };
+
+export const FuriganaReducer = (state = 'true', action) => {
+    if (action.type === 'SET_FURIGANA') {
+        return action.furigana.value
+    } else {
+        return state
+    }
+};

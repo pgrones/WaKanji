@@ -33,8 +33,7 @@ export const Furigana = ({pieces, sentence}) => {
             {getPiecesWithPunctuation().map((item, index) => {
                 return (
                     <View key={index.toString()}>
-                        {/*TODO replace true with setting*/}
-                        {true && <Text style={style.furigana}>{item.lifted}</Text>}
+                        <Text style={style.furigana}>{item.lifted}</Text>
                         <Text style={style.kanji}>{item.unlifted}</Text>
                     </View>
                 )

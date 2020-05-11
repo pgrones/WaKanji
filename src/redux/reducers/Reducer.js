@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-import {KunyomiReducer, OnyomiReducer, ThemeReducer} from "./SettingsReducer";
+import {FuriganaReducer, KunyomiReducer, OnyomiReducer, ThemeReducer} from "./SettingsReducer";
 import {GradeReducer, KanjiReducer} from "./LearnReducer";
 import {DBReducer} from "./DBReducer";
 import {GotItAmountReducer, NavigationReducer} from "./PracticeReducer";
@@ -9,6 +9,7 @@ export const Reducer = combineReducers({
     theme: ThemeReducer,
     kunyomi: KunyomiReducer,
     onyomi: OnyomiReducer,
+    furigana: FuriganaReducer,
     grades: GradeReducer,
     kanji: KanjiReducer,
     navigationVisible: NavigationReducer,

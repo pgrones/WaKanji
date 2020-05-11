@@ -1,17 +1,18 @@
 import React, {useEffect} from "react";
 import {useFonts} from "@use-expo/font";
 import {AppLoading} from "expo";
-import {getSetting, overWriteOldDb} from "./src/persistence/DbConnection";
+import {downloadDB, getSetting} from "./src/persistence/DbConnection";
 import Navigation from "./src/components/Navigation";
-import {setDbLoaded, setKunyomi, setOnyomi, setTheme} from "./src/redux/actions/Actions";
+import {setDbLoaded, setFurigana, setKunyomi, setOnyomi, setTheme} from "./src/redux/actions/Actions";
 import {connect} from "react-redux";
 
-const Index = ({dbLoaded, setDbLoaded, setTheme, setKunyomi, setOnyomi}) => {
+const Index = ({dbLoaded, setDbLoaded, setTheme, setKunyomi, setOnyomi, setFurigana}) => {
     useEffect(() => {
-        if(dbLoaded) {
+        if (dbLoaded) {
             getSetting('theme', setTheme);
             getSetting('kunReading', setKunyomi);
             getSetting('onReading', setOnyomi);
+            getSetting('furigana', setFurigana);
         }
     }, [dbLoaded]);
 
@@ -25,7 +26,7 @@ const Index = ({dbLoaded, setDbLoaded, setTheme, setKunyomi, setOnyomi}) => {
     }
 
     if (!dbLoaded) {
-        overWriteOldDb(setDbLoaded);
+        downloadDB(setDbLoaded);
         return <AppLoading/>;
     }
 
@@ -39,8 +40,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
     setDbLoaded: (isLoaded) => dispatch(setDbLoaded(isLoaded)),
     setTheme: (theme) => dispatch(setTheme(theme)),
-    setKunyomi: (theme) => dispatch(setKunyomi(theme)),
-    setOnyomi: (theme) => dispatch(setOnyomi(theme))
+    setKunyomi: (kun) => dispatch(setKunyomi(kun)),
+    setOnyomi: (on) => dispatch(setOnyomi(on)),
+    setFurigana: (furigana) => dispatch(setFurigana(furigana))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index)

@@ -134,21 +134,6 @@ export const getKanjiByGradeId = (id, setKanji) => {
     );
 };
 
-export const getKanjiExamplesById = (id, setExamples) => {
-    if (logDBCalls) {
-        console.log('getKanjiExamplesById');
-    }
-    executeTransaction(
-            `
-                select *
-                from Examples
-                where kanjiId = ?;
-        `,
-        [id],
-        setExamples
-    );
-};
-
 export const setKanjiGotIt = (id, state, gradeId, setKanji) => {
     if (logDBCalls) {
         console.log('setKanjiGotIt');

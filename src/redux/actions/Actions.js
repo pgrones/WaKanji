@@ -18,6 +18,11 @@ export const setOnyomi = reading => ({
     reading
 });
 
+export const setFurigana = furigana => ({
+    type: 'SET_FURIGANA',
+    furigana
+});
+
 export const setGrades = grades => ({
     type: 'SET_GRADES',
     grades

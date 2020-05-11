@@ -3,19 +3,21 @@ import {Icon} from "react-native-elements";
 import React from "react";
 import {useTheme} from "@react-navigation/native";
 
-export const SettingButton = ({title, onPress, icon, type}) =>{
+export const SettingButton = ({title, onPress, icon, type, color}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
-    return(
+    return (
         <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => onPress()}>
             <Text style={style.text}>{title}</Text>
+            {icon !== undefined &&
             <Icon
                 name={icon}
                 size={font.large}
                 type={type}
-                color={colors.text}
+                color={color || colors.text}
             />
+            }
         </TouchableOpacity>
     )
 };
@@ -35,7 +37,7 @@ const getStyle = (colors, font) => {
             borderColor: colors.border,
             minHeight: 57
         },
-        text:{
+        text: {
             fontSize: font.regular,
             color: colors.text,
             fontFamily: font.fontFamily,
