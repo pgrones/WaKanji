@@ -5,6 +5,7 @@ import {Overlay} from "../../../helper/Overlay";
 import React, {useState} from "react";
 import {useTheme} from "@react-navigation/native";
 import {connect} from "react-redux";
+import {LinearGradient} from "expo-linear-gradient";
 
 const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, index}) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -24,7 +25,7 @@ const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt
 
     return (
         // Using a flatList with one item instead of a scroll view, because I just couldn't get it to scroll
-        <View style={{flex: 1}}>
+        <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
             <FlatList data={[0]} bounces={false} keyExtractor={(item, index) => index.toString()} renderItem={() =>
                 <View style={style.wrapper}>
                     <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={reading}/>
@@ -97,7 +98,7 @@ const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt
                             name={'chevron-left'}
                             size={font.medium}
                             type='material-community'
-                            color={prev ? colors.primary : colors.background}
+                            color={prev ? colors.primary : 'transparent'}
                             containerStyle={{marginTop: 5}}
                         />
                         <Text style={style.swipeTextPrev}>{prev}</Text>
@@ -109,13 +110,13 @@ const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt
                             name={'chevron-right'}
                             size={font.medium}
                             type='material-community'
-                            color={next ? colors.primary : colors.background}
+                            color={next ? colors.primary : 'transparent'}
                             containerStyle={{marginTop: 5}}
                         />
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </LinearGradient>
     )
 };
 
@@ -130,10 +131,6 @@ const getStyle = (colors, font, prev, next) => {
     const container = {
         alignSelf: 'stretch',
         alignItems: 'center',
-        backgroundColor: colors.card,
-        borderColor: colors.border,
-        borderWidth: 2,
-        borderRadius: 10,
         padding: 10,
         marginBottom: 10
     };
@@ -160,7 +157,8 @@ const getStyle = (colors, font, prev, next) => {
             fontSize: 120
         },
         kanjiContainer: {
-            ...container,
+            alignSelf: 'stretch',
+            alignItems: 'center',
             padding: 0
         },
         translationContainer: {
@@ -169,7 +167,7 @@ const getStyle = (colors, font, prev, next) => {
         translation: {
             fontFamily: font.fontFamily,
             color: colors.text,
-            fontSize: font.medium
+            fontSize: font.large
         },
         readingContainer: {
             flexDirection: 'row',
@@ -219,15 +217,15 @@ const getStyle = (colors, font, prev, next) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignSelf: 'stretch',
-            backgroundColor: colors.background
+            backgroundColor: 'transparent'
         },
         swipeTextPrev: {
             ...swipeText,
-            color: prev ? colors.primary : colors.background
+            color: prev ? colors.primary : 'transparent'
         },
         swipeTextNext: {
             ...swipeText,
-            color: next ? colors.primary : colors.background
+            color: next ? colors.primary : 'transparent'
         }
     });
 };

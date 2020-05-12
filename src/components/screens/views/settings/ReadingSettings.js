@@ -74,16 +74,13 @@ const getStyle = (colors, font) => {
             color: colors.text
         },
         button: {
-            margin: 5,
-            marginBottom: 0,
+            margin: 0,
+            marginLeft: 20,
+            marginRight: 12,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            padding: 10,
+            padding: 5,
             alignItems: 'center',
-            backgroundColor: colors.card,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: colors.border
         }
     });
 };

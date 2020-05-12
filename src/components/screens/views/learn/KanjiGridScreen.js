@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import {useTheme} from "@react-navigation/native";
 import {Icon} from "react-native-elements";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
+import {LinearGradient} from "expo-linear-gradient";
 
 const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
     navigation.setOptions({title: route.params.header});
@@ -23,32 +24,35 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
     };
 
     return (
-        kanji && kanji.length > 0 ?
-            <ScrollView contentContainerStyle={style.container}>
-                {kanji.map((item, index) =>
-                    <View style={style.kanjiButtonWrapper} key={item.id}>
-                        <TouchableOpacity activeOpacity={0.5} style={style.kanjiButton}
-                                          onPress={() => showInfo(item, index)}>
-                            <Text style={style.kanji}>
-                                {item.kanji}
-                            </Text>
-                        </TouchableOpacity>
-                        {item.gotIt === 1 &&
-                        <View style={style.gotItIcon}>
-                            <Icon
-                                name={'ios-checkmark-circle'}
-                                size={font.regular}
-                                type='ionicon'
-                                color={colors.primary}
-                                containerStyle={{backgroundColor: 'transparent'}}
-                            />
+        <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
+            {kanji && kanji.length > 0 ?
+                <ScrollView contentContainerStyle={style.container}>
+                    {kanji.map((item, index) =>
+                        <View style={style.kanjiButtonWrapper} key={item.id}>
+                            <TouchableOpacity activeOpacity={0.5} style={style.kanjiButton}
+                                              onPress={() => showInfo(item, index)}>
+                                <Text style={style.kanji}>
+                                    {item.kanji}
+                                </Text>
+                            </TouchableOpacity>
+                            {item.gotIt === 1 &&
+                            <View style={style.gotItIcon}>
+                                <Icon
+                                    name={'ios-checkmark-circle'}
+                                    size={font.regular}
+                                    type='ionicon'
+                                    color={colors.primary}
+                                    containerStyle={{backgroundColor: 'transparent'}}
+                                />
+                            </View>
+                            }
                         </View>
-                        }
-                    </View>
-                )}
-            </ScrollView>
-            :
-            <LoadingScreen text={'Loading ' + route.params.header + ' Kanji'}/>
+                    )}
+                </ScrollView>
+                :
+                <LoadingScreen text={'Loading ' + route.params.header + ' Kanji'}/>
+            }
+        </LinearGradient>
     )
 };
 
@@ -77,10 +81,6 @@ const getStyle = (colors, font) => {
             flex: 1,
             alignItems: 'stretch',
             justifyContent: 'center',
-            borderWidth: 2,
-            borderRadius: 10,
-            borderColor: colors.border,
-            backgroundColor: colors.card,
             aspectRatio: 1,
             minWidth: '16%',
             margin: 5

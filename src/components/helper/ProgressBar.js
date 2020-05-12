@@ -44,12 +44,12 @@ const ProgressBar = ({duration, delay, setRemainingTime, onFinish, stop, text}) 
                     outputRange: ['0%', '100%'],
                 }),
                 top: animation.interpolate({
-                    inputRange: [0, 5, 100],
-                    outputRange: [5, 0, 0],
+                    inputRange: [0, 10, 100],
+                    outputRange: [15, 0, 0],
                 }),
                 bottom: animation.interpolate({
-                    inputRange: [0, 5, 100],
-                    outputRange: [5, 0, 0],
+                    inputRange: [0, 10, 100],
+                    outputRange: [15, 0, 0],
                 })
             }]}/>
             <Text style={style.scoreText}>{text}</Text>
@@ -63,16 +63,14 @@ const getStyle = (colors, font) => {
     return StyleSheet.create({
         progressBar: {
             flex: 1,
-            backgroundColor: colors.card,
-            borderColor: colors.border,
-            borderWidth: 2,
-            borderRadius: 10,
+            backgroundColor: colors.backgroundDark,
+            borderRadius: 20,
             margin: 10,
             alignItems: 'center',
             justifyContent: 'center'
         },
         absoluteFill: {
-            borderRadius: 10,
+            borderRadius: 20,
             position: 'absolute',
             left: 0,
             right: 0

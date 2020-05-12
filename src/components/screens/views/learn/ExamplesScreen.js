@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {searchForExamples} from "../../../../api/jisho";
 import {Furigana} from "../../../helper/Furigana";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
+import {LinearGradient} from "expo-linear-gradient";
 
 const ExamplesScreen = ({navigation, route, furigana}) => {
     const [examples, setExamples] = useState([]);
@@ -53,8 +54,8 @@ const ExamplesScreen = ({navigation, route, furigana}) => {
     }
 
     return (
-        examples.length ?
-            <View style={{flex: 1, margin: 10}}>
+        <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
+            {examples.length ?
                 <SectionList
                     sections={examples}
                     keyExtractor={(item, index) => index.toString()}
@@ -63,16 +64,15 @@ const ExamplesScreen = ({navigation, route, furigana}) => {
                     }
                     renderSectionHeader={({section: {title}}) =>
                         <View style={style.headerWrapper}>
-                            <View style={style.container}>
-                                <Text style={style.header}>{title}</Text>
-                            </View>
+                            <Text style={style.header}>{title}</Text>
                         </View>
                     }
                     stickySectionHeadersEnabled={true}
                 />
-            </View>
-            :
-            <LoadingScreen text={'Fetching examples'}/>
+                :
+                <LoadingScreen text={'Fetching examples'}/>
+            }
+        </LinearGradient>
     )
 };
 
@@ -94,12 +94,8 @@ const getStyle = (colors, font) => {
         container: {
             alignSelf: 'stretch',
             justifyContent: 'flex-start',
-            backgroundColor: colors.card,
-            borderColor: colors.border,
-            borderWidth: 2,
-            borderRadius: 10,
             padding: 10,
-            marginBottom: 10,
+            marginBottom: 20,
         },
         exHeader: {
             ...example
@@ -110,7 +106,10 @@ const getStyle = (colors, font) => {
             flexWrap: 'wrap'
         },
         headerWrapper: {
-            backgroundColor: colors.background
+            backgroundColor: colors.backgroundLight,
+            borderBottomRightRadius: 20,
+            borderBottomLeftRadius: 20,
+            padding: 10,
         },
         header: {
             fontFamily: font.fontFamily,

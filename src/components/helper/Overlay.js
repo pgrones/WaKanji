@@ -1,6 +1,7 @@
 import React from "react";
-import {Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Modal, ScrollView, StyleSheet, Text, TouchableOpacity} from "react-native";
 import {useTheme} from "@react-navigation/native";
+import {LinearGradient} from "expo-linear-gradient";
 
 export const Overlay = ({isVisible, setVisible, content}) => {
     const {colors, font} = useTheme();
@@ -15,8 +16,9 @@ export const Overlay = ({isVisible, setVisible, content}) => {
                 Alert.alert("Modal has been closed.");
             }}
         >
-            <ScrollView contentContainerStyle={style.centered}>
-                <View style={style.modalView}>
+
+            <ScrollView contentContainerStyle={style.centered} bounces={false}>
+                <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={style.modalView}>
                     <Text style={style.modalText}>{content}</Text>
 
                     <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => {
@@ -24,8 +26,9 @@ export const Overlay = ({isVisible, setVisible, content}) => {
                     }}>
                         <Text style={{...style.textStyle, color: colors.buttonText}}>Got it! 分かった!</Text>
                     </TouchableOpacity>
-                </View>
+                </LinearGradient>
             </ScrollView>
+
         </Modal>
     );
 };
@@ -40,25 +43,14 @@ const getStyle = (colors, font) => {
         },
         modalView: {
             margin: 10,
-            backgroundColor: colors.card,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: colors.border,
             padding: 20,
+            borderRadius: 20,
             justifyContent: 'center',
-            alignItems: "stretch",
-            shadowColor: "#000",
-            shadowOffset: {
-                width: 0,
-                height: 4,
-            },
-            shadowOpacity: 0.30,
-            shadowRadius: 4.65,
-            elevation: 8,
+            alignItems: "stretch"
         },
         button: {
             backgroundColor: colors.primary,
-            borderRadius: 35,
+            borderRadius: 20,
             padding: 10,
         },
         textStyle: {

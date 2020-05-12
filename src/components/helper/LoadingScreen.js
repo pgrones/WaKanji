@@ -8,7 +8,7 @@ export const LoadingScreen = ({text}) => {
 
     return (
         <View style={style.container}>
-            <ActivityIndicator size={"large"}/>
+            <ActivityIndicator size={"large"} color={colors.text}/>
             <Text style={style.text}>{text}</Text>
         </View>
     )

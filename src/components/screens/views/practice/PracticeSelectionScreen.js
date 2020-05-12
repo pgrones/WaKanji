@@ -5,6 +5,7 @@ import {Icon} from "react-native-elements";
 import {Overlay} from "../../../helper/Overlay";
 import {setNavigationVisible} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
+import {LinearGradient} from "expo-linear-gradient";
 
 const PracticeSelectionScreen = ({navigation, gotItAmount, setNavigationVisible}) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -19,48 +20,50 @@ const PracticeSelectionScreen = ({navigation, gotItAmount, setNavigationVisible}
     };
 
     return (
-        <View style={style.container}>
-            {gotItAmount < 10 ?
-                <TouchableOpacity style={style.buttonAmount} activeOpacity={0.5} onPress={() => {
-                    navigation.navigate('Learn');
-                }}>
-                    <Text style={style.buttonAmountText}>Mark at least 10 Kanji as learned</Text>
-                </TouchableOpacity>
-                :
-                <View style={style.wrapper}>
-                    <TouchableOpacity style={style.button} activeOpacity={0.5}
-                                      onPress={() => {
-                                          navigation.push('Game', {game: 0});
-                                          setNavigationVisible(false);
-                                      }}
-                    >
-                        <Image style={{width: 155, height: 155}}
-                               source={require('../../../../../assets/flashcards.png')}/>
-                        <TouchableOpacity style={style.help} activeOpacity={0.5} onPress={() => openModal(exp1)}>
-                            <Icon
-                                name={'question'}
-                                size={24}
-                                type='simple-line-icon'
-                                color={colors.primary}
-                            />
+        <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
+            <View style={style.container}>
+                {gotItAmount < 10 ?
+                    <TouchableOpacity style={style.buttonAmount} activeOpacity={0.5} onPress={() => {
+                        navigation.navigate('Learn');
+                    }}>
+                        <Text style={style.buttonAmountText}>Mark at least 10 Kanji as learned</Text>
+                    </TouchableOpacity>
+                    :
+                    <View style={style.wrapper}>
+                        <TouchableOpacity style={style.button} activeOpacity={0.5}
+                                          onPress={() => {
+                                              navigation.push('Game', {game: 0});
+                                              setNavigationVisible(false);
+                                          }}
+                        >
+                            <Image style={{width: 155, height: 155}}
+                                   source={require('../../../../../assets/flashcards.png')}/>
+                            <TouchableOpacity style={style.help} activeOpacity={0.5} onPress={() => openModal(exp1)}>
+                                <Icon
+                                    name={'question'}
+                                    size={24}
+                                    type='simple-line-icon'
+                                    color={colors.primary}
+                                />
+                            </TouchableOpacity>
                         </TouchableOpacity>
-                    </TouchableOpacity>
 
-                    <TouchableOpacity style={style.button} activeOpacity={0.5}>
-                        <Text style={style.buttonText}>WIP</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={style.button} activeOpacity={0.5}>
+                            <Text style={style.buttonText}>WIP</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={style.button} activeOpacity={0.5}>
-                        <Text style={style.buttonText}>WIP</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={style.button} activeOpacity={0.5}>
+                            <Text style={style.buttonText}>WIP</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity style={style.button} activeOpacity={0.5}>
-                        <Text style={style.buttonText}>WIP</Text>
-                    </TouchableOpacity>
-                </View>
-            }
-            <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={explanation}/>
-        </View>
+                        <TouchableOpacity style={style.button} activeOpacity={0.5}>
+                            <Text style={style.buttonText}>WIP</Text>
+                        </TouchableOpacity>
+                    </View>
+                }
+                <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={explanation}/>
+            </View>
+        </LinearGradient>
     );
 };
 
@@ -91,10 +94,6 @@ const getStyle = (colors, font) => {
             flexGrow: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            borderWidth: 2,
-            borderRadius: 40,
-            borderColor: colors.border,
-            backgroundColor: colors.card,
             aspectRatio: 1,
             minWidth: '40%',
             margin: 5
@@ -108,10 +107,6 @@ const getStyle = (colors, font) => {
             alignSelf: 'stretch',
             alignItems: 'center',
             justifyContent: 'center',
-            borderWidth: 2,
-            borderRadius: 10,
-            borderColor: colors.border,
-            backgroundColor: colors.card,
             padding: 10,
             margin: 5
         },

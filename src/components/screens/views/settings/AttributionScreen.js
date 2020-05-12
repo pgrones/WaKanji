@@ -1,48 +1,48 @@
 import React from "react";
 import {FlatList, Linking, StyleSheet, Text, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
-import {SettingButton} from "./SettingButton";
+import {Button} from "../../../helper/Button";
+import {LinearGradient} from "expo-linear-gradient";
 
 export const AttributionScreen = () => {
     const {colors, font} = useTheme();
-    const style = getStyle(colors);
+    const style = getStyle();
 
     return (
-        <FlatList data={DATA} keyExtractor={(item, index) => index.toString()} renderItem={({item, index}) =>
-            <View style={{marginBottom: 10}}>
-                <View style={style.container}>
-                    <Text style={{color: colors.text, fontFamily: font.fontFamily}}>
-                        {item}
-                    </Text>
+        <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
+            <FlatList data={DATA} keyExtractor={(item, index) => index.toString()} renderItem={({item, index}) =>
+                <View style={{marginBottom: 10}}>
                     {index === 0 &&
-                    <Text style={{color: colors.primary, fontFamily: font.fontFamily}}
-                          onPress={() => Linking.openURL('http://jisho.org/forum/54fefc1f6e73340b1f160000-is-there-any-kind-of-search-api')}>
-                        Jisho.org Forum Post
-                    </Text>
+                    <>
+                        <Button title='Jisho.org' onPress={() => Linking.openURL('https://jisho.org')}
+                                icon='external-link' type='feather'/>
+                        <Button title='Tatoeba.org' onPress={() => Linking.openURL('https://tatoeba.org')}
+                                icon='external-link' type='feather'/>
+                    </>
                     }
-                </View>
-                {index === 0 &&
-                <>
-                    <SettingButton title='Jisho.org' onPress={() => Linking.openURL('https://jisho.org')}
-                                   icon='external-link' type='feather'/>
-                    <SettingButton title='Tatoeba.org' onPress={() => Linking.openURL('https://tatoeba.org')}
-                                   icon='external-link' type='feather'/>
-                </>
-                }
-            </View>}/>
+                    <View style={style.container}>
+                        <Text style={{color: colors.text, fontFamily: font.fontFamily}}>
+                            {item}
+                        </Text>
+                        {index === 0 &&
+                        <Text style={{color: colors.primary, fontFamily: font.fontFamily}}
+                              onPress={() => Linking.openURL('http://jisho.org/forum/54fefc1f6e73340b1f160000-is-there-any-kind-of-search-api')}>
+                            Jisho.org Forum Post
+                        </Text>
+                        }
+                    </View>
+                </View>}
+            />
+        </LinearGradient>
     )
 };
 
-const getStyle = (colors) => {
+const getStyle = () => {
     return StyleSheet.create({
         container: {
             margin: 10,
             marginBottom: 0,
-            padding: 10,
-            backgroundColor: colors.card,
-            borderColor: colors.border,
-            borderWidth: 2,
-            borderRadius: 10
+            padding: 10
         }
     })
 };

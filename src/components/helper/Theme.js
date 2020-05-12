@@ -1,4 +1,3 @@
-import {DarkTheme, DefaultTheme} from "@react-navigation/native";
 import {Platform} from "react-native";
 
 export const font = {
@@ -9,10 +8,14 @@ export const font = {
 };
 
 export const lightTheme = {
-    ...DefaultTheme,
     colors: {
-        ...DefaultTheme.colors,
-        buttonText: '#e5e5e7'
+        primary: '#137EB0',
+        backgroundDark: '#DAE4F6',
+        backgroundLight: '#FAFAFA',
+        card: '#181A1D',
+        text: '#293337',
+        border: '#3D5A6C',
+        buttonText: '#DEDFE0'
     },
     font:{
         ...font
@@ -20,10 +23,14 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-    ...DarkTheme,
     colors: {
-        ...DarkTheme.colors,
-        buttonText: '#e5e5e7'
+        primary: '#158BBE',
+        backgroundDark: '#181A1D',
+        backgroundLight: '#32373C',
+        card: '#181A1D',
+        text: '#DEDFE0',
+        border: '#3D5A6C',
+        buttonText: '#DEDFE0'
     },
     font:{
         ...font

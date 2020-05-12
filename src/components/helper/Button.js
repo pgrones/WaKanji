@@ -3,17 +3,21 @@ import {Icon} from "react-native-elements";
 import React from "react";
 import {useTheme} from "@react-navigation/native";
 
-export const SettingButton = ({title, onPress, icon, type, color}) => {
+export const Button = ({title, onPress, icon, type, color, fontSize, rightMargin = 12}) => {
     const {colors, font} = useTheme();
-    const style = getStyle(colors, font);
+    const style = getStyle(colors, font, rightMargin);
 
     return (
         <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => onPress()}>
-            <Text style={style.text}>{title}</Text>
+            {React.isValidElement(title) ?
+                title
+                :
+                <Text style={style.text}>{title}</Text>
+            }
             {icon !== undefined &&
             <Icon
                 name={icon}
-                size={font.large}
+                size={fontSize || font.medium}
                 type={type}
                 color={color || colors.text}
             />
@@ -22,20 +26,18 @@ export const SettingButton = ({title, onPress, icon, type, color}) => {
     )
 };
 
-const getStyle = (colors, font) => {
+const getStyle = (colors, font, rightMargin) => {
     return StyleSheet.create({
         button: {
             margin: 10,
-            marginBottom: 0,
+            marginBottom: 5,
+            marginRight: rightMargin,
             flexDirection: 'row',
             justifyContent: 'space-between',
             padding: 10,
+            paddingBottom: 0,
             alignItems: 'center',
-            backgroundColor: colors.card,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: colors.border,
-            minHeight: 57
+            minHeight: 37
         },
         text: {
             fontSize: font.regular,

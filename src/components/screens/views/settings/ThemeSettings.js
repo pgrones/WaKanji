@@ -42,16 +42,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(ThemeSetting);
 const getStyle = (colors, font) => {
     return StyleSheet.create({
         button: {
-            margin: 5,
-            marginBottom: 0,
+            margin: 0,
+            marginLeft: 20,
+            marginRight: 11,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            padding: 10,
-            alignItems: 'center',
-            backgroundColor: colors.card,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: colors.border
+            padding: 5,
+            alignItems: 'center'
         },
         text:{
             fontSize: font.regular,

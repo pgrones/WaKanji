@@ -28,10 +28,19 @@ const Navigation = ({theme, navigationVisible}) => {
 
     return (
         <NavigationContainer theme={getTheme()}>
-            <StatusBar backgroundColor={getTheme().colors.card}
-                       barStyle={getTheme() === darkTheme ? 'light-content' : 'dark-content'}
+            <StatusBar
+                barStyle={getTheme() === darkTheme ? 'light-content' : 'dark-content'}
+                backgroundColor={getTheme().colors.backgroundLight}
             />
-            <Tab.Navigator initialRouteName={'Learn'}>
+            <Tab.Navigator
+                initialRouteName={'Learn'}
+                tabBarOptions={{
+                    style: {
+                        borderTopWidth: 0,
+                        elevation: 0,
+                        backgroundColor: getTheme().colors.backgroundDark
+                    }
+                }}>
                 <Tab.Screen
                     name="Learn"
                     component={LearnScreen}

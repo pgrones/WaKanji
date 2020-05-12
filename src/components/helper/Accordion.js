@@ -52,11 +52,8 @@ const getStyle = (colors, font) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             padding: 10,
+            paddingBottom: 0,
             alignItems: 'center',
-            backgroundColor: colors.card,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: colors.border
         }
     });
 };

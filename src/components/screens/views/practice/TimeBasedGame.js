@@ -53,10 +53,6 @@ const getStyle = (colors, font) => {
             flex: 5,
             alignItems: 'center',
             justifyContent: 'center',
-            borderColor: colors.border,
-            backgroundColor: colors.card,
-            borderWidth: 2,
-            borderRadius: 10,
             margin: 10,
             marginTop: 5
         },
@@ -79,10 +75,6 @@ const getStyle = (colors, font) => {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
-            borderWidth: 2,
-            borderRadius: 10,
-            borderColor: colors.border,
-            backgroundColor: colors.card,
             margin: 5,
             marginTop: 0
         },

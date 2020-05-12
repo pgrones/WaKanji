@@ -6,6 +6,8 @@ import {Overlay} from "../../../helper/Overlay";
 import ProgressBar from "../../../helper/ProgressBar";
 import {setNavigationVisible} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
+import {LinearGradient} from "expo-linear-gradient";
+import {useTheme} from "@react-navigation/native";
 
 const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
     // Kanji and answer translations
@@ -22,6 +24,8 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
     const animation = useRef(new Animated.Value(0)).current; // ref for the animation
     //Modal
     const [isModalVisible, setModalVisible] = useState(false); // Opens/closes the modal
+
+    const {colors} = useTheme();
 
     // Load from DB on first render
     useEffect(() => {
@@ -99,49 +103,53 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
     };
 
     return (
-        isModalVisible ?
-            <Overlay isVisible={isModalVisible} setVisible={closeModal} content={'Finish\nScore: ' + score.toFixed(0)}/>
-            :
-            randomKanji.length && translations.length ?
-                <Animated.View
-                    key={index}
-                    style={{
-                        position: 'absolute',
-                        left: animation.interpolate({
-                            inputRange: [0, 100, 200],
-                            outputRange: [Dimensions.get('screen').width, 0, -Dimensions.get('screen').width],
-                        }),
-                        top: 0,
-                        bottom: 0,
-                        right: animation.interpolate({
-                            inputRange: [0, 100, 200],
-                            outputRange: [-Dimensions.get('screen').width, 0, Dimensions.get('screen').width],
-                        })
-                    }}
-                >
-                    <View style={{flex: 1, marginBottom: 50}}>
-                        <ProgressBar
-                            duration={duration}
-                            delay={0}
-                            setRemainingTime={setRemainingTime}
-                            stop={stop}
-                            onFinish={() => setModalVisible(true)}
-                            text={score.toFixed(0)}
-                        />
-                        <TimeBasedGame
-                            next={getNext}
-                            kanji={randomKanji[index]}
-                            translations={answers}
-                            setStop={setStop}
-                            finish={() => {
-                                setStop(true);
-                                setModalVisible(true)
-                            }}
-                        />
-                    </View>
-                </Animated.View>
+        <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
+            {isModalVisible ?
+                <Overlay isVisible={isModalVisible} setVisible={closeModal}
+                         content={'Finish\nScore: ' + score.toFixed(0)}/>
                 :
-                <View><Text>Loading</Text></View> //TODO make nicer
+                randomKanji.length && translations.length ?
+                    <Animated.View
+                        key={index}
+                        style={{
+                            position: 'absolute',
+                            left: animation.interpolate({
+                                inputRange: [0, 100, 200],
+                                outputRange: [Dimensions.get('screen').width, 0, -Dimensions.get('screen').width],
+                            }),
+                            top: 0,
+                            bottom: 0,
+                            right: animation.interpolate({
+                                inputRange: [0, 100, 200],
+                                outputRange: [-Dimensions.get('screen').width, 0, Dimensions.get('screen').width],
+                            })
+                        }}
+                    >
+                        <View style={{flex: 1, marginBottom: 50}}>
+                            <ProgressBar
+                                duration={duration}
+                                delay={0}
+                                setRemainingTime={setRemainingTime}
+                                stop={stop}
+                                onFinish={() => setModalVisible(true)}
+                                text={score.toFixed(0)}
+                            />
+                            <TimeBasedGame
+                                next={getNext}
+                                kanji={randomKanji[index]}
+                                translations={answers}
+                                setStop={setStop}
+                                finish={() => {
+                                    setStop(true);
+                                    setModalVisible(true)
+                                }}
+                            />
+                        </View>
+                    </Animated.View>
+                    :
+                    <View><Text>Loading</Text></View> //TODO make nicer
+            }
+        </LinearGradient>
     )
 };
 
