@@ -33,7 +33,7 @@ const Navigation = ({theme, navigationVisible}) => {
                 backgroundColor={getTheme().colors.backgroundLight}
             />
             <Tab.Navigator
-                initialRouteName={'Learn'}
+                initialRouteName={'Dictionary'}
                 tabBarOptions={{
                     style: {
                         borderTopWidth: 0,
@@ -42,7 +42,7 @@ const Navigation = ({theme, navigationVisible}) => {
                     }
                 }}>
                 <Tab.Screen
-                    name="Learn"
+                    name="Dictionary"
                     component={LearnScreen}
                     options={{
                         tabBarIcon: ({focused}) =>

@@ -24,7 +24,7 @@ const PracticeSelectionScreen = ({navigation, gotItAmount, setNavigationVisible}
             <View style={style.container}>
                 {gotItAmount < 10 ?
                     <TouchableOpacity style={style.buttonAmount} activeOpacity={0.5} onPress={() => {
-                        navigation.navigate('Learn');
+                        navigation.navigate('Dictionary');
                     }}>
                         <Text style={style.buttonAmountText}>Mark at least 10 Kanji as learned</Text>
                     </TouchableOpacity>

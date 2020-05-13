@@ -4,7 +4,7 @@ export const font = {
     regular: 18,
     large: 30,
     medium: 24,
-    fontFamily: Platform.OS === 'ios' ? 'PingFangSC-Regular' : ''
+    fontFamily: Platform.OS === 'ios' ? 'PingFangSC-Regular' : 'sans-serif-light'
 };
 
 export const lightTheme = {

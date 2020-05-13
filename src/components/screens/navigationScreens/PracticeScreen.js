@@ -22,6 +22,8 @@ const PracticeScreen = ({navigation, setAmount}) => {
     return (
         <Stack.Navigator
             screenOptions={{
+                headerTitleAlign: 'center',
+                headerBackTitleVisible: true,
                 headerStyle: {
                     backgroundColor: colors.backgroundLight,
                     shadowColor: 'transparent',
@@ -30,11 +32,12 @@ const PracticeScreen = ({navigation, setAmount}) => {
                 headerTintColor: colors.text,
                 headerTitleStyle: {
                     fontFamily: font.fontFamily,
-                    fontSize: font.regular
+                    fontSize: font.regular,
+                    fontWeight: 'bold'
                 },
             }}
         >
-            <Stack.Screen name="Practice" options={{title: "Practice  練習"}} component={PracticeSelectionScreen}/>
+            <Stack.Screen name="Practice" component={PracticeSelectionScreen}/>
             <Stack.Screen name="Game" options={{title: "Flash Cards", headerLeft: null}}
                           component={TimeBasedGameWrapper}/>
         </Stack.Navigator>

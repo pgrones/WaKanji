@@ -14,6 +14,8 @@ export const LearnScreen = () => {
     return (
         <Stack.Navigator
             screenOptions={{
+                headerTitleAlign: 'center',
+                headerBackTitleVisible: true,
                 headerStyle: {
                     backgroundColor: colors.backgroundLight,
                     shadowColor: 'transparent',
@@ -22,11 +24,12 @@ export const LearnScreen = () => {
                 headerTintColor: colors.text,
                 headerTitleStyle: {
                     fontFamily: font.fontFamily,
-                    fontSize: font.regular
+                    fontSize: font.regular,
+                    fontWeight: 'bold'
                 }
             }}
         >
-            <Stack.Screen name="Learn" component={GradesScreen} options={{title: 'Dictionary'}}/>
+            <Stack.Screen name="Dictionary" component={GradesScreen}/>
             <Stack.Screen name="KanjiGrid" component={KanjiGridScreen}/>
             <Stack.Screen name="KanjiInfo" component={KanjiInfoScreen} options={{gestureEnabled: false}}/>
             <Stack.Screen name="Examples" component={ExamplesScreen}/>
