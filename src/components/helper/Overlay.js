@@ -3,6 +3,13 @@ import {Modal, ScrollView, StyleSheet, Text, TouchableOpacity} from "react-nativ
 import {useTheme} from "@react-navigation/native";
 import {LinearGradient} from "expo-linear-gradient";
 
+/**
+ * Modal to display above all other components. Useful for explanations or information
+ * The visible state is handled by the component that is using the modal
+ * @param isVisible Boolean if the modal is visible
+ * @param setVisible Function to hide the modal again
+ * @param content String that is rendered inside the modal
+ */
 export const Overlay = ({isVisible, setVisible, content}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
@@ -13,14 +20,13 @@ export const Overlay = ({isVisible, setVisible, content}) => {
             transparent={true}
             visible={isVisible}
             onRequestClose={() => {
+                // Apparently needed for Apple TVs
                 Alert.alert("Modal has been closed.");
             }}
         >
-
             <ScrollView contentContainerStyle={style.centered} bounces={false}>
                 <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={style.modalView}>
                     <Text style={style.modalText}>{content}</Text>
-
                     <TouchableOpacity style={style.button} activeOpacity={0.5} onPress={() => {
                         setVisible(!isVisible);
                     }}>
@@ -28,7 +34,6 @@ export const Overlay = ({isVisible, setVisible, content}) => {
                     </TouchableOpacity>
                 </LinearGradient>
             </ScrollView>
-
         </Modal>
     );
 };

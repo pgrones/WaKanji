@@ -7,6 +7,19 @@ import {useTheme} from "@react-navigation/native";
 import {connect} from "react-redux";
 import {LinearGradient} from "expo-linear-gradient";
 
+/**
+ * Component displaying all infos regarding a Kanji
+ * This component will receive major changes to decrease its size/complexity and to incorporate examples
+ * @param navigation
+ * @param onyomi Global setting for the characters of a On reading of a Kanji
+ * @param kunyomi Global setting for the characters of a Kun reading of a Kanji
+ * @param kanjiInfo All info regarding a Kanji
+ * @param prev Previous Kanji to display as the previous button
+ * @param next Next Kanji to display as the next button
+ * @param setGotIt Function to mark a Kanji as understood
+ * @param scrollBy Scroll by one to the next/previous Kanji
+ * @param index The index of the current Kanji in the global array
+ */
 const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt, scrollBy, index}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [reading, setReading] = useState();
@@ -24,7 +37,7 @@ const KanjiInfo = ({navigation, onyomi, kunyomi, kanjiInfo, prev, next, setGotIt
     };
 
     return (
-        // Using a flatList with one item instead of a scroll view, because I just couldn't get it to scroll
+        // Using a flatList with one item instead of a scroll view, because I just couldn't get it to scroll otherwise
         <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
             <FlatList data={[0]} bounces={false} keyExtractor={(item, index) => index.toString()} renderItem={() =>
                 <View style={style.wrapper}>

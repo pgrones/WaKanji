@@ -1,5 +1,11 @@
-import {isHiragana as isH, isKatakana as isK, toHiragana, toKatakana, toRomaji} from "wanakana";
+import {toHiragana, toKatakana, toRomaji} from "wanakana";
 
+/**
+ * Converter to change the characters of different readings
+ * @param item The text to convert
+ * @param reading The reading to convert to
+ * @returns {String}
+ */
 export const convert = (item, reading) => {
     switch (reading) {
         case 'romaji':
@@ -9,14 +15,7 @@ export const convert = (item, reading) => {
         case 'katakana':
             return toKatakana(item).replace(/、/g, ',');
         default:
+            // Should never actually be reached
             console.log('Reading not found ' + reading);
     }
 };
-
-export const isHiragana = (reading) => {
-    return isH(reading);
-}
-
-export const isKatakana = (reading) => {
-    return isK(reading);
-}

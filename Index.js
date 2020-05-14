@@ -6,6 +6,15 @@ import Navigation from "./src/components/Navigation";
 import {setDbLoaded, setFurigana, setKunyomi, setOnyomi, setTheme} from "./src/redux/actions/Actions";
 import {connect} from "react-redux";
 
+/**
+ * First component to be rendered after the start of the app. Initializes all global states
+ * @param dbLoaded Flag to indicate if the DB has loaded
+ * @param setDbLoaded
+ * @param setTheme
+ * @param setKunyomi
+ * @param setOnyomi
+ * @param setFurigana
+ */
 const Index = ({dbLoaded, setDbLoaded, setTheme, setKunyomi, setOnyomi, setFurigana}) => {
     useEffect(() => {
         if (dbLoaded) {

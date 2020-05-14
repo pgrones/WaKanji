@@ -2,6 +2,9 @@ import React, {useEffect, useRef, useState} from "react";
 import {Animated, Easing, StyleSheet, Text, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 
+/**
+ * Countdown component that is currently unused
+ */
 export const CountDown = () => {
     const [progress, setProgress] = useState(3)
     const {colors, font} = useTheme();

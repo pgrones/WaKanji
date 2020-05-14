@@ -5,6 +5,9 @@ import {connect} from "react-redux";
 import Swiper from 'react-native-swiper';
 import KanjiInfo from "./KanjiInfo";
 
+/**
+ * Wrapper around the KanjiInfo to enable a swipe action
+ */
 class KanjiInfoScreen extends Component {
     constructor(props) {
         super(props);

@@ -12,6 +12,13 @@ import {useColorScheme} from "react-native-appearance";
 
 const Tab = createBottomTabNavigator();
 
+/**
+ * Bottom navigation for different screens. Also provides the theme throughout the app
+ * @param theme The chosen theme as string
+ * @param navigationVisible Global state to hide/show the navigation
+ * @returns {*}
+ * @constructor
+ */
 const Navigation = ({theme, navigationVisible}) => {
     const scheme = useColorScheme();
 

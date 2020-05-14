@@ -1,14 +1,34 @@
 const jishoApi = require('unofficial-jisho-api');
 const jisho = new jishoApi();
 
-export const searchForPhrase = async (phrase) => {
-    return await jisho.searchForPhrase(phrase)
+/** Small Wrapper around the API I'm using for the example sentences **/
+
+export const searchForPhrase = (phrase, callback) => {
+    jisho.searchForPhrase(phrase)
+        .then(result => {
+            callback(result.results)
+        })
+        .catch(err => {
+            console.log(err); //TODO better error handling
+        })
 }
 
-export const searchForKanji = async (kanji) => {
-    return await jisho.searchForKanji(kanji)
+export const searchForKanji = (kanji, callback) => {
+    jisho.searchForKanji(kanji)
+        .then(result => {
+            callback(result.results)
+        })
+        .catch(err => {
+            console.log(err); //TODO better error handling
+        })
 }
 
-export const searchForExamples = async (kanji) => {
-    return await jisho.searchForExamples(kanji)
+export const searchForExamples = (kanji, callback) => {
+    jisho.searchForExamples(kanji)
+        .then(result => {
+            callback(result.results)
+        })
+        .catch(err => {
+            console.log(err); //TODO better error handling
+        })
 }

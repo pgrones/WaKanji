@@ -2,27 +2,41 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Animated, Easing, StyleSheet, Text, View} from 'react-native';
 import {useTheme} from "@react-navigation/native";
 
-const ProgressBar = ({duration, delay, setRemainingTime, onFinish, stop, text}) => {
-    const [progress, setProgress] = useState(0)
-    const {colors, font} = useTheme();
-    const style = getStyle(colors, font);
+/**
+ * Animated progress bar to display remaining time
+ * @param duration Duration of the animation
+ * @param delay Delay after which the animation starts
+ * @param setRemainingTime Callback to send back the remaining time in order to calculate a score
+ * @param onFinish Callback that executes whenever the time reaches 0
+ * @param stop Stops the animation when true
+ * @param text Text to display inside the progress bar e.g. a score
+ */
+export const ProgressBar = ({duration, delay, setRemainingTime, onFinish, stop, text}) => {
+    const [progress, setProgress] = useState(100);
     const animation = useRef(new Animated.Value(100)).current;
     animation.addListener(({value}) => setProgress(value));
 
+    const {colors, font} = useTheme();
+    const style = getStyle(colors, font);
+
+    // Starts the animation on the initial render
     useEffect(() => {
         Animated.timing(animation, {
             toValue: 0,
             easing: Easing.out(Easing.ease),
             duration: duration,
-            delay: 200 + delay
+            delay: delay
         }).start(({finished}) => {
             if (finished) {
                 onFinish();
             }
         });
+
+        // To prevent memory leaks
         return () => animation.removeAllListeners();
     }, []);
 
+    // Stops the animation and sends the remaining time back to the caller
     useEffect(() => {
         if (stop) {
             Animated.timing(
@@ -56,8 +70,6 @@ const ProgressBar = ({duration, delay, setRemainingTime, onFinish, stop, text}) 
         </View>
     );
 };
-
-export default ProgressBar
 
 const getStyle = (colors, font) => {
     return StyleSheet.create({

@@ -1,3 +1,7 @@
+/**
+ * Redux actions various global states
+ */
+
 export const setDbLoaded = isLoaded => ({
     type: 'SET_DB_LOADED',
     isLoaded
@@ -21,11 +25,6 @@ export const setOnyomi = reading => ({
 export const setFurigana = furigana => ({
     type: 'SET_FURIGANA',
     furigana
-});
-
-export const setGrades = grades => ({
-    type: 'SET_GRADES',
-    grades
 });
 
 export const setKanji = kanji => ({

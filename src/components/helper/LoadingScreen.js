@@ -2,6 +2,10 @@ import React from "react";
 import {ActivityIndicator, StyleSheet, Text, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 
+/**
+ * Loading Screen to display whenever a async call is loading
+ * @param text Text to display below the loading icon
+ */
 export const LoadingScreen = ({text}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);

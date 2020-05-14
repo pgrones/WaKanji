@@ -7,6 +7,13 @@ import {setNavigationVisible} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
 import {LinearGradient} from "expo-linear-gradient";
 
+/**
+ * Selection screen for the games
+ * This screen will probably be replaced with "My Library"
+ * @param navigation
+ * @param gotItAmount Amount of understood Kanji
+ * @param setNavigationVisible Function to hide the navigation inside a game
+ */
 const PracticeSelectionScreen = ({navigation, gotItAmount, setNavigationVisible}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [explanation, setExplanation] = useState();

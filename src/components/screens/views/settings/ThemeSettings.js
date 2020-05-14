@@ -6,6 +6,13 @@ import {connect} from "react-redux";
 import {useTheme} from "@react-navigation/native";
 import {Icon} from "react-native-elements";
 
+/**
+ * Button to update theme preferences. Used inside the theme accordion
+ * @param title Title to display on the button
+ * @param type ype of the setting in the DB (dark, light, systemStandard)
+ * @param theme Global theme
+ * @param setTheme Setter for the global theme
+ */
 const ThemeSetting = ({title, type, theme, setTheme}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);

@@ -2,6 +2,12 @@ import React from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 
+/**
+ * A component to display raised characters e.g. "st" in 1st
+ * @param start Start index of the characters to raise
+ * @param end End index of the characters to raise
+ * @param text The text which's are being raised
+ */
 export const SuperScript = ({start, end, text}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);

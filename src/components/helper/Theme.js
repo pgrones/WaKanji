@@ -1,5 +1,7 @@
 import {Platform} from "react-native";
 
+/** The standard theme and font of the application **/
+
 export const font = {
     regular: 18,
     large: 30,

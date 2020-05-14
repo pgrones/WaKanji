@@ -1,37 +1,52 @@
 import React, {Component} from "react";
-import {StyleSheet, Text} from "react-native";
+import {FlatList, StyleSheet, Text, View} from "react-native";
 import {connect} from "react-redux";
 import {Appearance, AppearanceProvider} from "react-native-appearance";
 import {darkTheme, lightTheme} from "./helper/Theme";
 import {LinearGradient} from "expo-linear-gradient";
 
+/**
+ * ErrorBoundary that catches all errors and displays an error text
+ * In the best case scenario this screen will never be seen
+ */
 class ErrorBoundary extends Component {
     constructor(props) {
         super(props);
-        this.state = {hasError: false};
+        this.state = {hasError: false, error: '', errorInfo: ''};
     }
 
     static getDerivedStateFromError() {
-        console.log('error')
         return {hasError: true};
     }
 
     componentDidCatch(error, errorInfo) {
-        console.log((error));
-        console.log((errorInfo));
+        this.setState({error: error});
+        this.setState({errorInfo: errorInfo.componentStack})
     }
 
     render() {
         return this.state.hasError ?
             <AppearanceProvider>
                 <LinearGradient
-                    colors={[getTheme(this.props.theme).colors.backgroundLight, getTheme(this.props.theme).colors.backgroundDark]}
-                    style={getStyle(this.props.theme).container}>
-                    <Text style={getStyle(this.props.theme).text}>
-                        {"Something went wrong. Good thing this is just an alpha build~" +
-                        "\nPlease restart the app and send a bug report using the link in the settings tab." +
-                        "\nTry to include all steps to reproduce the issue.\n\n Thank's a bunch!"}
-                    </Text>
+                    colors={[
+                        getTheme(this.props.theme).colors.backgroundLight,
+                        getTheme(this.props.theme).colors.backgroundDark
+                    ]}
+                >
+                    <FlatList data={[0]} keyExtractor={(item, index) => index.toString()} renderItem={() =>
+                        <View style={getStyle(this.props.theme).container}>
+                            <Text style={[getStyle(this.props.theme).text, {fontWeight: 'bold'}]}>
+                                {
+                                    "Something went wrong.\n Good thing this is just an alpha build~" +
+                                    "\nPlease take a screenshot of the error below, restart the app and send a bug report using the link in the settings tab." +
+                                    "\nTry to include all steps to reproduce the issue.\n\n Thank's a bunch!\n\n"
+                                }
+                            </Text>
+                            <Text style={getStyle(this.props.theme).text}>
+                                {this.state.error + "\n" + this.state.errorInfo}
+                            </Text>
+                        </View>
+                    }/>
                 </LinearGradient>
             </AppearanceProvider>
             :

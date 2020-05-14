@@ -7,20 +7,26 @@ import {Furigana} from "../../../helper/Furigana";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
 import {LinearGradient} from "expo-linear-gradient";
 
+/**
+ * Screen to display examples for each Kanji
+ * Will eventually be merged with KanjiInfo
+ * @param navigation
+ * @param route
+ * @param furigana Global boolean setting to display Furigana
+ */
 const ExamplesScreen = ({navigation, route, furigana}) => {
     const [examples, setExamples] = useState([]);
     const {kanji} = route.params;
     navigation.setOptions({title: kanji + '  Examples'});
 
     const {colors, font} = useTheme();
-    const style = getStyle(colors, font,);
+    const style = getStyle(colors, font);
 
     useEffect(() => {
-        searchForExamples(kanji).then(result => {
-            getExamples(result.results)
-        })//TODO error handling
+        searchForExamples(kanji, getExamples);
     }, []);
 
+    // Filter the needed data from the API
     const getExamples = (data) => {
         const arr = [];
         for (let ex of data) {

@@ -6,10 +6,20 @@ import {connect} from "react-redux";
 import {setSetting} from "../../../../persistence/DbConnection";
 import {convert} from "../../../helper/ReadingConverter";
 
+/**
+ * Button to update reading preferences. Used inside the reading accordion
+ * @param title Title to display on the button
+ * @param type Type of the setting in the DB (onReading, kunReading)
+ * @param kunyomi Global state of the Kun reading
+ * @param onyomi Global state of the On reading
+ * @param setKunyomi Setter for the global state of the Kun reading
+ * @param setOnyomi Setter for the global state of the On reading
+ */
 const ReadingSetting = ({title, type, kunyomi, onyomi, setKunyomi, setOnyomi}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
+    // Update the reading in the DB and update the state
     const setReading = () => {
         if (title === 'Kunyomi') {
             setSetting(type, getNextReading(kunyomi), setKunyomi)
@@ -18,6 +28,8 @@ const ReadingSetting = ({title, type, kunyomi, onyomi, setKunyomi, setOnyomi}) =
         }
     };
 
+    // Display the title based on the chosen characters
+    // Romaji is default, so it doesn't need to be converted
     const getTitle = () => {
         if (title === 'Kunyomi') {
             if (kunyomi !== 'romaji') {
@@ -44,8 +56,10 @@ const ReadingSetting = ({title, type, kunyomi, onyomi, setKunyomi, setOnyomi}) =
     )
 };
 
+// The three different character sets to choose from
 const readings = ['romaji', 'hiragana', 'katakana'];
 
+// Get the next character set from the array
 const getNextReading = (currentReading) => {
     const index = readings.indexOf(currentReading);
     if (index + 1 === readings.length) {

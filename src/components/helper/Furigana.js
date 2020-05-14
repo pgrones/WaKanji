@@ -2,10 +2,17 @@ import React from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 
+/**
+ * Component to display Furigana above Kanji
+ * @param pieces Array of Kanji (unlifted) and their Furigana (lifted)
+ * @param sentence The actual sentence without Furigana
+ */
 export const Furigana = ({pieces, sentence}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
+    // Inserts punctuation at the right places into the pieces array
+    // Also fixes known issues produced by the API's html scraping
     const getPiecesWithPunctuation = () => {
         const piecesCopy = [...pieces]; // Copy array to avoid unnecessary rerender
         for (let knownIssue of knownIssues) {

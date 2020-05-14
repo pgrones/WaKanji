@@ -3,21 +3,27 @@ import TimeBasedGame from "./TimeBasedGame";
 import {Animated, Dimensions, Easing, Text, View} from "react-native";
 import {getRandomKanji, getTranslations} from "../../../../persistence/DbConnection";
 import {Overlay} from "../../../helper/Overlay";
-import ProgressBar from "../../../helper/ProgressBar";
+import {ProgressBar} from "../../../helper/ProgressBar";
 import {setNavigationVisible} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
 import {LinearGradient} from "expo-linear-gradient";
 import {useTheme} from "@react-navigation/native";
 
+/**
+ * Wrapper around the flashcard game. Holds all the information during the game.
+ * This component has a lot of states, so decreasing those would be nice
+ * @param navigation
+ * @param setNavigationVisible Function to show the navigation again after a game over
+ */
 const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
     // Kanji and answer translations
-    const [translations, setTranslations] = useState([]); // All translations
+    const [translations, setTranslations] = useState([]); // All translations of all Kanji
     const [randomKanji, setRandomKanji] = useState([]); // All learned Kanji in random order
     const [answers, setAnswers] = useState([]); // Possible answers (length 4)
-    const [index, setIndex] = useState(0); // Index of the current random Kanji
+    const [index, setIndex] = useState(0); // Index of the current learned Kanji in the randomKanji array
     //Score system
     const [score, setScore] = useState(0); // Score number in progressbar
-    const [remainingTime, setRemainingTime] = useState(0) // Remaining time
+    const [remainingTime, setRemainingTime] = useState(0) // Remaining time to calculate the score
     //Animations
     const [duration, setDuration] = useState(12000); // Duration for one flashcard (indicated by progressbar)
     const [stop, setStop] = useState(false); // Stops the progressbar on answer
@@ -33,7 +39,7 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
         getTranslations(setTranslations);
     }, []);
 
-    // Decrease the time for the next answer and slide it in
+    // Decrease the time for the next answer (min 2000ms) and slide it in
     useEffect(() => {
         if (remainingTime > 0) {
             if (duration > 2000) {
@@ -74,7 +80,7 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
         }
     }, [remainingTime])
 
-    // Stops the progressbar, slides the current card out and increase the index
+    // Stops the progressbar, slides the current card out and increases the index
     const getNext = () => {
         setStop(true);
 
@@ -128,7 +134,7 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
                         <View style={{flex: 1, marginBottom: 50}}>
                             <ProgressBar
                                 duration={duration}
-                                delay={0}
+                                delay={200}
                                 setRemainingTime={setRemainingTime}
                                 stop={stop}
                                 onFinish={() => setModalVisible(true)}

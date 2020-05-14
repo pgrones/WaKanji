@@ -4,6 +4,9 @@ import * as FileSystem from "expo-file-system";
 import * as Device from 'expo-device';
 import {createScript} from "./EmulatorCreateScript";
 
+/**
+ * Persistence layer executing DB queries
+ */
 let db = null;
 let logDBCalls = false;
 
@@ -90,9 +93,8 @@ const executeTransaction = (statement, args, callback, onlyOneEntry) => {
                     data = rs.rows._array;
                 }
             );
-            //TODO better handling
         },
-        err => console.log(err),
+        err => console.log(err), //TODO better handling
         () => {
             if (callback) {
                 if (onlyOneEntry) {

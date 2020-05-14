@@ -1,14 +1,17 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 import {getGrades} from "../../../../persistence/DbConnection";
 import {SuperScript} from "../../../helper/SuperScript";
-import {connect} from "react-redux";
-import {setGrades} from "../../../../redux/actions/Actions";
 import {useTheme} from "@react-navigation/native";
 import {LinearGradient} from "expo-linear-gradient";
 import {Button} from "../../../helper/Button";
 
-const GradesScreen = ({navigation, grades, setGrades}) => {
+/**
+ * Screen with buttons to each grade's Kanji
+ * The first screen to render when opening the app
+ */
+export const GradesScreen = ({navigation}) => {
+    const [grades, setGrades] = useState([]);
     const {colors, font} = useTheme();
 
     useEffect(() => {
@@ -27,7 +30,7 @@ const GradesScreen = ({navigation, grades, setGrades}) => {
                 renderItem={({item}) =>
                     <Button
                         title={<SuperScript start={1} end={3} text={item.grade}/>}
-                        fontSize={font.large}
+                        iconSize={font.large}
                         icon={'chevron-right'}
                         type={'material-community'}
                         onPress={() => onGradePress(item)}
@@ -38,14 +41,4 @@ const GradesScreen = ({navigation, grades, setGrades}) => {
         </LinearGradient>
     );
 };
-
-const mapStateToProps = state => ({
-    grades: state.grades
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    setGrades: (grades) => dispatch(setGrades(grades))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(GradesScreen);
 

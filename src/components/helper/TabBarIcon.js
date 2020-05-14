@@ -2,6 +2,11 @@ import React from "react";
 import {Text} from "react-native";
 import {font} from "./Theme";
 
+/**
+ * The icon used in the tab bar
+ * @param iconText Text to use as icon (Kanji in this case)
+ * @param color The color of the icon
+ */
 export const TabBarIcon = ({iconText, color}) => {
     return (
         <Text style={{
@@ -14,6 +19,11 @@ export const TabBarIcon = ({iconText, color}) => {
     )
 };
 
+/**
+ * The text below the icon used in the tab bar
+ * @param text Text to use below the icon
+ * @param color The color of the text
+ */
 export const TabBarText = ({text, color}) => {
     return (
         <Text style={{

@@ -2,6 +2,13 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 
+/**
+ * One screen of the flashcard game. This is being re-rendered on every right answer
+ * @param next Function to tell the wrapper to load the next exercise
+ * @param kanji The Kanji which's meaning is being asked
+ * @param translations Array with four possible answers (including the right one)
+ * @param finish Function to tell the wrapper that the game is over due to a wrong answer
+ */
 const TimeBasedGame = ({next, kanji, translations, finish}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);

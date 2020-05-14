@@ -12,6 +12,7 @@ const Stack = createStackNavigator();
 const PracticeScreen = ({navigation, setAmount}) => {
     const {colors, font} = useTheme();
 
+    // Update the amount of understood Kanji whenever this tab is opened
     useEffect(() => {
         getGotItAmount(setAmount);
         return navigation.addListener('tabPress', () => {

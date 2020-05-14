@@ -4,6 +4,9 @@ import {useTheme} from "@react-navigation/native";
 import {Button} from "../../../helper/Button";
 import {LinearGradient} from "expo-linear-gradient";
 
+/**
+ * Screen to display various attributions for APIs and sources
+ */
 export const AttributionScreen = () => {
     const {colors, font} = useTheme();
     const style = getStyle();

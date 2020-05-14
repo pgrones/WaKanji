@@ -8,11 +8,21 @@ import {Icon} from "react-native-elements";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
 import {LinearGradient} from "expo-linear-gradient";
 
+/**
+ * Screen depicting each Kanji for a grade
+ * Using a flatlist should make this screen more performant
+ * @param route
+ * @param navigation
+ * @param kanji Global array for each Kanji of a grade
+ * @param setKanji Setter for the array
+ */
 const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
     navigation.setOptions({title: route.params.header});
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
+    // Fill the array on initial render or when the gradeId changes
+    // This improves performance, as the DB is only queried on actual changes
     useEffect(() => {
         if (kanji.length === 0 || (kanji[0] && route.params.gradeId !== kanji[0].gradeId)) {
             getKanjiByGradeId(route.params.gradeId, setKanji);
