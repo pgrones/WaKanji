@@ -84,5 +84,12 @@ const knownIssues = [
             lifted: '',
             unlifted: '」'
         })
+    },
+    {
+        sentence: '９０歳以上生きることは決してまれではない。',
+        fix: array => {
+            array.splice(0, 1, {lifted: "", unlifted: "９０"});
+            array.splice(1, 0, {lifted: "さい", unlifted: "歳"})
+        }
     }
 ]

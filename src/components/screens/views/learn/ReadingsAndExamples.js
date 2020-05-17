@@ -59,7 +59,7 @@ const ExampleContainer = ({navigation, onyomi, kunyomi, kanjiInfo}) => {
                 </View>
             </View>
             {height < 600 ?
-                <View style={{flex: 1, justifyContent: 'center'}}>
+                <View style={{flex: 1, justifyContent: 'center', marginBottom: 35}}>
                     <Button
                         title={'Example Sentences'}
                         onPress={() => navigation.push('Examples', {kanji: kanjiInfo.kanji})}

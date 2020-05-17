@@ -25,20 +25,37 @@ const ExamplesScreen = ({navigation, route, furigana, kanji}) => {
         if (route) {
             navigation.setOptions({title: route.params.kanji + '  Examples'});
         }
-        searchForExamples(route ? route.params.kanji : kanji, getExamples);
+
+        // Using an anti-pattern to stop react from updating a state on an unmounted component
+        // Not the best solution, but it does the job (it still doesn't stop the fetch)
+        let isMounted = true;
+        searchForExamples(route ? route.params.kanji : kanji, (data) => {
+            if (isMounted) {
+                getExamples(data)
+            }
+        });
+
+        return () => {
+            // clean up
+            isMounted = false;
+        };
     }, []);
 
     // Filter the needed data from the API
     const getExamples = (data) => {
-        const arr = [];
-        for (let ex of data) {
-            arr.push({
-                pieces: ex.pieces,
-                sentence: ex.kanji,
-                translation: ex.english
-            })
+        if (Array.isArray(data)) {
+            const arr = [];
+            for (let ex of data) {
+                arr.push({
+                    pieces: ex.pieces,
+                    sentence: ex.kanji,
+                    translation: ex.english
+                })
+            }
+            setExamples(arr);
+        } else {
+            setExamples(['Could not fetch examples. Check your internet connection and try again'])
         }
-        setExamples(arr);
     }
 
     const ListItem = ({pieces, sentence, translation}) => {
@@ -62,23 +79,26 @@ const ExamplesScreen = ({navigation, route, furigana, kanji}) => {
         <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]}
                         style={route ? style.screenContainer : style.container}>
             {examples.length ?
-                <FlatList
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item}) =>
-                        <ListItem pieces={item.pieces} sentence={item.sentence} translation={item.translation}/>
-                    }
-                    ItemSeparatorComponent={() =>
-                        <View style={{
-                            flex: 1,
-                            alignSelf: 'stretch',
-                            height: 3,
-                            borderWidth: 1.5,
-                            borderRadius: 10,
-                            borderColor: colors.border
-                        }}/>
-                    }
-                    data={examples}
-                />
+                typeof examples[0] !== 'string' ?
+                    <FlatList
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({item}) =>
+                            <ListItem pieces={item.pieces} sentence={item.sentence} translation={item.translation}/>
+                        }
+                        ItemSeparatorComponent={() =>
+                            <View style={{
+                                flex: 1,
+                                alignSelf: 'stretch',
+                                height: 3,
+                                borderWidth: 1.5,
+                                borderRadius: 10,
+                                borderColor: colors.border
+                            }}/>
+                        }
+                        data={examples}
+                    />
+                    :
+                    <Text>{examples[0]}</Text>
                 :
                 <LoadingScreen text={'Fetching examples'}/>
             }

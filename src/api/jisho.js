@@ -29,6 +29,6 @@ export const searchForExamples = (kanji, callback) => {
             callback(result.results)
         })
         .catch(err => {
-            console.log(err); //TODO better error handling
+            callback(err);
         })
 }
