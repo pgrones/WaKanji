@@ -19,7 +19,7 @@ export const GradesScreen = ({navigation}) => {
     }, []);
 
     const onGradePress = (item) => {
-        navigation.push('KanjiGrid', {header: item.grade, gradeId: item.id})
+        navigation.push('KanjiGrid', {header: item.grade.split(' ')[3], gradeId: item.id})
     };
 
     return (

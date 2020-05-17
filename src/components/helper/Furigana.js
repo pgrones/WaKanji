@@ -72,10 +72,17 @@ const getStyle = (colors, font) => {
 const knownIssues = [
     {
         sentence: 'リオのカーニバルは二月に開催される。',
-        fix: (array) => array.splice(0, 1, {lifted: '', unlifted: 'リオの'})
+        fix: array => array.splice(0, 1, {lifted: '', unlifted: 'リオの'})
     },
     {
         sentence: 'アメリカは世界の１／４の二酸化炭素を排出しており、一人当たりの排出量も世界で最も多いのです。',
-        fix: (array) => array.splice(3, 1)
+        fix: array => array.splice(3, 1)
+    },
+    {
+        sentence: '「西遊記」の中には錬金術の話が数多く登場します。',
+        fix: array => array.splice(0, 2, {lifted: '', unlifted: '「'}, {lifted: 'さいゆうき', unlifted: '西遊記'}, {
+            lifted: '',
+            unlifted: '」'
+        })
     }
 ]

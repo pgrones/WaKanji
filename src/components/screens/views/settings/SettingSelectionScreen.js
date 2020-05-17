@@ -1,6 +1,6 @@
 import React from "react";
 import ThemeSetting from "./ThemeSettings";
-import {Linking, ScrollView} from "react-native";
+import {ScrollView} from "react-native";
 import ReadingSetting from "./ReadingSettings";
 import {Accordion} from "../../../helper/Accordion"
 import {Button} from "../../../helper/Button";
@@ -37,9 +37,10 @@ const SettingSelectionScreen = ({navigation, furigana, setFurigana}) => {
                 </Accordion>
                 <Button title='Furigana' onPress={() => toggleFurigana()}
                         icon={furigana === 'true' ? 'ios-checkmark-circle' : undefined} type='ionicon'
-                        iconColor={colors.primary} rightMargin={15}/>
-                <Button title='Patreon' onPress={() => Linking.openURL('https://www.patreon.com/home')}
-                        icon='external-link' type='feather'/>
+                        iconColor={colors.primary} rightMargin={18}/>
+                <Button title='Donate' onPress={() => {
+                }}
+                        icon='chevron-right' type='material-community' iconSize={font.large}/>
                 <Button title='Attributions' onPress={() => navigation.push('Attributions')} icon='chevron-right'
                         type='material-community' iconSize={font.large}/>
             </ScrollView>

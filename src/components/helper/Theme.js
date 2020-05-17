@@ -16,7 +16,7 @@ export const lightTheme = {
         backgroundLight: '#FAFAFA',
         card: '#181A1D',
         text: '#293337',
-        border: '#3D5A6C',
+        border: '#708C98',
         buttonText: '#DEDFE0'
     },
     font:{

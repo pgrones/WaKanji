@@ -38,7 +38,7 @@ class ErrorBoundary extends Component {
                             <Text style={[getStyle(this.props.theme).text, {fontWeight: 'bold'}]}>
                                 {
                                     "Something went wrong.\n Good thing this is just an alpha build~" +
-                                    "\nPlease take a screenshot of the error below, restart the app and send a bug report using the link in the settings tab." +
+                                    "\nPlease take a screenshot of the first few lines below, restart the app and send a bug report using the link in the settings tab." +
                                     "\nTry to include all steps to reproduce the issue.\n\n Thank's a bunch!\n\n"
                                 }
                             </Text>
@@ -82,7 +82,9 @@ const getStyle = (theme) => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            padding: 10
+            margin: 10,
+            marginTop: 40,
+            marginBottom: 30
         },
         text: {
             fontSize: actualTheme.font.regular,

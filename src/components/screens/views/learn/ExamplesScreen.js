@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {SectionList, StyleSheet, Text, View} from "react-native";
+import {FlatList, StyleSheet, Text, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 import {connect} from "react-redux";
 import {searchForExamples} from "../../../../api/jisho";
@@ -13,17 +13,19 @@ import {LinearGradient} from "expo-linear-gradient";
  * @param navigation
  * @param route
  * @param furigana Global boolean setting to display Furigana
+ * @param kanji
  */
-const ExamplesScreen = ({navigation, route, furigana}) => {
+const ExamplesScreen = ({navigation, route, furigana, kanji}) => {
     const [examples, setExamples] = useState([]);
-    const {kanji} = route.params;
-    navigation.setOptions({title: kanji + '  Examples'});
 
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
     useEffect(() => {
-        searchForExamples(kanji, getExamples);
+        if (route) {
+            navigation.setOptions({title: route.params.kanji + '  Examples'});
+        }
+        searchForExamples(route ? route.params.kanji : kanji, getExamples);
     }, []);
 
     // Filter the needed data from the API
@@ -36,15 +38,12 @@ const ExamplesScreen = ({navigation, route, furigana}) => {
                 translation: ex.english
             })
         }
-        setExamples([{
-            title: 'Sentences',
-            data: arr
-        }]);
+        setExamples(arr);
     }
 
     const ListItem = ({pieces, sentence, translation}) => {
         return (
-            <View style={style.container}>
+            <View style={{flex: 1, margin: 10}}>
                 {furigana === 'true' ?
                     <Furigana pieces={pieces} sentence={sentence}/>
                     :
@@ -60,20 +59,25 @@ const ExamplesScreen = ({navigation, route, furigana}) => {
     }
 
     return (
-        <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
+        <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]}
+                        style={route ? style.screenContainer : style.container}>
             {examples.length ?
-                <SectionList
-                    sections={examples}
+                <FlatList
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({item}) =>
                         <ListItem pieces={item.pieces} sentence={item.sentence} translation={item.translation}/>
                     }
-                    renderSectionHeader={({section: {title}}) =>
-                        <View style={style.headerWrapper}>
-                            <Text style={style.header}>{title}</Text>
-                        </View>
+                    ItemSeparatorComponent={() =>
+                        <View style={{
+                            flex: 1,
+                            alignSelf: 'stretch',
+                            height: 3,
+                            borderWidth: 1.5,
+                            borderRadius: 10,
+                            borderColor: colors.border
+                        }}/>
                     }
-                    stickySectionHeadersEnabled={true}
+                    data={examples}
                 />
                 :
                 <LoadingScreen text={'Fetching examples'}/>
@@ -89,40 +93,26 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(ExamplesScreen)
 
 const getStyle = (colors, font) => {
-    const example = {
-        fontFamily: font.fontFamily,
-        color: colors.text,
-        fontSize: font.regular,
-        flexWrap: 'wrap'
-    };
-
     return StyleSheet.create({
         container: {
-            alignSelf: 'stretch',
-            justifyContent: 'flex-start',
+            flex: 1,
             padding: 10,
-            marginBottom: 20,
+            borderRadius: 30,
+            marginTop: 15,
+            paddingBottom: 35
         },
-        exHeader: {
-            ...example
+        screenContainer: {
+            flex: 1,
+            padding: 10,
+            paddingBottom: 0,
+            paddingTop: 0
         },
         ex: {
-            ...example,
-            flex: 1,
-            flexWrap: 'wrap'
-        },
-        headerWrapper: {
-            backgroundColor: colors.backgroundLight,
-            borderBottomRightRadius: 20,
-            borderBottomLeftRadius: 20,
-            padding: 10,
-        },
-        header: {
             fontFamily: font.fontFamily,
             color: colors.text,
-            fontSize: 20,
-            textAlign: 'center',
-            fontWeight: 'bold'
-        }
+            fontSize: font.regular,
+            flexWrap: 'wrap',
+            flex: 1,
+        },
     })
 };

@@ -28,7 +28,7 @@ const ThemeSetting = ({title, type, theme, setTheme}) => {
             <Text style={style.text}>{title}</Text>
             {theme === type && <Icon
                 name={'ios-checkmark-circle'}
-                size={24}
+                size={font.medium}
                 type='ionicon'
                 color={colors.primary}
             />}
@@ -49,9 +49,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(ThemeSetting);
 const getStyle = (colors, font) => {
     return StyleSheet.create({
         button: {
-            margin: 0,
-            marginLeft: 20,
-            marginRight: 11,
+            marginLeft: 30,
+            marginRight: 23,
             flexDirection: 'row',
             justifyContent: 'space-between',
             padding: 5,

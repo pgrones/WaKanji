@@ -89,8 +89,8 @@ const getStyle = (colors, font) => {
         },
         button: {
             margin: 0,
-            marginLeft: 20,
-            marginRight: 12,
+            marginLeft: 30,
+            marginRight: 23,
             flexDirection: 'row',
             justifyContent: 'space-between',
             padding: 5,

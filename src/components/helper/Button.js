@@ -41,13 +41,14 @@ const getStyle = (colors, font, rightMargin) => {
         button: {
             margin: 10,
             marginBottom: 0,
-            marginRight: rightMargin,
+            marginTop: 0,
+            padding: 10,
+            paddingRight: rightMargin,
+            paddingBottom: 0,
             flexDirection: 'row',
             justifyContent: 'space-between',
-            padding: 10,
-            paddingBottom: 0,
             alignItems: 'center',
-            minHeight: 40
+            minHeight: 55
         },
         text: {
             fontSize: font.regular,
