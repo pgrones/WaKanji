@@ -35,7 +35,7 @@ class SwiperWrapper extends Component {
                         this.swiper = swiper;
                     }}
                     showsPagination={false}
-                    loadMinimal={true} loadMinimalSize={1}
+                    loadMinimal={true} loadMinimalSize={0}
                     index={route.params.index}
                     loop={false}
                     onIndexChanged={(index) => navigation.setOptions({title: kanji[index].kanji})}

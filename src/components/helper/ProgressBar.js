@@ -25,7 +25,8 @@ export const ProgressBar = ({duration, delay, setRemainingTime, onFinish, stop, 
             toValue: 0,
             easing: Easing.out(Easing.ease),
             duration: duration,
-            delay: delay
+            delay: delay,
+            useNativeDriver: true
         }).start(({finished}) => {
             if (finished) {
                 onFinish();
@@ -40,7 +41,7 @@ export const ProgressBar = ({duration, delay, setRemainingTime, onFinish, stop, 
     useEffect(() => {
         if (stop) {
             Animated.timing(
-                animation, {}
+                animation, {useNativeDriver: true}
             ).stop();
             setRemainingTime(progress)
         }

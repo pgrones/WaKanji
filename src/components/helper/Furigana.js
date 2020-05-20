@@ -80,10 +80,11 @@ const knownIssues = [
     },
     {
         sentence: '「西遊記」の中には錬金術の話が数多く登場します。',
-        fix: array => array.splice(0, 2, {lifted: '', unlifted: '「'}, {lifted: 'さいゆうき', unlifted: '西遊記'}, {
-            lifted: '',
-            unlifted: '」'
-        })
+        fix: array => array.splice(0, 2,
+            {lifted: '', unlifted: '「'},
+            {lifted: 'さいゆうき', unlifted: '西遊記'},
+            {lifted: '', unlifted: '」'}
+        )
     },
     {
         sentence: '９０歳以上生きることは決してまれではない。',
@@ -91,5 +92,9 @@ const knownIssues = [
             array.splice(0, 1, {lifted: "", unlifted: "９０"});
             array.splice(1, 0, {lifted: "さい", unlifted: "歳"})
         }
+    },
+    {
+        sentence: '「これを見て」「え？」「バンパーの右側に衝突痕があるわ」',
+        fix: array => array.splice(0, 1, {lifted: '', unlifted: '「これ'})
     }
 ]
