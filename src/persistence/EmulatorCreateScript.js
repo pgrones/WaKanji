@@ -41,10 +41,10 @@ INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "g
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('4', '四', 'よ, よん', 'シ', 'Four', '1', '1');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('5', '五', 'いつ', 'ゴ', 'Five', '1', '1');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('6', '六', 'む, むい', 'ロク', 'Six', '1', '1');`, `
-INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('7', '七', 'なな, なの', 'シチ', 'Seven', '1', '0');`, `
-INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('8', '八', 'や, よう', 'ハチ', 'Eight', '1', '0');`, `
-INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('9', '九', 'ここの', 'キュウ、ク', 'Nine', '1', '0');`, `
-INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('10', '十', 'とお, と', 'ジュウ, ジュッ, ジッ', 'Ten', '1', '0');`, `
+INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('7', '七', 'なな, なの', 'シチ', 'Seven', '1', '1');`, `
+INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('8', '八', 'や, よう', 'ハチ', 'Eight', '1', '1');`, `
+INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('9', '九', 'ここの', 'キュウ、ク', 'Nine', '1', '1');`, `
+INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('10', '十', 'とお, と', 'ジュウ, ジュッ, ジッ', 'Ten', '1', '1');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('11', '百', 'もも', 'ヒャク', 'Hundred', '1', '0');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('12', '千', 'ち', 'セン', 'Thousand', '1', '0');`, `
 INSERT INTO "Kanji" ("id", "kanji", "kunReading", "onReading", "translation", "gradeId", "gotIt") VALUES ('13', '日', 'ひ, か', 'ニチ, ジツ', 'Day, Sun', '1', '0');`, `

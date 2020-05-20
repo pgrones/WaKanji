@@ -18,6 +18,7 @@
     "expo-device": "^2.1.0",
     "expo-file-system": "latest",
     "expo-font": "~8.1.0",
+    "expo-linear-gradient": "~8.1.0",
     "expo-sqlite": "latest",
     "htmlparser2": "^4.1.0",
     "mem": ">=4.0.0",
@@ -34,10 +35,10 @@
     "react-native-swiper": "^1.6.0",
     "react-native-web": "~0.11.7",
     "react-redux": "^7.2.0",
+    "reanimated-bottom-sheet": "^1.0.0-alpha.20",
     "redux": "^4.0.5",
     "unofficial-jisho-api": "^2.0.8",
-    "wanakana": "^4.0.2",
-    "expo-linear-gradient": "~8.1.0"
+    "wanakana": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

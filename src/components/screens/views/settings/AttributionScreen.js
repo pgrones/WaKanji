@@ -50,6 +50,7 @@ const getStyle = () => {
     })
 };
 
+//TODO KanjiVG attribution and any other npm packages
 const DATA = [
     'Example Sentences:\n\nAll of the example sentences are from Tatoeba.org and released under the CC - BY 2.0 FR licence.\n\n' +
     'The (unofficial) Jisho API is used to fetch these examples for each Kanji. Permission to scrape the html was granted by Jisho\'s admin Kimtaro here:',

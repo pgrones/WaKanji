@@ -70,6 +70,11 @@ const ExampleContainer = ({navigation, onyomi, kunyomi, kanjiInfo}) => {
                 </View>
                 :
                 <ExamplesScreen navigation={navigation} kanji={kanjiInfo.kanji}/>
+                // <BottomSheet
+                //     snapPoints = {[50, useWindowDimensions().height/2]}
+                //     renderContent = {() => <View style={{minHeight: 290}}><ExamplesScreen navigation={navigation} kanji={kanjiInfo.kanji}/></View>}
+                //     renderHeader = {() => <View><Text>Swipe</Text></View>}
+                // />
             }
         </LinearGradient>
     )
