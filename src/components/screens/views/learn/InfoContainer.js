@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
 import {Icon} from "react-native-elements";
 import {convert} from "../../../helper/ReadingConverter";
 import {useTheme} from "@react-navigation/native";
@@ -7,12 +7,13 @@ import {connect} from "react-redux";
 import {Overlay} from "../../../helper/Overlay";
 import {LinearGradient} from "expo-linear-gradient";
 
-const InfoContainer = ({navigation, onyomi, kunyomi, kanjiInfo}) => {
+const InfoContainer = ({onyomi, kunyomi, kanjiInfo}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [reading, setReading] = useState();
+    const height = useWindowDimensions().height;
 
     const {colors, font} = useTheme();
-    const style = getStyle(colors, font);
+    const style = getStyle(colors, font, height);
 
     const openModal = (reading) => {
         setReading(reading);
@@ -25,7 +26,7 @@ const InfoContainer = ({navigation, onyomi, kunyomi, kanjiInfo}) => {
             <View style={style.translationContainer}>
                 <Text style={style.translation}>{kanjiInfo.translation}</Text>
             </View>
-            <ScrollView contentContainerStyle={{paddingBottom: 35}} bounces={false}>
+            <ScrollView contentContainerStyle={{paddingBottom: 60}} bounces={false}>
                 <View style={style.readingContainer}>
                     <View style={{flex: 1, alignItems: 'center'}}>
                         <View style={{flexDirection: 'row'}}>
@@ -58,12 +59,6 @@ const InfoContainer = ({navigation, onyomi, kunyomi, kanjiInfo}) => {
                         <Text style={style.reading}>{convert(kanjiInfo.onReading, onyomi)}</Text>
                     </View>
                 </View>
-                <View style={style.buttonContainer}>
-                    <TouchableOpacity activeOpacity={0.5}
-                                      onPress={() => navigation.push('Examples', {kanji: kanjiInfo.kanji})}>
-                        <Text style={[style.text, {color: colors.primary}]}>Examples</Text>
-                    </TouchableOpacity>
-                </View>
             </ScrollView>
         </LinearGradient>
     )
@@ -76,7 +71,7 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps)(InfoContainer);
 
-const getStyle = (colors, font) => {
+const getStyle = (colors, font, height) => {
     return StyleSheet.create({
         wrapper: {
             flex: 1,
@@ -88,7 +83,7 @@ const getStyle = (colors, font) => {
         translationContainer: {
             alignSelf: 'stretch',
             alignItems: 'center',
-            margin: 20
+            margin: height > 600 ? 20 : 5
         },
         translation: {
             fontFamily: font.fontFamily,
@@ -107,7 +102,7 @@ const getStyle = (colors, font) => {
             alignContent: 'stretch',
             alignItems: 'flex-start',
             margin: 10,
-            marginTop: 15,
+            marginTop: height > 600 ? 15 : 5,
             marginBottom: 0,
         },
         reading: {
@@ -120,12 +115,6 @@ const getStyle = (colors, font) => {
             marginBottom: 0,
             marginTop: 5,
             paddingRight: 0
-        },
-        buttonContainer: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 30
         }
     });
 };

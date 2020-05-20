@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
 import {Icon} from "react-native-elements";
 import React from "react";
 import {useTheme} from "@react-navigation/native";
@@ -18,8 +18,9 @@ import {SVG} from "../../../helper/SVG";
  * @param index The index of the current Kanji in the global array
  */
 export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy, index}) => {
+    const height = useWindowDimensions().height;
     const {colors, font} = useTheme();
-    const style = getStyle(colors, font, prev, next);
+    const style = getStyle(colors, font, prev, next, height);
 
     const gotIt = () => {
         setGotIt(kanjiInfo.id, !kanjiInfo.gotIt, kanjiInfo.gradeId, index)
@@ -52,6 +53,10 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
                         />
                         <Text style={style.swipeTextPrev}>{prev}</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={0.5}
+                                      onPress={() => navigation.push('Examples', {kanji: kanjiInfo.kanji})}>
+                        <Text style={style.buttonText}>Examples</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity disabled={!next} activeOpacity={0.5} style={{flexDirection: 'row'}}
                                       onPress={() => scrollBy(1)}>
                         <Text style={style.swipeTextNext}>{next}</Text>
@@ -69,7 +74,7 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
     )
 };
 
-const getStyle = (colors, font, prev, next) => {
+const getStyle = (colors, font, prev, next, height) => {
     const swipeText = {
         fontFamily: font.fontFamily,
         color: colors.primary,
@@ -85,21 +90,25 @@ const getStyle = (colors, font, prev, next) => {
             alignItems: 'center',
             margin: 0
         },
-        kanji: {
-            fontFamily: 'KanjiStrokeFont',
-            color: colors.text,
-            fontSize: 120
-        },
         kanjiContainer: {
-            height: '40%',
+            height: height > 600 ? '40%' : '30%',
             alignSelf: 'center',
             aspectRatio: 1
+        },
+        buttonText: {
+            fontFamily: font.fontFamily,
+            color: colors.primary,
+            fontSize: font.medium,
+            fontWeight: 'bold',
         },
         swipeContainerWrapper: {
             position: 'absolute',
             bottom: 0,
-            left: 10,
-            right: 10
+            left: 0,
+            right: 0,
+            padding: 10,
+            backgroundColor: colors.backgroundDark,
+            borderRadius: 20
         },
         swipeContainer: {
             flexDirection: 'row',

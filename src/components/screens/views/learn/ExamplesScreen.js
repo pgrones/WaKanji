@@ -13,21 +13,17 @@ import {LinearGradient} from "expo-linear-gradient";
  * @param navigation
  * @param route
  * @param furigana Global boolean setting to display Furigana
- * @param kanji
  */
-const ExamplesScreen = ({navigation, route, furigana, kanji}) => {
+const ExamplesScreen = ({navigation, route, furigana}) => {
     const [examples, setExamples] = useState([]);
-
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
     useEffect(() => {
-        if (route) {
-            navigation.setOptions({title: route.params.kanji + '  Examples'});
-        }
+        navigation.setOptions({title: route.params.kanji + '  Examples'});
 
         // Using an anti-pattern to stop react from updating a state on an unmounted component
-        // Not the best solution, but it does the job (it still doesn't stop the fetch)
+        // Not the best solution, but it does the job (it still doesn't stop the fetch though)
         let isMounted = true;
         searchForExamples(route ? route.params.kanji : kanji, (data) => {
             if (isMounted) {
@@ -36,7 +32,6 @@ const ExamplesScreen = ({navigation, route, furigana, kanji}) => {
         });
 
         return () => {
-            // clean up
             isMounted = false;
         };
     }, []);
