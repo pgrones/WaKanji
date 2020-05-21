@@ -77,7 +77,6 @@ const getStyle = (colors, font, height) => {
             flex: 1,
             alignSelf: 'stretch',
             padding: 0,
-            marginTop: 30,
             borderRadius: 30,
         },
         translationContainer: {
@@ -89,7 +88,8 @@ const getStyle = (colors, font, height) => {
             fontFamily: font.fontFamily,
             color: colors.text,
             fontSize: font.large,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            textAlign: 'center'
         },
         text: {
             fontFamily: font.fontFamily,

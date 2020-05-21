@@ -13,7 +13,9 @@ export const LoadingScreen = ({text}) => {
     return (
         <View style={style.container}>
             <ActivityIndicator size={"large"} color={colors.text}/>
+            {text !== undefined &&
             <Text style={style.text}>{text}</Text>
+            }
         </View>
     )
 }

@@ -1,10 +1,12 @@
-import {StyleSheet, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {Icon} from "react-native-elements";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useTheme} from "@react-navigation/native";
 import {LinearGradient} from "expo-linear-gradient";
-import ExampleContainer from "./InfoContainer";
+import InfoContainer from "./InfoContainer";
 import {SVG} from "../../../helper/SVG";
+import {getSvg} from "../../../../persistence/DbConnection";
+import {LoadingScreen} from "../../../helper/LoadingScreen";
 
 /**
  * Component displaying all infos regarding a Kanji
@@ -18,9 +20,24 @@ import {SVG} from "../../../helper/SVG";
  * @param index The index of the current Kanji in the global array
  */
 export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy, index}) => {
-    const height = useWindowDimensions().height;
+    const [svg, setSvg] = useState();
     const {colors, font} = useTheme();
-    const style = getStyle(colors, font, prev, next, height);
+    const style = getStyle(colors, font, prev, next);
+
+    useEffect(() => {
+        // Using an anti-pattern to stop react from updating a state on an unmounted component
+        // Not the best solution, but it does the job
+        let isMounted = true;
+        getSvg(kanjiInfo.id, (data) => {
+            if (isMounted) {
+                setSvg(data)
+            }
+        });
+
+        return () => {
+            isMounted = false;
+        };
+    }, [])
 
     const gotIt = () => {
         setGotIt(kanjiInfo.id, !kanjiInfo.gotIt, kanjiInfo.gradeId, index)
@@ -30,15 +47,13 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
         <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
             <View style={style.wrapper}>
                 <View style={style.kanjiContainer}>
-                    {/*<Text style={style.kanji}>{kanjiInfo.kanji}</Text>*/}
-                    <SVG ds={[
-                        "M31.75,23.15c2.8,0.67,5.54,0.42,8.36,0.12c9.3-0.99,22.18-2.4,34.14-3.21c2.49-0.17,5.04-0.33,7.5,0.2",
-                        "M55.75,25.25c0.62,1.25,1.02,3.01,0.5,5c-3.12,11.88-14,44.12-19.75,59",
-                        "M25.5,55.25c2.07,1.24,4.73,1.03,7,0.81c15.49-1.45,29.89-3.03,42.25-4.06c3-0.25,4.25,1.75,3.5,3.75c-2.24,5.96-6,20.75-7.75,31.5",
-                        "M11.25,90.5c3.04,0.81,6.52,0.63,9.63,0.41c15.71-1.1,43.9-2.8,67.75-3.8c3.41-0.14,6.9-0.4,10.25,0.39"
-                    ]}/>
+                    {svg ?
+                        <SVG ds={svg.paths.split(';')} strokeNumbers={svg.strokeNumbers.split(';')}/>
+                        :
+                        <LoadingScreen/>
+                    }
                 </View>
-                <ExampleContainer navigation={navigation} kanjiInfo={kanjiInfo}/>
+                <InfoContainer navigation={navigation} kanjiInfo={kanjiInfo}/>
             </View>
             <View style={style.swipeContainerWrapper}>
                 <View style={style.swipeContainer}>
@@ -74,7 +89,7 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
     )
 };
 
-const getStyle = (colors, font, prev, next, height) => {
+const getStyle = (colors, font, prev, next) => {
     const swipeText = {
         fontFamily: font.fontFamily,
         color: colors.primary,
@@ -91,7 +106,7 @@ const getStyle = (colors, font, prev, next, height) => {
             margin: 0
         },
         kanjiContainer: {
-            height: height > 600 ? '40%' : '30%',
+            height: '40%',
             alignSelf: 'center',
             aspectRatio: 1
         },

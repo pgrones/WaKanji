@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {useFonts} from "@use-expo/font";
 import {AppLoading} from "expo";
 import {downloadDB, getSetting} from "./src/persistence/DbConnection";
 import Navigation from "./src/components/Navigation";
@@ -24,15 +23,6 @@ const Index = ({dbLoaded, setDbLoaded, setTheme, setKunyomi, setOnyomi, setFurig
             getSetting('furigana', setFurigana);
         }
     }, [dbLoaded]);
-
-
-    let [fontsLoaded] = useFonts({
-        'KanjiStrokeFont': require('./assets/fonts/KanjiStrokeOrders_v4.003.ttf'),
-    });
-
-    if (!fontsLoaded) {
-        return <AppLoading/>;
-    }
 
     if (!dbLoaded) {
         downloadDB(setDbLoaded);

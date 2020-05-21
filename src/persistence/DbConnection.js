@@ -26,10 +26,10 @@ export const downloadDB = (setDbLoaded) => {
                             setDbLoaded(true)
                         }
                     }).catch(error => {
-                            console.log('Err\n' + error);
+                        console.log('Err\n' + error);
                     })
                 ).catch(error => {
-                        console.log('Err\n' + error);
+                    console.log('Err\n' + error);
                 });
             } else {
                 if (logDBCalls) {
@@ -209,6 +209,23 @@ export const getTranslations = (setTranslations) => { //TODO maybe gradeID?
         }
     );
 };
+
+export const getSvg = (kanjiId, setSvg) => {
+    if (logDBCalls) {
+        console.log('getSvg');
+    }
+    executeTransaction(
+            `
+                select *
+                from KanjiSvgs
+                where kanjiId = ?
+        `,
+        [kanjiId],
+        (data) => {
+            setSvg(data);
+        }, true
+    );
+}
 
 export const getGotItAmount = (setAmount) => {
     if (logDBCalls) {
