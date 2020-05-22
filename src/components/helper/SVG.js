@@ -11,15 +11,11 @@ export const SVG = ({ds, strokeNumbers}) => {
 
     const {colors} = useTheme();
 
-    const animation =
-        Animated.timing(
-            animatedValue,
-            {
-                toValue: 800,
-                duration: 2000,
-                useNativeDriver: true
-            }
-        );
+    const animation = Animated.timing(animatedValue, {
+        toValue: 800,
+        duration: 2000,
+        useNativeDriver: true
+    });
 
     useEffect(() => {
         animation.start(({finished}) => {

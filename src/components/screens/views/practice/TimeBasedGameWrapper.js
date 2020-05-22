@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import TimeBasedGame from "./TimeBasedGame";
-import {Animated, Dimensions, Easing, Text, View} from "react-native";
+import {Animated, Dimensions, Easing, View} from "react-native";
 import {getRandomKanji, getTranslations} from "../../../../persistence/DbConnection";
 import {Overlay} from "../../../helper/Overlay";
 import {ProgressBar} from "../../../helper/ProgressBar";
@@ -8,6 +8,7 @@ import {setNavigationVisible} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
 import {LinearGradient} from "expo-linear-gradient";
 import {useTheme} from "@react-navigation/native";
+import {LoadingScreen} from "../../../helper/LoadingScreen";
 
 /**
  * Wrapper around the flashcard game. Holds all the information during the game.
@@ -27,9 +28,11 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
     //Animations
     const [duration, setDuration] = useState(12000); // Duration for one flashcard (indicated by progressbar)
     const [stop, setStop] = useState(false); // Stops the progressbar on answer
+    const [finished, setFinished] = useState(false); // Tells the progress bar that the game is over
     const animation = useRef(new Animated.Value(0)).current; // ref for the animation
     //Modal
     const [isModalVisible, setModalVisible] = useState(false); // Opens/closes the modal
+    const [gameOverText, setGameOverText] = useState(''); // String to be shown after the game is over
 
     const {colors} = useTheme();
 
@@ -108,11 +111,16 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
         navigation.goBack();
     };
 
+    const getGameOverText = () => {
+        return "Game Over\n\nYou're out of time. The right answer for " +
+            randomKanji[index].kanji + " would have been '" + randomKanji[index].translation + "'"
+    }
+
     return (
         <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
             {isModalVisible ?
                 <Overlay isVisible={isModalVisible} setVisible={closeModal}
-                         content={'Finish\nScore: ' + score.toFixed(0)}/>
+                         content={gameOverText + '\n\nScore: ' + score.toFixed(0) + '\nHigh-Score: '}/>
                 :
                 randomKanji.length && translations.length ?
                     <Animated.View
@@ -137,23 +145,28 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
                                 delay={200}
                                 setRemainingTime={setRemainingTime}
                                 stop={stop}
-                                onFinish={() => setModalVisible(true)}
+                                finished={finished}
+                                onFinish={() => {
+                                    setGameOverText(getGameOverText())
+                                    setModalVisible(true);
+                                }}
                                 text={score.toFixed(0)}
                             />
                             <TimeBasedGame
                                 next={getNext}
                                 kanji={randomKanji[index]}
                                 translations={answers}
-                                setStop={setStop}
-                                finish={() => {
+                                stop={() => {
+                                    setFinished(true);
                                     setStop(true);
-                                    setModalVisible(true)
                                 }}
+                                finish={() => setModalVisible(true)}
+                                setGameOverText={setGameOverText}
                             />
                         </View>
                     </Animated.View>
                     :
-                    <View><Text>Loading</Text></View> //TODO make nicer
+                    <LoadingScreen/>
             }
         </LinearGradient>
     )

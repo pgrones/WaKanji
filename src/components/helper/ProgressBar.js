@@ -9,43 +9,53 @@ import {useTheme} from "@react-navigation/native";
  * @param setRemainingTime Callback to send back the remaining time in order to calculate a score
  * @param onFinish Callback that executes whenever the time reaches 0
  * @param stop Stops the animation when true
+ * @param finished Flag whether the game is over or not
  * @param text Text to display inside the progress bar e.g. a score
  */
-export const ProgressBar = ({duration, delay, setRemainingTime, onFinish, stop, text}) => {
+export const ProgressBar = ({duration, delay, setRemainingTime, onFinish, stop, finished, text}) => {
     const [time, setTime] = useState(duration);
-    const animation = useRef(new Animated.Value(100)).current;
+    const animatedValue = useRef(new Animated.Value(100)).current;
 
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
+    const animation = Animated.timing(animatedValue, {
+        toValue: 0,
+        easing: Easing.out(Easing.ease),
+        duration: duration,
+        delay: delay,
+        useNativeDriver: false
+    });
+
     // Starts the animation on initial render
     useEffect(() => {
-        Animated.timing(animation, {
-            toValue: 0,
-            easing: Easing.out(Easing.ease),
-            duration: duration,
-            delay: delay
-        }).start(({finished}) => {
+        animation.start(({finished}) => {
             if (finished) {
                 onFinish();
             }
         });
     }, []);
 
+    // Controls the timer
     useEffect(() => {
-        if (!stop && time > 0) {
-            const to = setTimeout(() => setTime(time - 1000), 1000);
-            return () => clearTimeout(to);
+        const to = setTimeout(() => {
+            setTime(time - 1000)
+        }, 1000);
+
+        if (stop || time <= 0) {
+            clearTimeout(to)
         }
-    }, [time])
+
+        return () => clearTimeout(to);
+    }, [time, stop])
 
     // Stops the animation and sends the remaining time back to the caller
     useEffect(() => {
         if (stop) {
-            Animated.timing(
-                animation, {}
-            ).stop();
-            setRemainingTime(animation.__getValue())
+            animation.stop();
+            if (!finished) {
+                setRemainingTime(animatedValue.__getValue())
+            }
         }
     }, [stop]);
 
@@ -54,19 +64,19 @@ export const ProgressBar = ({duration, delay, setRemainingTime, onFinish, stop, 
             <Text style={{...style.scoreText, textAlign: 'center'}}>Score: {text}</Text>
             <View style={style.progressBar}>
                 <Animated.View style={[style.absoluteFill, {
-                    backgroundColor: animation.interpolate({
+                    backgroundColor: animatedValue.interpolate({
                         inputRange: [0, 50, 100],
                         outputRange: ['#f2291d', '#FF851B', '#2ECC40'],
                     }),
-                    width: animation.interpolate({
+                    width: animatedValue.interpolate({
                         inputRange: [0, 100],
                         outputRange: ['0%', '100%'],
                     }),
-                    top: animation.interpolate({
+                    top: animatedValue.interpolate({
                         inputRange: [0, 10, 100],
                         outputRange: [15, 0, 0],
                     }),
-                    bottom: animation.interpolate({
+                    bottom: animatedValue.interpolate({
                         inputRange: [0, 10, 100],
                         outputRange: [15, 0, 0],
                     })

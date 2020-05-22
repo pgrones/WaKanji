@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, {useRef} from 'react';
+import {Animated, Easing, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 
 /**
@@ -7,19 +7,13 @@ import {useTheme} from "@react-navigation/native";
  * @param next Function to tell the wrapper to load the next exercise
  * @param kanji The Kanji which's meaning is being asked
  * @param translations Array with four possible answers (including the right one)
+ * @param stop Stops the animation of the progress bar
  * @param finish Function to tell the wrapper that the game is over due to a wrong answer
+ * @param setGameOverText Text to be schown after the game is over
  */
-const TimeBasedGame = ({next, kanji, translations, finish}) => {
+const TimeBasedGame = ({next, kanji, translations, stop, finish, setGameOverText}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
-
-    const onChoice = (translation) => {
-        if (translation === kanji.translation) {
-            next();
-        } else {
-            finish()
-        }
-    };
 
     return (
         <View style={{flex: 15}}>
@@ -28,31 +22,87 @@ const TimeBasedGame = ({next, kanji, translations, finish}) => {
             </View>
             <View style={style.buttonContainer}>
                 <View style={style.row}>
-                    <TouchableOpacity style={style.button} onPress={() => onChoice(translations[0])}
-                                      activeOpacity={0.5}>
-                        <Text style={style.buttonText}>{translations[0]}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={style.button} onPress={() => onChoice(translations[1])}
-                                      activeOpacity={0.5}>
-                        <Text style={style.buttonText}>{translations[1]}</Text>
-                    </TouchableOpacity>
+                    <AnswerButton
+                        translation={translations[0]}
+                        kanji={kanji}
+                        next={next}
+                        stop={stop}
+                        finish={finish}
+                        setGameOverText={setGameOverText}
+                    />
+                    <AnswerButton
+                        translation={translations[1]}
+                        kanji={kanji}
+                        next={next}
+                        stop={stop}
+                        finish={finish}
+                        setGameOverText={setGameOverText}
+                    />
                 </View>
                 <View style={style.row}>
-                    <TouchableOpacity style={style.button} onPress={() => onChoice(translations[2])}
-                                      activeOpacity={0.5}>
-                        <Text style={style.buttonText}>{translations[2]}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={style.button} onPress={() => onChoice(translations[3])}
-                                      activeOpacity={0.5}>
-                        <Text style={style.buttonText}>{translations[3]}</Text>
-                    </TouchableOpacity>
+                    <AnswerButton
+                        translation={translations[2]}
+                        kanji={kanji}
+                        next={next}
+                        stop={stop}
+                        finish={finish}
+                        setGameOverText={setGameOverText}
+                    />
+                    <AnswerButton
+                        translation={translations[3]}
+                        kanji={kanji}
+                        next={next}
+                        stop={stop}
+                        finish={finish}
+                        setGameOverText={setGameOverText}
+                    />
                 </View>
             </View>
         </View>
     );
 };
 
-export default TimeBasedGame
+export default TimeBasedGame;
+
+const AnswerButton = ({translation, kanji, next, stop, finish, setGameOverText}) => {
+    const {colors, font} = useTheme();
+    const style = getStyle(colors, font);
+    const animation = useRef(new Animated.Value(0)).current;
+
+    const select = () => {
+        if (translation === kanji.translation) {
+            next();
+        } else {
+            stop();
+            setGameOverText(`Game Over\n\nThe right answer for ${kanji.kanji} would have been '${kanji.translation}' but you chose '${translation}'`)
+            Animated.timing(animation, {
+                toValue: 3,
+                duration: 2000,
+                easing: Easing.linear,
+                useNativeDriver: false
+            }).start(({finished}) => {
+                if (finished) {
+                    finish();
+                }
+            });
+        }
+    };
+
+    return (
+        <Animated.View style={[style.buttonWrapper, {
+            borderColor:
+                animation.interpolate({
+                    inputRange: [0, 0.1, 1, 1.01, 1.99, 2, 3],
+                    outputRange: ['transparent', '#f2291d', '#f2291d', 'transparent', 'transparent', '#f2291d', '#f2291d'],
+                    easing: Easing.linear
+                })
+        }]}>
+            <TouchableOpacity style={style.button} onPress={() => select()} activeOpacity={0.5}>
+                <Text style={style.buttonText}>{translation}</Text>
+            </TouchableOpacity>
+        </Animated.View>
+    )
+}
 
 const getStyle = (colors, font) => {
     return StyleSheet.create({
@@ -78,12 +128,20 @@ const getStyle = (colors, font) => {
             flexDirection: 'row',
             marginBottom: 5
         },
-        button: {
+        buttonWrapper: {
             flex: 1,
             alignItems: 'center',
             justifyContent: 'center',
             margin: 5,
-            marginTop: 0
+            marginTop: 0,
+            borderWidth: 2,
+            borderRadius: 20
+        },
+        button: {
+            flex: 1,
+            alignSelf: 'stretch',
+            alignItems: "center",
+            justifyContent: 'center'
         },
         buttonText: {
             color: colors.primary,
