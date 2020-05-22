@@ -4,7 +4,38 @@ import {useTheme} from "@react-navigation/native";
 import {Animated} from "react-native";
 
 export const SVG = ({ds, strokeNumbers}) => {
+    const [offset, setOffset] = useState(1000);
+    const [i, setI] = useState(0);
+    const animatedValue = useRef(new Animated.Value(1000)).current;
+    animatedValue.addListener(({value}) => setOffset(value));
+
     const {colors} = useTheme();
+
+    const animation =
+        Animated.timing(
+            animatedValue,
+            {
+                toValue: 800,
+                duration: 2000,
+                useNativeDriver: true
+            }
+        );
+
+    useEffect(() => {
+        animation.start(({finished}) => {
+            if (i < ds.length - 1 && finished) {
+                animatedValue.setValue(1000);
+                setI(i + 1)
+            }
+        });
+    }, [i])
+
+    useEffect(() => {
+        return () => {
+            animation.stop();
+            animatedValue.removeAllListeners();
+        }
+    }, [])
 
     return (
         <Svg height="100%" width="100%" viewBox="0 0 110 110">
@@ -12,36 +43,17 @@ export const SVG = ({ds, strokeNumbers}) => {
                 <SvgPath
                     key={index.toString()}
                     d={d}
-                    colors={colors}
-                    delay={index * 2000}
                     strokeNumber={strokeNumbers[index]}
+                    colors={colors}
                     number={index + 1}
+                    offset={i === index ? offset : i < index ? 1000 : 800}
                 />
             )}
         </Svg>
     )
 }
 
-const SvgPath = ({d, colors, delay, strokeNumber, number}) => {
-    const [offset, setOffset] = useState(1000);
-
-    const animation = useRef(new Animated.Value(1000)).current;
-    animation.addListener(({value}) => setOffset(value));
-
-    useEffect(() => {
-        Animated.timing(
-            animation,
-            {
-                toValue: 800,
-                duration: 2000,
-                delay: delay,
-                useNativeDriver: true,
-            },
-        ).start();
-
-        return () => animation.removeAllListeners();
-    }, [])
-
+const SvgPath = ({d, strokeNumber, colors, number, offset}) => {
     return (
         <G>
             {offset < 1000 &&
