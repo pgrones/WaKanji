@@ -50,8 +50,7 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
         Animated.timing(animation, {
             toValue: 100,
             easing: Easing.out(Easing.ease),
-            duration: 300,
-            useNativeDriver: true
+            duration: 300
         }).start();
     }, [index]);
 
@@ -88,8 +87,7 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
         Animated.timing(animation, {
             toValue: 200,
             easing: Easing.out(Easing.ease),
-            duration: 300,
-            useNativeDriver: true
+            duration: 300
         }).start(({finished}) => {
             if (finished) {
                 animation.setValue(0);

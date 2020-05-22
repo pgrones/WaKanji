@@ -39,7 +39,7 @@ const PracticeScreen = ({navigation, setAmount}) => {
             }}
         >
             <Stack.Screen name="Practice" component={PracticeSelectionScreen}/>
-            <Stack.Screen name="Game" options={{title: "Flash Cards", headerLeft: null}}
+            <Stack.Screen name="Game" options={{title: "Flash Cards"}}
                           component={TimeBasedGameWrapper}/>
         </Stack.Navigator>
     );

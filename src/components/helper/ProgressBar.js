@@ -12,62 +12,67 @@ import {useTheme} from "@react-navigation/native";
  * @param text Text to display inside the progress bar e.g. a score
  */
 export const ProgressBar = ({duration, delay, setRemainingTime, onFinish, stop, text}) => {
-    const [progress, setProgress] = useState(100);
+    const [time, setTime] = useState(duration);
     const animation = useRef(new Animated.Value(100)).current;
-    animation.addListener(({value}) => setProgress(value));
 
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
 
-    // Starts the animation on the initial render
+    // Starts the animation on initial render
     useEffect(() => {
         Animated.timing(animation, {
             toValue: 0,
             easing: Easing.out(Easing.ease),
             duration: duration,
-            delay: delay,
-            useNativeDriver: true
+            delay: delay
         }).start(({finished}) => {
             if (finished) {
                 onFinish();
             }
         });
-
-        // To prevent memory leaks
-        return () => animation.removeAllListeners();
     }, []);
+
+    useEffect(() => {
+        if (!stop && time > 0) {
+            const to = setTimeout(() => setTime(time - 1000), 1000);
+            return () => clearTimeout(to);
+        }
+    }, [time])
 
     // Stops the animation and sends the remaining time back to the caller
     useEffect(() => {
         if (stop) {
             Animated.timing(
-                animation, {useNativeDriver: true}
+                animation, {}
             ).stop();
-            setRemainingTime(progress)
+            setRemainingTime(animation.__getValue())
         }
     }, [stop]);
 
     return (
-        <View style={style.progressBar}>
-            <Animated.View style={[style.absoluteFill, {
-                backgroundColor: animation.interpolate({
-                    inputRange: [0, 50, 100],
-                    outputRange: ['#f2291d', '#FF851B', '#2ECC40'],
-                }),
-                width: animation.interpolate({
-                    inputRange: [0, 100],
-                    outputRange: ['0%', '100%'],
-                }),
-                top: animation.interpolate({
-                    inputRange: [0, 10, 100],
-                    outputRange: [15, 0, 0],
-                }),
-                bottom: animation.interpolate({
-                    inputRange: [0, 10, 100],
-                    outputRange: [15, 0, 0],
-                })
-            }]}/>
-            <Text style={style.scoreText}>{text}</Text>
+        <View style={{flex: 2, margin: 10, alignSelf: 'stretch'}}>
+            <Text style={{...style.scoreText, textAlign: 'center'}}>Score: {text}</Text>
+            <View style={style.progressBar}>
+                <Animated.View style={[style.absoluteFill, {
+                    backgroundColor: animation.interpolate({
+                        inputRange: [0, 50, 100],
+                        outputRange: ['#f2291d', '#FF851B', '#2ECC40'],
+                    }),
+                    width: animation.interpolate({
+                        inputRange: [0, 100],
+                        outputRange: ['0%', '100%'],
+                    }),
+                    top: animation.interpolate({
+                        inputRange: [0, 10, 100],
+                        outputRange: [15, 0, 0],
+                    }),
+                    bottom: animation.interpolate({
+                        inputRange: [0, 10, 100],
+                        outputRange: [15, 0, 0],
+                    })
+                }]}/>
+                <Text style={{...style.scoreText, fontWeight: 'bold'}}>{(time / 1000).toFixed(0)}</Text>
+            </View>
         </View>
     );
 };
@@ -78,7 +83,6 @@ const getStyle = (colors, font) => {
             flex: 1,
             backgroundColor: colors.backgroundDark,
             borderRadius: 20,
-            margin: 10,
             alignItems: 'center',
             justifyContent: 'center'
         },
@@ -91,8 +95,7 @@ const getStyle = (colors, font) => {
         scoreText: {
             color: colors.text,
             fontFamily: font.fontFamily,
-            fontWeight: 'bold',
-            fontSize: 24
+            fontSize: font.medium
         }
     })
 };

@@ -30,11 +30,18 @@ const PracticeSelectionScreen = ({navigation, gotItAmount, setNavigationVisible}
         <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
             <View style={style.container}>
                 {gotItAmount < 10 ?
-                    <TouchableOpacity style={style.buttonAmount} activeOpacity={0.5} onPress={() => {
-                        navigation.navigate('Dictionary');
-                    }}>
-                        <Text style={style.buttonAmountText}>Mark at least 10 Kanji as learned</Text>
-                    </TouchableOpacity>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', margin: 10}}>
+                        <Text style={style.learnText}>You first need to learn a few Kanji, before you can practice. So
+                            head on over to the Dictionary and</Text>
+                        <TouchableOpacity style={style.buttonAmount} activeOpacity={0.5} onPress={() => {
+                            navigation.navigate('Dictionary');
+                        }}>
+                            <Text style={{...style.learnText, color: colors.primary}}>Mark at least 10 Kanji as
+                                learned</Text>
+                        </TouchableOpacity>
+                        <Text style={style.learnText}>Come back here when you're done to practice what you've
+                            learned</Text>
+                    </View>
                     :
                     <View style={style.wrapper}>
                         <TouchableOpacity style={style.button} activeOpacity={0.5}
@@ -117,10 +124,11 @@ const getStyle = (colors, font) => {
             padding: 10,
             margin: 5
         },
-        buttonAmountText: {
-            color: colors.primary,
+        learnText: {
+            color: colors.text,
             fontFamily: font.fontFamily,
-            fontSize: font.regular,
+            fontSize: font.medium,
+            textAlign: 'center'
         },
         help: {
             position: 'absolute',
@@ -131,4 +139,4 @@ const getStyle = (colors, font) => {
 };
 
 const exp1 = "This game takes the term 'flash cards' literally and offers a quick-paced, time-based, multiple choice game" +
-    " that tests your recollection speed.";
+    " that tests your recollection speed.\n\nTap the correct translation for each Kanji in order to earn points and break your high-score!";
