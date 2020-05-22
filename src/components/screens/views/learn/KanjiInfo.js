@@ -7,6 +7,7 @@ import InfoContainer from "./InfoContainer";
 import {SVG} from "../../../helper/SVG";
 import {getSvg} from "../../../../persistence/DbConnection";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
+import ActionButton from 'react-native-action-button';
 
 /**
  * Component displaying all infos regarding a Kanji
@@ -66,7 +67,7 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
                             color={prev ? colors.primary : 'transparent'}
                             containerStyle={{marginTop: 5}}
                         />
-                        <Text style={style.swipeTextPrev}>{prev}</Text>
+                        <Text style={style.swipeTextPrev}>{prev ? prev : '一'}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.5}
                                       onPress={() => navigation.push('Examples', {kanji: kanjiInfo.kanji})}>
@@ -74,7 +75,7 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
                     </TouchableOpacity>
                     <TouchableOpacity disabled={!next} activeOpacity={0.5} style={{flexDirection: 'row'}}
                                       onPress={() => scrollBy(1)}>
-                        <Text style={style.swipeTextNext}>{next}</Text>
+                        <Text style={style.swipeTextNext}>{next ? next : '一'}</Text>
                         <Icon
                             name={'chevron-right'}
                             size={font.medium}
@@ -85,6 +86,20 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
                     </TouchableOpacity>
                 </View>
             </View>
+            {/*// TODO actually do something with the action button */}
+            <ActionButton
+                buttonColor="rgba(0,0,0, 0)"
+                verticalOrientation={'down'}
+                offsetY={0} offsetX={10}
+                hideShadow={true}
+                useNativeFeedback={false}
+                renderIcon={() => kanjiInfo.gotIt === 1 ?
+                    <Icon name={'ios-checkmark-circle'} type={'ionicon'} color={colors.primary} size={50}/>
+                    :
+                    <Icon name={'ios-close-circle'} type={'ionicon'} color={colors.primary} size={50}/>
+                }
+                onPress={() => gotIt()}
+            />
         </LinearGradient>
     )
 };

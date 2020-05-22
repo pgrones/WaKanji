@@ -81,7 +81,7 @@ const ExamplesScreen = ({navigation, route, furigana}) => {
                         data={examples}
                     />
                     :
-                    <Text>{examples[0]}</Text>
+                    <Text>{examples[0]}</Text> //TODO reload button
                 :
                 <LoadingScreen text={'Fetching examples'}/>
             }
