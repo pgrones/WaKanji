@@ -32,6 +32,12 @@ CREATE TABLE "Settings" (
  "value" TEXT NOT NULL
 );`,
                 `
+    CREATE TABLE "GameTemp" (
+"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+"key" TEXT NOT NULL,
+"value" TEXT NOT NULL
+)`,
+                `
 INSERT INTO "Grade" ("id", "grade") VALUES ('1', '1st Grade  小一');`, `
 INSERT INTO "Grade" ("id", "grade") VALUES ('2', '2nd Grade  小二');`, `
 INSERT INTO "Grade" ("id", "grade") VALUES ('3', '3rd Grade  小三');`, `
@@ -207,5 +213,8 @@ INSERT INTO "main"."KanjiSvgs" ("id", "paths", "strokeNumbers", "kanjiId") VALUE
 INSERT INTO "Settings" ("type", "value") VALUES ('theme', 'systemStandard');`, `
 INSERT INTO "Settings" ("type", "value") VALUES ('kunReading', 'hiragana');`, `
 INSERT INTO "Settings" ("type", "value") VALUES ('onReading', 'katakana');`, `
-INSERT INTO "Settings" ("type", "value") VALUES ('furigana', 'true');`
+INSERT INTO "Settings" ("type", "value") VALUES ('furigana', 'true');`, `
+
+INSERT INTO "GameTemp" ("id", "key", "value") VALUES ('1', 'highscore', '0');
+`
 ];

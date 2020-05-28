@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Animated, Easing, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
 
@@ -9,11 +9,17 @@ import {useTheme} from "@react-navigation/native";
  * @param translations Array with four possible answers (including the right one)
  * @param stop Stops the animation of the progress bar
  * @param finish Function to tell the wrapper that the game is over due to a wrong answer
- * @param setGameOverText Text to be schown after the game is over
+ * @param setGameOverText Text to be shown after the game is over
  */
 const TimeBasedGame = ({next, kanji, translations, stop, finish, setGameOverText}) => {
+    const [disabled, setDisabled] = useState(false);
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
+
+    const stopGame = () => {
+        stop();
+        setDisabled(true);
+    }
 
     return (
         <View style={{flex: 15}}>
@@ -26,17 +32,19 @@ const TimeBasedGame = ({next, kanji, translations, stop, finish, setGameOverText
                         translation={translations[0]}
                         kanji={kanji}
                         next={next}
-                        stop={stop}
+                        stop={stopGame}
                         finish={finish}
                         setGameOverText={setGameOverText}
+                        disabled={disabled}
                     />
                     <AnswerButton
                         translation={translations[1]}
                         kanji={kanji}
                         next={next}
-                        stop={stop}
+                        stop={stopGame}
                         finish={finish}
                         setGameOverText={setGameOverText}
+                        disabled={disabled}
                     />
                 </View>
                 <View style={style.row}>
@@ -44,17 +52,19 @@ const TimeBasedGame = ({next, kanji, translations, stop, finish, setGameOverText
                         translation={translations[2]}
                         kanji={kanji}
                         next={next}
-                        stop={stop}
+                        stop={stopGame}
                         finish={finish}
                         setGameOverText={setGameOverText}
+                        disabled={disabled}
                     />
                     <AnswerButton
                         translation={translations[3]}
                         kanji={kanji}
                         next={next}
-                        stop={stop}
+                        stop={stopGame}
                         finish={finish}
                         setGameOverText={setGameOverText}
+                        disabled={disabled}
                     />
                 </View>
             </View>
@@ -64,7 +74,7 @@ const TimeBasedGame = ({next, kanji, translations, stop, finish, setGameOverText
 
 export default TimeBasedGame;
 
-const AnswerButton = ({translation, kanji, next, stop, finish, setGameOverText}) => {
+const AnswerButton = ({translation, kanji, next, stop, finish, setGameOverText, disabled}) => {
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
     const animation = useRef(new Animated.Value(0)).current;
@@ -97,7 +107,7 @@ const AnswerButton = ({translation, kanji, next, stop, finish, setGameOverText})
                     easing: Easing.linear
                 })
         }]}>
-            <TouchableOpacity style={style.button} onPress={() => select()} activeOpacity={0.5}>
+            <TouchableOpacity style={style.button} disabled={disabled} onPress={() => select()} activeOpacity={0.5}>
                 <Text style={style.buttonText}>{translation}</Text>
             </TouchableOpacity>
         </Animated.View>

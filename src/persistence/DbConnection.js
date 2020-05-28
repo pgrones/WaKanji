@@ -244,3 +244,33 @@ export const getGotItAmount = (setAmount) => {
         true
     )
 };
+
+export const getHighScore = (setHighscore) => {
+    if (logDBCalls) {
+        console.log('getHighScore');
+    }
+    executeTransaction(
+            `
+                SELECT *
+                FROM GameTemp
+                WHERE id = 1;
+        `,
+        [],
+        setHighscore,
+        true
+    )
+};
+
+export const setNewHighScore = (value) => {
+    if (logDBCalls) {
+        console.log('setNewHighScore');
+    }
+    executeTransaction(
+            `
+                update GameTemp
+                set value = ?
+                where id = 1
+        `,
+        [value]
+    );
+};

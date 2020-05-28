@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import TimeBasedGame from "./TimeBasedGame";
 import {Animated, Dimensions, Easing, View} from "react-native";
-import {getRandomKanji, getTranslations} from "../../../../persistence/DbConnection";
+import {getHighScore, getRandomKanji, getTranslations, setNewHighScore} from "../../../../persistence/DbConnection";
 import {Overlay} from "../../../helper/Overlay";
 import {ProgressBar} from "../../../helper/ProgressBar";
 import {setNavigationVisible} from "../../../../redux/actions/Actions";
@@ -23,7 +23,8 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
     const [answers, setAnswers] = useState([]); // Possible answers (length 4)
     const [index, setIndex] = useState(0); // Index of the current learned Kanji in the randomKanji array
     //Score system
-    const [score, setScore] = useState(0); // Score number in progressbar
+    const [score, setScore] = useState(0); // Score number above progressbar
+    const [highScore, setHighScore] = useState(0); // highscore
     const [remainingTime, setRemainingTime] = useState(0) // Remaining time to calculate the score
     //Animations
     const [duration, setDuration] = useState(12000); // Duration for one flashcard (indicated by progressbar)
@@ -40,6 +41,7 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
     useEffect(() => {
         getRandomKanji(setRandomKanji);
         getTranslations(setTranslations);
+        getHighScore((hs) => setHighScore(parseInt(hs.value)));
     }, []);
 
     // Decrease the time for the next answer (min 2000ms) and slide it in
@@ -105,8 +107,16 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
         });
     };
 
-    const closeModal = (visible) => {
-        setModalVisible(visible);
+    const openModal = () => {
+        if (highScore < score) {
+            setNewHighScore(score.toFixed(0));
+            setHighScore(score);
+        }
+        setModalVisible(true);
+    }
+
+    const closeModal = () => {
+        setModalVisible(false);
         setNavigationVisible(true);
         navigation.goBack();
     };
@@ -120,7 +130,7 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
         <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
             {isModalVisible ?
                 <Overlay isVisible={isModalVisible} setVisible={closeModal}
-                         content={gameOverText + '\n\nScore: ' + score.toFixed(0) + '\nHigh-Score: '}/>
+                         content={gameOverText + '\n\nScore: ' + score.toFixed(0) + '\nHigh-Score: ' + highScore.toFixed(0)}/>
                 :
                 randomKanji.length && translations.length ?
                     <Animated.View
@@ -160,7 +170,7 @@ const TimeBasedGameWrapper = ({navigation, setNavigationVisible}) => {
                                     setFinished(true);
                                     setStop(true);
                                 }}
-                                finish={() => setModalVisible(true)}
+                                finish={openModal}
                                 setGameOverText={setGameOverText}
                             />
                         </View>
