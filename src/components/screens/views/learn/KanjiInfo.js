@@ -7,7 +7,7 @@ import InfoContainer from "./InfoContainer";
 import {SVG} from "../../../helper/SVG";
 import {getSvg} from "../../../../persistence/DbConnection";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
-import ActionButton from 'react-native-action-button';
+// import ActionButton from 'react-native-action-button';
 
 /**
  * Component displaying all infos regarding a Kanji
@@ -86,20 +86,27 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
                     </TouchableOpacity>
                 </View>
             </View>
-            {/*// TODO actually do something with the action button */}
-            <ActionButton
-                buttonColor="rgba(0,0,0, 0)"
-                verticalOrientation={'down'}
-                offsetY={0} offsetX={10}
-                hideShadow={true}
-                useNativeFeedback={false}
-                renderIcon={() => kanjiInfo.gotIt === 1 ?
+            <TouchableOpacity onPress={() => gotIt()} activeOpacity={0.5} style={style.toggleButton}>
+                {kanjiInfo.gotIt === 1 ?
                     <Icon name={'ios-checkmark-circle'} type={'ionicon'} color={colors.primary} size={50}/>
                     :
                     <Icon name={'ios-close-circle'} type={'ionicon'} color={colors.primary} size={50}/>
                 }
-                onPress={() => gotIt()}
-            />
+            </TouchableOpacity>
+            {/*// TODO actually do something with the action button */}
+            {/*<ActionButton*/}
+            {/*    buttonColor="rgba(0,0,0, 0)"*/}
+            {/*    verticalOrientation={'down'}*/}
+            {/*    offsetY={0} offsetX={10}*/}
+            {/*    hideShadow={true}*/}
+            {/*    useNativeFeedback={false}*/}
+            {/*    renderIcon={() => kanjiInfo.gotIt === 1 ?*/}
+            {/*        <Icon name={'ios-checkmark-circle'} type={'ionicon'} color={colors.primary} size={50}/>*/}
+            {/*        :*/}
+            {/*        <Icon name={'ios-close-circle'} type={'ionicon'} color={colors.primary} size={50}/>*/}
+            {/*    }*/}
+            {/*    onPress={() => gotIt()}*/}
+            {/*/>*/}
         </LinearGradient>
     )
 };
@@ -153,6 +160,11 @@ const getStyle = (colors, font, prev, next) => {
         swipeTextNext: {
             ...swipeText,
             color: next ? colors.primary : 'transparent'
+        },
+        toggleButton: {
+            position: 'absolute',
+            top: 0,
+            right: 15
         }
     });
 };

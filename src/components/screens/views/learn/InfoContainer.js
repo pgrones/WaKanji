@@ -41,7 +41,8 @@ const InfoContainer = ({onyomi, kunyomi, kanjiInfo}) => {
                                 />
                             </TouchableOpacity>
                         </View>
-                        <Text style={style.reading}>{convert(kanjiInfo.kunReading, kunyomi)}</Text>
+                        <Text
+                            style={style.reading}>{kanjiInfo.kunReading === 'None' ? kanjiInfo.kunReading : convert(kanjiInfo.kunReading, kunyomi)}</Text>
                     </View>
                     <View style={{flex: 1, alignItems: 'center'}}>
                         <View style={{flexDirection: 'row'}}>
@@ -56,7 +57,8 @@ const InfoContainer = ({onyomi, kunyomi, kanjiInfo}) => {
                                 />
                             </TouchableOpacity>
                         </View>
-                        <Text style={style.reading}>{convert(kanjiInfo.onReading, onyomi)}</Text>
+                        <Text
+                            style={style.reading}>{kanjiInfo.onReading === 'None' ? kanjiInfo.onReading : convert(kanjiInfo.onReading, onyomi)}</Text>
                     </View>
                 </View>
             </ScrollView>

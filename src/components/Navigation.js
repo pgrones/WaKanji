@@ -65,20 +65,20 @@ const Navigation = ({theme, navigationVisible}) => {
                     }}
                 />
                 <Tab.Screen
-                    name="Practice"
+                    name="Library"
                     component={PracticeScreen}
                     options={{
                         tabBarIcon: ({focused}) =>
                             <TabBarIcon
                                 focused={focused}
-                                iconText="練習"
+                                iconText="図書室"
                                 color={focused ? getTheme().colors.primary : getTheme().colors.text}
                             />
                         ,
                         tabBarVisible: navigationVisible,
                         tabBarLabel: ({focused}) =>
                             <TabBarText
-                                text={'Practice'}
+                                text={'Library'}
                                 color={focused ? getTheme().colors.primary : getTheme().colors.text}
                             />
                     }}
