@@ -12,6 +12,7 @@ export const font = {
 export const lightTheme = {
     colors: {
         primary: '#137EB0',
+        primaryRGBA: 'rgba(250, 250, 250, 1)',
         backgroundDark: '#DAE4F6',
         backgroundLight: '#FAFAFA',
         card: '#181A1D',
@@ -27,6 +28,7 @@ export const lightTheme = {
 export const darkTheme = {
     colors: {
         primary: '#158BBE',
+        primaryRGBA: 'rgba(50, 55, 60, 1)',
         backgroundDark: '#181A1D',
         backgroundLight: '#32373C',
         card: '#181A1D',

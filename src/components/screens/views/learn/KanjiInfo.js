@@ -7,7 +7,7 @@ import InfoContainer from "./InfoContainer";
 import {SVG} from "../../../helper/SVG";
 import {getSvg} from "../../../../persistence/DbConnection";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
-// import ActionButton from 'react-native-action-button';
+import ActionButton from "../../../../actionbutton/ActionButton";
 
 /**
  * Component displaying all infos regarding a Kanji
@@ -69,10 +69,6 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
                         />
                         <Text style={style.swipeTextPrev}>{prev ? prev : '一'}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={0.5}
-                                      onPress={() => navigation.push('Examples', {kanji: kanjiInfo.kanji})}>
-                        <Text style={style.buttonText}>Examples</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity disabled={!next} activeOpacity={0.5} style={{flexDirection: 'row'}}
                                       onPress={() => scrollBy(1)}>
                         <Text style={style.swipeTextNext}>{next ? next : '一'}</Text>
@@ -86,27 +82,29 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
                     </TouchableOpacity>
                 </View>
             </View>
-            <TouchableOpacity onPress={() => gotIt()} activeOpacity={0.5} style={style.toggleButton}>
-                {kanjiInfo.gotIt === 1 ?
-                    <Icon name={'ios-checkmark-circle'} type={'ionicon'} color={colors.primary} size={50}/>
-                    :
-                    <Icon name={'ios-close-circle'} type={'ionicon'} color={colors.primary} size={50}/>
-                }
-            </TouchableOpacity>
-            {/*// TODO actually do something with the action button */}
-            {/*<ActionButton*/}
-            {/*    buttonColor="rgba(0,0,0, 0)"*/}
-            {/*    verticalOrientation={'down'}*/}
-            {/*    offsetY={0} offsetX={10}*/}
-            {/*    hideShadow={true}*/}
-            {/*    useNativeFeedback={false}*/}
-            {/*    renderIcon={() => kanjiInfo.gotIt === 1 ?*/}
-            {/*        <Icon name={'ios-checkmark-circle'} type={'ionicon'} color={colors.primary} size={50}/>*/}
-            {/*        :*/}
-            {/*        <Icon name={'ios-close-circle'} type={'ionicon'} color={colors.primary} size={50}/>*/}
-            {/*    }*/}
-            {/*    onPress={() => gotIt()}*/}
-            {/*/>*/}
+            <ActionButton
+                buttonColor={colors.backgroundLight}
+                verticalOrientation={'up'}
+                offsetY={60} offsetX={15} size={60}
+                hideShadow={true}
+                autoInactive={false}
+                useNativeFeedback={false}
+                renderIcon={() => <Icon name={'ios-add'} type={'ionicon'} color={colors.primary} size={60}/>}
+            >
+                <ActionButton.Item buttonColor={colors.backgroundLight} textContainerStyle={style.actionItemContainer}
+                                   textStyle={style.actionItemIcon} title="Examples"
+                                   onPress={() => navigation.push('Examples', {kanji: kanjiInfo.kanji})}>
+                    <Icon name={'md-text'} type={'ionicon'} color={colors.text} size={40}
+                          containerStyle={{marginTop: 5}}/>
+                </ActionButton.Item>
+                <ActionButton.Item buttonColor={colors.backgroundLight} textContainerStyle={style.actionItemContainer}
+                                   textStyle={style.actionItemIcon}
+                                   title={kanjiInfo.gotIt === 1 ? 'Remove from library' : "Add to library"}
+                                   onPress={() => gotIt()}>
+                    <Icon name={kanjiInfo.gotIt === 1 ? 'ios-close' : 'ios-checkmark'} type={'ionicon'}
+                          color={colors.text} size={60}/>
+                </ActionButton.Item>
+            </ActionButton>
         </LinearGradient>
     )
 };
@@ -143,9 +141,7 @@ const getStyle = (colors, font, prev, next) => {
             bottom: 0,
             left: 0,
             right: 0,
-            padding: 10,
-            backgroundColor: colors.backgroundDark,
-            borderRadius: 20
+            padding: 10
         },
         swipeContainer: {
             flexDirection: 'row',
@@ -161,10 +157,16 @@ const getStyle = (colors, font, prev, next) => {
             ...swipeText,
             color: next ? colors.primary : 'transparent'
         },
-        toggleButton: {
-            position: 'absolute',
-            top: 0,
-            right: 15
+        actionItemContainer: {
+            backgroundColor: colors.backgroundLight,
+            borderWidth: 0,
+            height: 32
+        },
+        actionItemIcon: {
+            color: colors.text,
+            fontFamily: font.fontFamily,
+            fontSize: font.regular,
+            textAlign: 'center'
         }
     });
 };
