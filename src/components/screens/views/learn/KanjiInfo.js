@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, useWindowDimensions, View} from "react-native";
 import {Icon} from "react-native-elements";
 import React, {useEffect, useState} from "react";
 import {useTheme} from "@react-navigation/native";
@@ -24,6 +24,7 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
     const [svg, setSvg] = useState();
     const {colors, font} = useTheme();
     const style = getStyle(colors, font, prev, next);
+    const height = useWindowDimensions().height;
 
     useEffect(() => {
         // Using an anti-pattern to stop react from updating a state on an unmounted component
@@ -83,7 +84,8 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
                 </View>
             </View>
             <ActionButton
-                buttonColor={colors.primary}
+                buttonColor={height > 600 ? colors.primary : colors.primaryRGBA}
+                bgOpacity={0.5}
                 verticalOrientation={'up'}
                 offsetY={60} offsetX={15} size={60}
                 hideShadow={true}

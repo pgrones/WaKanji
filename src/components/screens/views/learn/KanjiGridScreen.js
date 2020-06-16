@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {getKanjiByGradeId} from "../../../../persistence/DbConnection";
 import {setKanji} from "../../../../redux/actions/Actions";
@@ -7,6 +7,8 @@ import {useTheme} from "@react-navigation/native";
 import {Icon} from "react-native-elements";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
 import {LinearGradient} from "expo-linear-gradient";
+import * as Device from "expo-device";
+import {DeviceType} from "expo-device";
 
 /**
  * Screen depicting each Kanji for a grade
@@ -17,6 +19,7 @@ import {LinearGradient} from "expo-linear-gradient";
  * @param setKanji Setter for the array
  */
 const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
+    const [deviceType, setDeviceType] = useState(DeviceType.PHONE);
     navigation.setOptions({title: route.params.header});
     const {colors, font} = useTheme();
     const style = getStyle(colors, font);
@@ -24,6 +27,7 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
     // Fill the array on initial render or when the gradeId changes
     // This improves performance, as the DB is only queried on actual changes
     useEffect(() => {
+        Device.getDeviceTypeAsync().then((value) => setDeviceType(value))
         if (kanji.length === 0 || (kanji[0] && route.params.gradeId !== kanji[0].gradeId)) {
             getKanjiByGradeId(route.params.gradeId, setKanji);
         }
@@ -35,10 +39,13 @@ const KanjiGridScreen = ({route, navigation, kanji, setKanji}) => {
 
     return (
         <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={{flex: 1}}>
-            {kanji && kanji.length > 0 ?
+            {kanji && kanji.length > 0 && route.params.gradeId === kanji[0].gradeId ?
                 <ScrollView contentContainerStyle={style.container}>
                     {kanji.map((item, index) =>
-                        <View style={style.kanjiButtonWrapper} key={item.id}>
+                        <View style={{
+                            ...style.kanjiButtonWrapper,
+                            minWidth: deviceType === DeviceType.TABLET ? '10%' : '16%',
+                        }} key={item.id}>
                             <TouchableOpacity activeOpacity={0.5} style={style.kanjiButton}
                                               onPress={() => showInfo(item, index)}>
                                 <Text style={style.kanji}>
@@ -92,7 +99,6 @@ const getStyle = (colors, font) => {
             alignItems: 'stretch',
             justifyContent: 'center',
             aspectRatio: 1,
-            minWidth: '16%',
             margin: 5
         },
         kanjiButton: {
