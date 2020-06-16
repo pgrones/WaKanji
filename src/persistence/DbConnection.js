@@ -51,35 +51,36 @@ export const downloadDB = (setDbLoaded) => {
 };
 
 export const overWriteOldDb = (setDbLoaded) => {
-    if (logDBCalls) {
-        console.log('overwrite');
-    }
-    if (Device.isDevice) {
         if (logDBCalls) {
-            console.log('real device');
+            console.log('overwrite');
         }
-        //FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`).then((a) => if(logDBCalls){console.log(a));}
-        FileSystem.downloadAsync(
-            Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
-            `${FileSystem.documentDirectory}SQLite/WaKanji.db`
-        ).then(({status}) => {
-            if (status === 200) {
-                setDbLoaded(true)
+        if (Device.isDevice) {
+            if (logDBCalls) {
+                console.log('real device');
             }
-        }).catch(error => {
-            console.log('Err\n' + error);
-        });
-    } else {
-        if (logDBCalls) {
-            console.log('Creating Emulator DB');
-        }
 
-        for (let i = 0; i < createScript.length; i++) {
-            executeTransaction(createScript[i], [])
+            FileSystem.downloadAsync(
+                Asset.fromModule(require('../../assets/db/WaKanji.db')).uri,
+                `${FileSystem.documentDirectory}SQLite/WaKanji.db`
+            ).then(({status}) => {
+                if (status === 200) {
+                    setDbLoaded(true)
+                }
+            }).catch(error => {
+                console.log('Err\n' + error);
+            });
+        } else {
+            if (logDBCalls) {
+                console.log('Creating Emulator DB');
+            }
+
+            for (let i = 0; i < createScript.length; i++) {
+                executeTransaction(createScript[i], [])
+            }
+            setDbLoaded(true);
         }
-        setDbLoaded(true);
     }
-};
+;
 
 const executeTransaction = (statement, args, callback, onlyOneEntry) => {
     if (!db) {
@@ -120,7 +121,7 @@ export const getGrades = (setGrades) => {
 
 export const getKanjiByGradeId = (id, setKanji) => {
     if (logDBCalls) {
-        console.log('getKanjiByGradeId');
+        console.log('getKanjiByGradeId ' + id);
     }
     executeTransaction(
             `

@@ -13,7 +13,7 @@ export const lightTheme = {
     colors: {
         primary: '#137EB0',
         primaryRGBA: 'rgba(250, 250, 250, 1)',
-        backgroundDark: '#DAE4F6',
+        backgroundDark: '#C4CFD4',
         backgroundLight: '#FAFAFA',
         card: '#181A1D',
         text: '#293337',

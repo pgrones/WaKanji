@@ -29,3 +29,19 @@ export const FuriganaReducer = (state = 'true', action) => {
         return state
     }
 };
+
+export const SkipAnimationsReducer = (state = 'false', action) => {
+    if (action.type === 'SET_SKIP_ANIMATIONS') {
+        return action.skipAnimations.value
+    } else {
+        return state
+    }
+};
+export const AnimationSpeedReducer = (state = '1500', action) => {
+    if (action.type === 'SET_ANIMATION_SPEED') {
+        return action.animationSpeed.value
+    } else {
+        return state
+    }
+};
+

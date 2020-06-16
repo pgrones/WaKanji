@@ -22,6 +22,16 @@ export const setFurigana = furigana => ({
     furigana
 });
 
+export const setSkipAnimations = skipAnimations => ({
+    type: 'SET_SKIP_ANIMATIONS',
+    skipAnimations
+});
+
+export const setAnimationSpeed = animationSpeed => ({
+    type: 'SET_ANIMATION_SPEED',
+    animationSpeed
+});
+
 export const setKanji = kanji => ({
     type: 'SET_KANJI',
     kanji

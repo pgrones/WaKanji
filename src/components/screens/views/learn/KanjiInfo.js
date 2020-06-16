@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import {useTheme} from "@react-navigation/native";
 import {LinearGradient} from "expo-linear-gradient";
 import InfoContainer from "./InfoContainer";
-import {SVG} from "../../../helper/SVG";
+import SVG from "../../../helper/SVG";
 import {getSvg} from "../../../../persistence/DbConnection";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
 import ActionButton from "../../../../actionbutton/ActionButton";
@@ -83,21 +83,21 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
                 </View>
             </View>
             <ActionButton
-                buttonColor={colors.backgroundLight}
+                buttonColor={colors.primary}
                 verticalOrientation={'up'}
                 offsetY={60} offsetX={15} size={60}
                 hideShadow={true}
                 autoInactive={false}
                 useNativeFeedback={false}
-                renderIcon={() => <Icon name={'ios-add'} type={'ionicon'} color={colors.primary} size={60}/>}
+                renderIcon={() => <Icon name={'ios-add'} type={'ionicon'} color={colors.buttonText} size={60}/>}
             >
-                <ActionButton.Item buttonColor={colors.backgroundLight} textContainerStyle={style.actionItemContainer}
+                <ActionButton.Item buttonColor={colors.backgroundDark} textContainerStyle={style.actionItemContainer}
                                    textStyle={style.actionItemIcon} title="Examples"
                                    onPress={() => navigation.push('Examples', {kanji: kanjiInfo.kanji})}>
                     <Icon name={'md-text'} type={'ionicon'} color={colors.text} size={40}
                           containerStyle={{marginTop: 5}}/>
                 </ActionButton.Item>
-                <ActionButton.Item buttonColor={colors.backgroundLight} textContainerStyle={style.actionItemContainer}
+                <ActionButton.Item buttonColor={colors.backgroundDark} textContainerStyle={style.actionItemContainer}
                                    textStyle={style.actionItemIcon}
                                    title={kanjiInfo.gotIt === 1 ? 'Remove from library' : "Add to library"}
                                    onPress={() => gotIt()}>
@@ -158,7 +158,7 @@ const getStyle = (colors, font, prev, next) => {
             color: next ? colors.primary : 'transparent'
         },
         actionItemContainer: {
-            backgroundColor: colors.backgroundLight,
+            backgroundColor: colors.backgroundDark,
             borderWidth: 0,
             height: 32
         },

@@ -2,19 +2,22 @@ import React, {useEffect, useRef, useState} from "react";
 import Svg, {G, Path, Text} from "react-native-svg";
 import {useTheme} from "@react-navigation/native";
 import {Animated} from "react-native";
+import {connect} from "react-redux";
 
-export const SVG = ({ds, strokeNumbers, skipAnimation}) => {
+const SVG = ({ds, strokeNumbers, skipAnimations, animationSpeed}) => {
     const [i, setI] = useState(0);
     const {colors} = useTheme();
 
     useEffect(() => {
-        const interval = setInterval(() => setI(i => i + 1), 1500);
+        if (skipAnimations === 'false') {
+            const interval = setInterval(() => setI(i => i + 1), animationSpeed);
 
-        if (i === ds.length) {
-            clearInterval(interval)
+            if (i === ds.length) {
+                clearInterval(interval)
+            }
+
+            return () => clearInterval(interval);
         }
-
-        return () => clearInterval(interval);
     }, [i]);
 
     return (
@@ -26,7 +29,8 @@ export const SVG = ({ds, strokeNumbers, skipAnimation}) => {
                     strokeNumber={strokeNumbers[index]}
                     colors={colors}
                     number={index + 1}
-                    skipAnimation={skipAnimation}
+                    duration={animationSpeed}
+                    skipAnimations={skipAnimations !== 'false'}
                     start={i === index}
                 />
             )}
@@ -34,19 +38,26 @@ export const SVG = ({ds, strokeNumbers, skipAnimation}) => {
     )
 }
 
-const SvgPath = ({d, strokeNumber, colors, number, start}) => {
-    const [offset, setOffset] = useState(1000);
+const mapStateToProps = state => ({
+    skipAnimations: state.skipAnimations,
+    animationSpeed: state.animationSpeed
+});
+
+export default connect(mapStateToProps)(SVG);
+
+const SvgPath = ({d, strokeNumber, colors, number, start, skipAnimations, duration}) => {
+    const [offset, setOffset] = useState(skipAnimations ? 800 : 1000);
     const animatedValue = useRef(new Animated.Value(1000)).current;
     animatedValue.addListener(({value}) => setOffset(value));
 
     const animation = Animated.timing(animatedValue, {
         toValue: 800,
-        duration: 1500,
+        duration: duration,
         useNativeDriver: true
     });
 
     useEffect(() => {
-        if (start) {
+        if (!skipAnimations && start) {
             animation.start();
         }
     }, [start])

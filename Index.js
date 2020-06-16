@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {AppLoading} from "expo";
 import {downloadDB, getSetting} from "./src/persistence/DbConnection";
 import Navigation from "./src/components/Navigation";
-import {setFurigana, setKunyomi, setOnyomi, setTheme} from "./src/redux/actions/Actions";
+import {setFurigana, setKunyomi, setOnyomi, setSkipAnimations, setTheme} from "./src/redux/actions/Actions";
 import {connect} from "react-redux";
 
 /**
@@ -11,8 +11,9 @@ import {connect} from "react-redux";
  * @param setKunyomi
  * @param setOnyomi
  * @param setFurigana
+ * @param setSkipAnimations
  */
-const Index = ({setTheme, setKunyomi, setOnyomi, setFurigana}) => {
+const Index = ({setTheme, setKunyomi, setOnyomi, setFurigana, setSkipAnimations}) => {
     const [dbLoaded, setDbLoaded] = useState(false);
 
     useEffect(() => {
@@ -21,6 +22,7 @@ const Index = ({setTheme, setKunyomi, setOnyomi, setFurigana}) => {
             getSetting('kunReading', setKunyomi);
             getSetting('onReading', setOnyomi);
             getSetting('furigana', setFurigana);
+            getSetting('skipAnimations', setSkipAnimations);
         }
     }, [dbLoaded]);
 
@@ -36,7 +38,8 @@ const mapDispatchToProps = (dispatch) => ({
     setTheme: (theme) => dispatch(setTheme(theme)),
     setKunyomi: (kun) => dispatch(setKunyomi(kun)),
     setOnyomi: (on) => dispatch(setOnyomi(on)),
-    setFurigana: (furigana) => dispatch(setFurigana(furigana))
+    setFurigana: (furigana) => dispatch(setFurigana(furigana)),
+    setSkipAnimations: (skipAnimations) => dispatch(setSkipAnimations(skipAnimations))
 });
 
 export default connect(null, mapDispatchToProps)(Index)
