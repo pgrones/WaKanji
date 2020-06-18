@@ -42,6 +42,11 @@ export const setGotItAmount = amount => ({
     amount
 });
 
+export const setGotItAmountByGrade = grade => ({
+    type: 'SET_GOT_IT_AMOUNT_BY_GRADE',
+    grade
+});
+
 export const setNavigationVisible = visible => ({
     type: 'SET_NAVIGATION_VISIBLE',
     visible

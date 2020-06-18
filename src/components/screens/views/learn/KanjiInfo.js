@@ -20,6 +20,7 @@ import {connect} from "react-redux";
  * @param setGotIt Function to mark a Kanji as understood
  * @param scrollBy Scroll by one to the next/previous Kanji
  * @param index The index of the current Kanji in the global array
+ * @param skipAnimations
  */
 export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy, index, skipAnimations}) => {
     const [svg, setSvg] = useState();

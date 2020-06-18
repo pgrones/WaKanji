@@ -134,6 +134,43 @@ export const getKanjiByGradeId = (id, setKanji) => {
     );
 };
 
+export const getKanjiAmountByGradeId = (id, setAmount) => {
+    if (logDBCalls) {
+        console.log('getKanjiAmountByGradeId ' + id);
+    }
+    executeTransaction(
+            `
+                select COUNT(*) as count
+                from Kanji
+                where gradeId = ?;
+        `,
+        [id],
+        (data) => {
+            setAmount(data["count"]);
+        },
+        true
+    );
+};
+
+export const getGotItAmountByGradeId = (id, setAmount) => {
+    if (logDBCalls) {
+        console.log('getGotItAmountByGradeId ' + id);
+    }
+    executeTransaction(
+            `
+                select COUNT(*) as count
+                from Kanji
+                where gradeId = ?
+                  and gotIt = 1;
+        `,
+        [id],
+        (data) => {
+            setAmount(data["count"]);
+        },
+        true
+    );
+};
+
 export const setKanjiGotIt = (id, state, gradeId, setKanji) => {
     if (logDBCalls) {
         console.log('setKanjiGotIt');

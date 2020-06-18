@@ -8,7 +8,7 @@ import {
     ThemeReducer
 } from "./SettingsReducer";
 import {KanjiReducer} from "./LearnReducer";
-import {GotItAmountReducer, NavigationReducer} from "./PracticeReducer";
+import {GotItAmountByGradeReducer, GotItAmountReducer, NavigationReducer} from "./PracticeReducer";
 
 export const Reducer = combineReducers({
     theme: ThemeReducer,
@@ -19,5 +19,6 @@ export const Reducer = combineReducers({
     animationSpeed: AnimationSpeedReducer,
     kanji: KanjiReducer,
     navigationVisible: NavigationReducer,
-    gotItAmount: GotItAmountReducer
+    gotItAmount: GotItAmountReducer,
+    gotItAmountByGrade: GotItAmountByGradeReducer
 });

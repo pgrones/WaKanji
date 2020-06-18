@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {setKanjiGotIt} from "../../../../persistence/DbConnection";
-import {setKanji} from "../../../../redux/actions/Actions";
+import {setGotItAmountByGrade, setKanji} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
 import Swiper from 'react-native-swiper';
 import KanjiInfo from "./KanjiInfo";
@@ -10,17 +10,19 @@ import {useTheme} from "@react-navigation/native";
 /**
  * Wrapper around the KanjiInfo to enable a swipe action
  */
-class SwiperWrapper extends Component {
+class InfoSwiperWrapper extends Component {
     constructor(props) {
         super(props);
         props.navigation.setOptions({title: props.route.params.header});
     }
 
     render() {
-        const {route, navigation, kanji, setKanji, theme} = this.props;
+        const {route, navigation, kanji, setKanji, gotItAmountByGrade, setGotItAmountByGrade, theme} = this.props;
 
         const setGotIt = (id, state, gradeId, i) => {
             setKanjiGotIt(id, state, gradeId, setKanji);
+            const amount = gotItAmountByGrade[gradeId];
+            setGotItAmountByGrade({id: gradeId, amount: state ? amount + 1 : amount - 1})
             navigation.setOptions({title: kanji[i].kanji})
         };
 
@@ -46,8 +48,8 @@ class SwiperWrapper extends Component {
                             navigation={navigation}
                             kanjiInfo={item}
                             index={index}
-                            prev={index - 1 >= 0 ? kanji[index - 1].kanji : false}
-                            next={index + 1 < kanji.length ? kanji[index + 1].kanji : false}
+                            prev={kanji[index - 1] ? kanji[index - 1].kanji : false}
+                            next={kanji[index + 1] ? kanji[index + 1].kanji : false}
                             setGotIt={setGotIt}
                             scrollBy={scrollBy}
                         />
@@ -62,16 +64,18 @@ const KanjiInfoScreen = (props) => {
     const theme = useTheme();
 
     return (
-        <SwiperWrapper {...props} theme={theme}/>
+        <InfoSwiperWrapper {...props} theme={theme}/>
     )
 }
 
 const mapStateToProps = state => ({
     kanji: state.kanji,
+    gotItAmountByGrade: state.gotItAmountByGrade
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setKanji: (kanji) => dispatch(setKanji(kanji))
+    setKanji: (kanji) => dispatch(setKanji(kanji)),
+    setGotItAmountByGrade: (obj) => dispatch(setGotItAmountByGrade(obj))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(KanjiInfoScreen);
