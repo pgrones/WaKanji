@@ -8,6 +8,7 @@ import SVG from "../../../helper/SVG";
 import {getSvg} from "../../../../persistence/DbConnection";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
 import ActionButton from "../../../../actionbutton/ActionButton";
+import {connect} from "react-redux";
 
 /**
  * Component displaying all infos regarding a Kanji
@@ -20,8 +21,9 @@ import ActionButton from "../../../../actionbutton/ActionButton";
  * @param scrollBy Scroll by one to the next/previous Kanji
  * @param index The index of the current Kanji in the global array
  */
-export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy, index}) => {
+export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy, index, skipAnimations}) => {
     const [svg, setSvg] = useState();
+    const [skip, setSkip] = useState(false)
     const {colors, font} = useTheme();
     const style = getStyle(colors, font, prev, next);
     const height = useWindowDimensions().height;
@@ -50,11 +52,23 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
             <View style={style.wrapper}>
                 <View style={style.kanjiContainer}>
                     {svg ?
-                        <SVG ds={svg.paths.split(';')} strokeNumbers={svg.strokeNumbers.split(';')}/>
+                        <SVG ds={svg.paths.split(';')} strokeNumbers={svg.strokeNumbers.split(';')} skip={skip}
+                             setSkip={setSkip}/>
                         :
                         <LoadingScreen/>
                     }
                 </View>
+                {skipAnimations === 'false' && !skip &&
+                <TouchableOpacity style={style.skipButton} onPress={() => setSkip(true)}>
+                    <Icon
+                        name={'ios-skip-forward'}
+                        size={font.medium}
+                        type='ionicon'
+                        color={colors.buttonText}
+                        containerStyle={{marginTop: 10}}
+                    />
+                </TouchableOpacity>
+                }
                 <InfoContainer navigation={navigation} kanjiInfo={kanjiInfo}/>
             </View>
             <View style={style.swipeContainerWrapper}>
@@ -111,6 +125,12 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
     )
 };
 
+const mapStateToProps = state => ({
+    skipAnimations: state.skipAnimations
+});
+
+export default connect(mapStateToProps)(KanjiInfo);
+
 const getStyle = (colors, font, prev, next) => {
     const swipeText = {
         fontFamily: font.fontFamily,
@@ -131,6 +151,15 @@ const getStyle = (colors, font, prev, next) => {
             height: '40%',
             alignSelf: 'center',
             aspectRatio: 1
+        },
+        skipButton: {
+            borderRadius: 50,
+            width: 45,
+            aspectRatio: 1,
+            position: 'absolute',
+            top: 0,
+            right: 15,
+            backgroundColor: colors.primary
         },
         buttonText: {
             fontFamily: font.fontFamily,

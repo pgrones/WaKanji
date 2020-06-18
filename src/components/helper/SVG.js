@@ -1,24 +1,35 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {Component, useEffect, useState} from "react";
 import Svg, {G, Path, Text} from "react-native-svg";
 import {useTheme} from "@react-navigation/native";
 import {Animated} from "react-native";
 import {connect} from "react-redux";
 
-const SVG = ({ds, strokeNumbers, skipAnimations, animationSpeed}) => {
+const SVG = ({ds, strokeNumbers, skipAnimations, animationSpeed, skip, setSkip}) => {
     const [i, setI] = useState(0);
     const {colors} = useTheme();
 
     useEffect(() => {
         if (skipAnimations === 'false') {
-            const interval = setInterval(() => setI(i => i + 1), animationSpeed);
+            const interval = setInterval(() => setI(i => i + 1), parseInt(animationSpeed));
 
-            if (i === ds.length) {
-                clearInterval(interval)
+            if (i === ds.length || skip) {
+                if (!skip) {
+                    setSkip(true);
+                }
+                clearInterval(interval);
             }
 
             return () => clearInterval(interval);
         }
     }, [i]);
+
+    useEffect(() => {
+        if (skipAnimations === 'true') {
+            if (!skip) {
+                setSkip(true);
+            }
+        }
+    }, [skipAnimations])
 
     return (
         <Svg height="100%" width="100%" viewBox="0 0 110 110">
@@ -29,8 +40,8 @@ const SVG = ({ds, strokeNumbers, skipAnimations, animationSpeed}) => {
                     strokeNumber={strokeNumbers[index]}
                     colors={colors}
                     number={index + 1}
-                    duration={animationSpeed}
-                    skipAnimations={skipAnimations !== 'false'}
+                    duration={parseInt(animationSpeed)}
+                    skipAnimations={skip || (skipAnimations !== 'false')}
                     start={i === index}
                 />
             )}
@@ -45,44 +56,77 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps)(SVG);
 
-const SvgPath = ({d, strokeNumber, colors, number, start, skipAnimations, duration}) => {
-    const [offset, setOffset] = useState(skipAnimations ? 800 : 1000);
-    const animatedValue = useRef(new Animated.Value(1000)).current;
-    animatedValue.addListener(({value}) => setOffset(value));
+const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-    const animation = Animated.timing(animatedValue, {
-        toValue: 800,
-        duration: duration,
-        useNativeDriver: true
-    });
+class SvgPath extends Component {
+    constructor(props) {
+        super(props);
 
-    useEffect(() => {
-        if (!skipAnimations && start) {
-            animation.start();
-        }
-    }, [start])
+        this.state = {
+            animation: new Animated.Value(props.skipAnimations ? 800 : 1000),
+            done: props.skipAnimations
+        };
 
-    useEffect(() => {
-        return () => {
-            animation.stop();
-            animatedValue.removeAllListeners();
-        }
-    }, [])
+        if (!props.skipAnimations) {
+            this.state.animation.addListener((offset) => {
+                this.animatedPathRef.setNativeProps({strokeDashoffset: offset.value});
+                if (!this.state.done && offset.value < 830) {
+                    this.setState({done: true});
+                }
+            });
 
-    return (
-        <G>
-            {offset < 1000 &&
-            <Text stroke={colors.text} strokeWidth={0.1} fontSize={7} fill={colors.text}
-                  transform={strokeNumber}>{number}</Text>
+            this.animation = Animated.timing(this.state.animation, {
+                toValue: 800,
+                duration: props.duration,
+                useNativeDriver: true
+            });
+
+            if (props.start) {
+                this.animation.start();
             }
-            <Path
-                strokeDasharray={1000}
-                strokeDashoffset={offset}
-                strokeLinecap={"round"}
-                stroke={offset > 910 ? colors.primary : colors.text}
-                strokeWidth={"4.5"}
-                d={d}
-            />
-        </G>
-    )
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.duration !== this.props.duration) {
+            this.animation = Animated.timing(this.state.animation, {
+                toValue: 800,
+                duration: this.props.duration,
+                useNativeDriver: true
+            });
+        } else if (!this.props.skipAnimations && !this.state.done && this.props.start) {
+            this.animation.start();
+        } else if (this.props.skipAnimations && !this.state.done) {
+            this.setState({done: true})
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.animation) {
+            this.animation.stop();
+        }
+        this.state.animation.removeAllListeners();
+    }
+
+    render() {
+        const {d, strokeNumber, colors, number, start} = this.props;
+
+        return (
+            <G>
+                {(this.state.done || start) &&
+                <Text stroke={colors.text} strokeWidth={0.1} fontSize={7} fill={colors.text}
+                      transform={strokeNumber}>{number}</Text>
+                }
+                <AnimatedPath
+                    ref={ref => this.animatedPathRef = ref}
+                    strokeDasharray={1000}
+                    strokeDashoffset={this.state.done ? 800 : 1000}
+                    strokeLinecap={"round"}
+                    stroke={this.state.done ? colors.text : colors.primary}
+                    strokeWidth={"4.5"}
+                    d={d}
+                />
+            </G>
+        )
+    }
 }

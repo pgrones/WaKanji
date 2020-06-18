@@ -3,7 +3,7 @@ import {setKanjiGotIt} from "../../../../persistence/DbConnection";
 import {setKanji} from "../../../../redux/actions/Actions";
 import {connect} from "react-redux";
 import Swiper from 'react-native-swiper';
-import {KanjiInfo} from "./KanjiInfo";
+import KanjiInfo from "./KanjiInfo";
 import {LinearGradient} from "expo-linear-gradient";
 import {useTheme} from "@react-navigation/native";
 
