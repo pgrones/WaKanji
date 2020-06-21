@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {Button} from "../../../helper/Button";
 import {SuperScript} from "../../../helper/SuperScript";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTheme} from "@react-navigation/native";
-import {Icon} from "react-native-elements";
 import {connect} from "react-redux";
 import {getGotItAmountByGradeId, getKanjiAmountByGradeId} from "../../../../persistence/DbConnection";
 import {setGotItAmountByGrade} from "../../../../redux/actions/Actions";
+import {ProgressArc} from "../../../helper/ProgressArc";
 
 const Grade = ({grade, onPress, scrollUp, scrollDown, next, prev, gotItAmountByGrade, setGotItAmountByGrade}) => {
     const [amount, setAmount] = useState(0);
@@ -19,38 +18,46 @@ const Grade = ({grade, onPress, scrollUp, scrollDown, next, prev, gotItAmountByG
     }, [])
 
     return (
+        amount > 0 && gotItAmountByGrade[grade.id] >= 0 &&
         <View style={style.wrapper}>
-            {prev && <TouchableOpacity onPress={() => scrollUp()}>
-                <Icon
-                    name={'chevron-up'}
-                    size={font.large}
-                    type='material-community'
-                    color={colors.primary}
-                />
-                <Text style={{...style.swipeText, marginTop: -10}}>{prev}</Text>
-            </TouchableOpacity>}
-            <View style={{flex: 2, justifyContent: 'center'}}>
-                <Text style={style.percentage}>{gotItAmountByGrade[grade.id] / amount * 100}%</Text>
-                <Text style={style.percentage}>{gotItAmountByGrade[grade.id]} / {amount}</Text>
+            {/*{prev && <TouchableOpacity style={{alignSelf: "flex-end"}} onPress={() => scrollUp()}>*/}
+            {/*    <Icon*/}
+            {/*        name={'chevron-up'}*/}
+            {/*        size={40}*/}
+            {/*        type='material-community'*/}
+            {/*        color={colors.primary}*/}
+            {/*    />*/}
+            {/*</TouchableOpacity>}*/}
+            <View style={{flex: 1, justifyContent: 'center', alignItems: "center"}}>
+                <SuperScript start={1} end={3} text={grade.grade}/>
             </View>
-            <View style={{flex: 1, justifyContent: 'center'}}>
-                <Button
-                    title={<SuperScript start={1} end={3} text={grade.grade}/>}
-                    iconSize={font.large}
-                    icon={'chevron-right'}
-                    type={'material-community'}
-                    onPress={() => onPress(grade)}
+            <View style={{flex: 1, justifyContent: 'center', alignItems: "center"}}>
+                <ProgressArc
+                    percentage={gotItAmountByGrade[grade.id] / amount}
+                    title={'Kanji Learned'}
+                    value1={`${parseFloat((gotItAmountByGrade[grade.id] / amount * 100).toPrecision(4))}%`}
+                    value2={`${gotItAmountByGrade[grade.id]} / ${amount}`}
                 />
             </View>
-            {next && <TouchableOpacity style={{justifyContent: "flex-end"}} onPress={() => scrollDown()}>
-                <Text style={{...style.swipeText, marginBottom: -5}}>{next}</Text>
-                <Icon
-                    name={'chevron-down'}
-                    size={font.large}
-                    type='material-community'
-                    color={colors.primary}
-                />
-            </TouchableOpacity>}
+            {/*<Button*/}
+            {/*    title={<SuperScript start={1} end={3} text={grade.grade}/>}*/}
+            {/*    iconSize={font.large}*/}
+            {/*    icon={'chevron-right'}*/}
+            {/*    type={'material-community'}*/}
+            {/*    onPress={() => onPress(grade)}*/}
+            {/*/>*/}
+            <TouchableOpacity style={{flex: 1, justifyContent: 'center', alignItems: "center"}}
+                              onPress={() => onPress(grade)}>
+                <Text style={style.button}>Open {grade.grade.split(' ')[3]} Dictionary</Text>
+            </TouchableOpacity>
+            {/*{next && <TouchableOpacity style={{justifyContent: "flex-end"}} onPress={() => scrollDown()}>*/}
+            {/*    <Icon*/}
+            {/*        name={'chevron-down'}*/}
+            {/*        size={40}*/}
+            {/*        type='material-community'*/}
+            {/*        color={colors.primary}*/}
+            {/*    />*/}
+            {/*</TouchableOpacity>}*/}
         </View>
     )
 }
@@ -79,11 +86,10 @@ const getStyle = (colors, font) => {
             fontSize: font.regular,
             alignSelf: 'center'
         },
-        percentage: {
+        button: {
             fontFamily: font.fontFamily,
-            color: colors.text,
-            fontSize: font.regular,
-            alignSelf: 'center',
+            color: colors.primary,
+            fontSize: font.medium,
             fontWeight: 'bold'
         }
     })

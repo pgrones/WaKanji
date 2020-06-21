@@ -9,8 +9,8 @@ import {useTheme} from "@react-navigation/native";
  * @param text The text which's are being raised
  */
 export const SuperScript = ({start, end, text}) => {
-    const {colors, font} = useTheme();
-    const style = getStyle(colors, font);
+    const {colors, font, smallScreen} = useTheme();
+    const style = getStyle(colors, font, smallScreen);
 
     const firstPart = text.slice(0, start);
     const superScript = text.slice(start, end);
@@ -25,19 +25,19 @@ export const SuperScript = ({start, end, text}) => {
     )
 };
 
-const getStyle = (colors, font) => {
+const getStyle = (colors, font, smallScreen) => {
     return StyleSheet.create({
         regularText: {
-            fontSize: font.regular,
+            fontSize: smallScreen ? font.medium : font.large,
             fontFamily: font.fontFamily,
-            lineHeight: 30,
+            lineHeight: smallScreen ? 30 : 40,
             color: colors.text,
             fontWeight: 'bold'
         },
         superScriptText: {
-            fontSize: 14,
+            fontSize: smallScreen ? font.regular : font.medium,
             fontFamily: font.fontFamily,
-            lineHeight: 18,
+            lineHeight: smallScreen ? 18 : 24,
             color: colors.text,
             fontWeight: 'bold'
         }

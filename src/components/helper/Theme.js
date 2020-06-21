@@ -1,6 +1,8 @@
-import {Platform} from "react-native";
+import {Dimensions, Platform} from "react-native";
 
 /** The standard theme and font of the application **/
+
+const {height} = Dimensions.get("window");
 
 export const font = {
     regular: 18,
@@ -20,9 +22,10 @@ export const lightTheme = {
         border: '#708C98',
         buttonText: '#DEDFE0'
     },
-    font:{
+    font: {
         ...font
-    }
+    },
+    smallScreen: height <= 600
 };
 
 export const darkTheme = {
@@ -36,7 +39,8 @@ export const darkTheme = {
         border: '#3D5A6C',
         buttonText: '#DEDFE0'
     },
-    font:{
+    font: {
         ...font
-    }
+    },
+    smallScreen: height <= 600
 };

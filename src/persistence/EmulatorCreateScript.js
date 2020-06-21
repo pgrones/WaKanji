@@ -535,6 +535,8 @@ INSERT INTO "Settings" ("type", "value") VALUES ('theme', 'systemStandard');`, `
 INSERT INTO "Settings" ("type", "value") VALUES ('kunReading', 'hiragana');`, `
 INSERT INTO "Settings" ("type", "value") VALUES ('onReading', 'katakana');`, `
 INSERT INTO "Settings" ("type", "value") VALUES ('furigana', 'true');`, `
+INSERT INTO "Settings" ("type", "value") VALUES ('skipAnimations', 'false');`, `
+INSERT INTO "Settings" ("type", "value") VALUES ('animationSpeed', '1500');`, `
 
 INSERT INTO "GameTemp" ("id", "key", "value") VALUES ('1', 'highscore', '0');
 `

@@ -15,15 +15,15 @@ export const GotItAmountReducer = (state = 0, action) => {
 };
 
 export const GotItAmountByGradeReducer = (state = {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0
+    1: -1,
+    2: -1,
+    3: -1,
+    4: -1,
+    5: -1,
+    6: -1,
+    7: -1,
+    8: -1,
+    9: -1
 }, action) => {
     if (action.type === 'SET_GOT_IT_AMOUNT_BY_GRADE') {
         state[action.grade.id] = action.grade.amount;

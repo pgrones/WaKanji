@@ -32,7 +32,7 @@ export class GradesSwiperWrapper extends Component {
                     showsPagination={true}
                     horizontal={false}
                     loadMinimal={true}
-                    loadMinimalSize={1}
+                    loadMinimalSize={0}
                     loop={false}
                     activeDotColor={colors.primary}
                     ref={(swiper) => {
