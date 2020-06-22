@@ -6,7 +6,7 @@ import {useTheme} from "@react-navigation/native";
 
 const {width, height} = Dimensions.get("window");
 const size = width - 80;
-const strokeWidth = height > 600 ? 40 : 30;
+const strokeWidth = height > 600 ? 30 : 20;
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const {PI, cos, sin} = Math;
 const r = (size - strokeWidth) / 2;
@@ -25,8 +25,8 @@ const d = `M ${x1} ${y1} A ${r} ${r} 0 1 0 ${x2} ${y2}`;
 export const ProgressArc = ({title, value1, value2, percentage}) => {
     const circumference = r * A;
     const animatedValue = useRef(new Animated.Value(1)).current;
-    const {colors, font} = useTheme();
-    const style = getStyle(colors, font);
+    const {colors, font, smallScreen} = useTheme();
+    const style = getStyle(colors, font, smallScreen);
 
     const animation = Animated.timing(animatedValue, {
         toValue: 1 - percentage,
@@ -71,24 +71,36 @@ export const ProgressArc = ({title, value1, value2, percentage}) => {
             </Svg>
             <View style={style.centeredStackView}>
                 <Text style={style.percentage}>{value1}</Text>
-                <Text style={style.percentage}>{value2}</Text>
+                <Text style={style.value}>{value2}</Text>
             </View>
             <View style={{position: "absolute", bottom: r / 4, left: 0, right: 0}}>
-                <Text style={style.percentage}>{title}</Text>
+                <Text style={style.title}>{title}</Text>
             </View>
         </View>
     );
 };
 
-const getStyle = (colors, font) => {
+const getStyle = (colors, font, smallScreen) => {
+    const text = {
+        fontFamily: font.fontFamily,
+        color: colors.text,
+        alignSelf: 'center',
+        fontWeight: 'bold',
+        paddingTop: 10
+    }
+
     return (StyleSheet.create({
         percentage: {
-            fontFamily: font.fontFamily,
-            color: colors.text,
-            fontSize: height > 600 ? font.medium : font.regular,
-            alignSelf: 'center',
-            fontWeight: 'bold',
-            paddingTop: 10
+            ...text,
+            fontSize: smallScreen ? font.medium : 40,
+        },
+        value: {
+            ...text,
+            fontSize: smallScreen ? font.regular : font.medium,
+        },
+        title: {
+            ...text,
+            fontSize: smallScreen ? font.regular : font.medium,
         },
         centeredStackView: {
             position: 'absolute',

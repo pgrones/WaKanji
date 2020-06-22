@@ -21,6 +21,7 @@
     "expo-linear-gradient": "~8.1.0",
     "expo-sqlite": "latest",
     "htmlparser2": "^4.1.0",
+    "logkitty": ">=0.7.1",
     "mem": ">=4.0.0",
     "node-libs-react-native": "^1.2.0",
     "prop-types": "^15.5.10",
@@ -39,8 +40,7 @@
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "unofficial-jisho-api": "^2.0.8",
-    "wanakana": "^4.0.2",
-    "logkitty": ">=0.7.1"
+    "wanakana": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

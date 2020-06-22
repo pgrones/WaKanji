@@ -5,7 +5,7 @@ import {convert} from "../../../helper/ReadingConverter";
 import {useTheme} from "@react-navigation/native";
 import {connect} from "react-redux";
 import {Overlay} from "../../../helper/Overlay";
-import {LinearGradient} from "expo-linear-gradient";
+import {Divider} from "../../../helper/Divider";
 
 const InfoContainer = ({onyomi, kunyomi, kanjiInfo}) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -21,7 +21,8 @@ const InfoContainer = ({onyomi, kunyomi, kanjiInfo}) => {
     };
 
     return (
-        <LinearGradient colors={[colors.backgroundLight, colors.backgroundDark]} style={style.wrapper}>
+        <View style={style.wrapper}>
+            <Divider color={colors.backgroundDark} margin={40}/>
             <Overlay isVisible={modalVisible} setVisible={setModalVisible} content={reading}/>
             <View style={style.translationContainer}>
                 <Text style={style.translation}>{kanjiInfo.translation}</Text>
@@ -41,8 +42,9 @@ const InfoContainer = ({onyomi, kunyomi, kanjiInfo}) => {
                                 />
                             </TouchableOpacity>
                         </View>
-                        <Text
-                            style={style.reading}>{kanjiInfo.kunReading === 'None' ? kanjiInfo.kunReading : convert(kanjiInfo.kunReading, kunyomi)}</Text>
+                        <Text style={style.reading}>
+                            {kanjiInfo.kunReading === 'None' ? kanjiInfo.kunReading : convert(kanjiInfo.kunReading, kunyomi)}
+                        </Text>
                     </View>
                     <View style={{flex: 1, alignItems: 'center'}}>
                         <View style={{flexDirection: 'row'}}>
@@ -62,7 +64,7 @@ const InfoContainer = ({onyomi, kunyomi, kanjiInfo}) => {
                     </View>
                 </View>
             </ScrollView>
-        </LinearGradient>
+        </View>
     )
 }
 
@@ -78,7 +80,7 @@ const getStyle = (colors, font, height) => {
         wrapper: {
             flex: 1,
             alignSelf: 'stretch',
-            padding: 0,
+            paddingTop: 30,
             borderRadius: 30,
         },
         translationContainer: {
@@ -113,7 +115,8 @@ const getStyle = (colors, font, height) => {
             fontSize: font.medium,
             flexWrap: 'wrap',
             textAlign: 'center',
-            margin: 10,
+            marginLeft: 10,
+            marginRight: 25,
             marginBottom: 0,
             marginTop: 5,
             paddingRight: 0

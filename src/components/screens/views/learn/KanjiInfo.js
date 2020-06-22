@@ -45,6 +45,7 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
 
     const gotIt = () => {
         setGotIt(kanjiInfo.id, !kanjiInfo.gotIt, kanjiInfo.gradeId, index)
+        kanjiInfo.gotIt = !kanjiInfo.gotIt;
     };
 
     return (
@@ -98,7 +99,7 @@ export const KanjiInfo = ({navigation, kanjiInfo, prev, next, setGotIt, scrollBy
                 </View>
             </View>
             <ActionButton
-                buttonColor={smallScreen ? colors.primary : colors.primaryRGBA}
+                buttonColor={smallScreen ? colors.primaryRGBA : colors.primary}
                 bgOpacity={0.5}
                 verticalOrientation={'up'}
                 offsetY={60} offsetX={15} size={60}
@@ -191,7 +192,8 @@ const getStyle = (colors, font, prev, next) => {
         actionItemContainer: {
             backgroundColor: colors.backgroundDark,
             borderWidth: 0,
-            height: 32
+            height: 32,
+            marginTop: -5
         },
         actionItemIcon: {
             color: colors.text,

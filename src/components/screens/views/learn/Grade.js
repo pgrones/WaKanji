@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import {getGotItAmountByGradeId, getKanjiAmountByGradeId} from "../../../../persistence/DbConnection";
 import {setGotItAmountByGrade} from "../../../../redux/actions/Actions";
 import {ProgressArc} from "../../../helper/ProgressArc";
+import {Divider} from "../../../helper/Divider";
 
 const Grade = ({grade, onPress, scrollUp, scrollDown, next, prev, gotItAmountByGrade, setGotItAmountByGrade}) => {
     const [amount, setAmount] = useState(0);
@@ -46,10 +47,13 @@ const Grade = ({grade, onPress, scrollUp, scrollDown, next, prev, gotItAmountByG
             {/*    type={'material-community'}*/}
             {/*    onPress={() => onPress(grade)}*/}
             {/*/>*/}
-            <TouchableOpacity style={{flex: 1, justifyContent: 'center', alignItems: "center"}}
-                              onPress={() => onPress(grade)}>
-                <Text style={style.button}>Open {grade.grade.split(' ')[3]} Dictionary</Text>
-            </TouchableOpacity>
+            <View style={{flex: 1, justifyContent: 'center', alignItems: "stretch"}}>
+                <Divider color={colors.backgroundDark} margin={40}/>
+                <TouchableOpacity style={{justifyContent: 'center', alignItems: "center", minHeight: 80}}
+                                  onPress={() => onPress(grade)}>
+                    <Text style={style.button}>Open {grade.grade.split(' ')[3]} Dictionary</Text>
+                </TouchableOpacity>
+            </View>
             {/*{next && <TouchableOpacity style={{justifyContent: "flex-end"}} onPress={() => scrollDown()}>*/}
             {/*    <Icon*/}
             {/*        name={'chevron-down'}*/}

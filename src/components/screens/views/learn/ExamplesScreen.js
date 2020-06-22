@@ -6,6 +6,7 @@ import {searchForExamples} from "../../../../api/jisho";
 import {Furigana} from "../../../helper/Furigana";
 import {LoadingScreen} from "../../../helper/LoadingScreen";
 import {LinearGradient} from "expo-linear-gradient";
+import {Divider} from "../../../helper/Divider";
 
 /**
  * Screen to display examples for each Kanji
@@ -68,16 +69,7 @@ const ExamplesScreen = ({navigation, route, furigana}) => {
                         renderItem={({item}) =>
                             <ListItem pieces={item.pieces} sentence={item.sentence} translation={item.translation}/>
                         }
-                        ItemSeparatorComponent={() =>
-                            <View style={{
-                                flex: 1,
-                                alignSelf: 'stretch',
-                                height: 3,
-                                borderWidth: 1.5,
-                                borderRadius: 10,
-                                borderColor: colors.border
-                            }}/>
-                        }
+                        ItemSeparatorComponent={() => <Divider color={colors.backgroundDark} margin={10}/>}
                         data={examples}
                     />
                     :
