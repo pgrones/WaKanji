@@ -1,5 +1,5 @@
 # WaKanji
-Wakuru + Kanji = Understand Kanji
+Wakaru + Kanji = Understand Kanji
 
 A react native app that aims to teach Kanji in a fun and memorable way.
 
